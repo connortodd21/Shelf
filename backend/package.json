@@ -4,7 +4,8 @@
   "description": "Shelf backend",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "Connor Todd",
   "license": "ISC",
@@ -16,6 +17,8 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
-    "mongoose": "^5.6.13"
+    "mongoose": "^5.6.13",
+    "nodemon": "^1.19.2",
+    "validator": "^11.1.0"
   }
 }

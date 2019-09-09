@@ -4,7 +4,7 @@ var cors = require('cors');
 require('dotenv').config();
 
 /* Routes */
-// let user = require('./routes/user.js');
+let User = require('./routes/user.js');
 
 const app = express(cors());
 
@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 });
 
 /* Routes */
-// app.use('/user', user);
+app.use('/user', User);
 
 app.get('/', (res, req) => {});
 
