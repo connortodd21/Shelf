@@ -1,7 +1,7 @@
 # Shelf
 
 ### Team
-* Alex Hardewin
+* Alex Hardewig
 * Zach Johnson
 * Morgan Kaehr
 * Ben Kahlert 
