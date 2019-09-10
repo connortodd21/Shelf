@@ -6,7 +6,10 @@ var bcrypt = require('bcrypt')
 var authenticate = require('../middleware/authenticate')
 
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true });
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -99,6 +102,28 @@ router.post('/login', (req,res) => {
                 return
             })
         })
+    }).catch((err) => {
+        res.status(500).send(err)
+        return
+    })
+})
+
+/*
+ * Logout
+ */
+router.post('/logout', authenticate, (req,res) => {
+    
+    if (!req.body.username) {
+        res.status(400).send({ message: "Bad request: Logout user data is incomplete" })
+        return;
+    }
+
+    User.findOneAndUpdate({username: req.body.username}, {
+        $set: {
+            tokens: []
+        }
+    }, () => {
+        res.status(200).send({ message: "User \'" + req.body.username + "\' successfully logged out" })
     }).catch((err) => {
         res.status(500).send(err)
         return
