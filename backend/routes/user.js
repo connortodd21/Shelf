@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 let mongoose = require('mongoose');
 var hash = require('../middleware/hash')
+var bcrypt = require('bcrypt')
 
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true });
 mongoose.set('useCreateIndex', true);
@@ -26,7 +27,7 @@ router.get("/", function (req, res) {
 router.post("/register", (req, res) => {
 
     if (!req.body.email || !req.body.password || !req.body.username || !req.body.birthday) {
-        res.status(400).send({ message: "Bad Request: User data is incomplete" });
+        res.status(400).send({ message: "Bad Request: Register user data is incomplete" });
         return;
     }
 
@@ -47,13 +48,50 @@ router.post("/register", (req, res) => {
             });
         }).catch((err) => {
             if (err.code == 11000) {
-                res.status(409).send({ message: "Conflict: user already exists" })
+                if(err.errmsg.includes("email", 0)){
+                    res.status(409).send({ message: "Conflict: Email already exists" })
+                    return
+                }
+                res.status(409).send({ message: "Conflict: User already exists" })
                 return
             }
             res.status(500).send(err)
             return;
         })
+    }).catch(err => {
+        res.status(500).send(err)
     })
 });
+
+router.post('/login', (req,res) => {
+    
+    if (!req.body.username || !req.body.password) {
+        res.status(400).send({ message: "Bad request: Login user data is incomplete" })
+        return;
+    }
+
+    User.findOne({username: req.body.username}).then( user => {
+
+        if(!user){
+            res.status(404).send({ message: "Not Found: User does not exist" })
+            return;
+        }
+
+        bcrypt.compare(req.body.password, user.password, (err, comp) => {
+            if(comp == false){
+                res.status(401).send({ message: "Unauthorized: Password is incorrect" })
+                return
+            }
+
+            user.generateAuth().then( token => {
+                res.status(200).header('token', token).send(user)
+                return
+            })
+        })
+    }).catch((err) => {
+        res.status(500).send(err)
+        return
+    })
+})
 
 module.exports = router;
