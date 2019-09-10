@@ -34,6 +34,7 @@ let userSchema = new mongoose.Schema({
   }]
 })
 
+/* Generate authentication token for user */
 userSchema.methods.generateAuth = function () {
     var user = this
     var access = 'auth'
@@ -44,11 +45,29 @@ userSchema.methods.generateAuth = function () {
     return user.save().then(() => {
       return token
     })
+}
+
+/* Find a user bu their authentication token */
+userSchema.statics.findByToken = function (token) {
+    var User = this
+    var decodedTokenObj;
+  
+    try {
+      decodedTokenObj = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      return Promise.reject();
+    }
+  
+    return User.findOne({
+      _id: decodedTokenObj._id,
+      'tokens.token': token,
+      'tokens.access': 'auth'
+    });
   }
 
 /* Function to prevent too much information from being returned on request when the response is the object */
 userSchema.methods.toJSON = function () {
-  return ld.pick(this.toObject(), ['_id', 'username', 'email'])
+  return ld.pick(this.toObject(), ['_id', 'username', 'email', 'birthday', 'games_played', 'games_rated', 'favorites', 'friends', 'inbox', 'wish_list', 'date_created'])
 }
 
 /* Creating the user model from the schema and giving it to Mongoose */
