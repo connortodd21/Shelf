@@ -1,6 +1,4 @@
-<!-- <p>login works!</p>
 
-<button (click)="onClick()"></button> -->
 <mat-card class="example-card">
     <mat-card-header>
       
@@ -22,10 +20,18 @@
         <label for="float-input-password">Password</label>
 
     </span>
-    
+
+    <br><br><br>
+    <span *ngIf="isRegistering" class="ui-float-label">
+        <p-inputMask mask="99/99/9999" type="text" size="30" id="float-input-date" [(ngModel)]="date" slotChar="mm/dd/yyyy"></p-inputMask> 
+        <label for="float-input-date">Birthdate</label>
+
+        
+    </span>
+
     </mat-card-content>
     <mat-card-actions>
         <p-button label="Register" (onClick)="registerUser()" styleClass="ui-button-raised ui-button-secondary"></p-button>
         <p-button label="Login" (onClick)="loginUser()" styleClass="ui-button-raised ui-button-secondary"></p-button>
     </mat-card-actions>
-  </mat-card>
+</mat-card>

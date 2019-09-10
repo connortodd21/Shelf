@@ -6,6 +6,7 @@ import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {PasswordModule} from 'primeng/password';
 import { FormsModule } from '@angular/forms';
+import {InputMaskModule} from 'primeng/inputmask';
 
 
 
@@ -14,10 +15,12 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     ButtonModule,
+    InputMaskModule,
     MatCardModule,
     InputTextModule,
     PasswordModule,
     FormsModule,
+    
 
   ]
 })

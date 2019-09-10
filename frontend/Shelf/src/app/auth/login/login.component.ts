@@ -11,6 +11,8 @@ export class LoginComponent implements OnInit {
 
   username: string;
   password: string;
+  isRegistering: boolean;
+  date: string;
 
   constructor(private router: Router, public authService: AuthService) { }
 
@@ -21,15 +23,19 @@ export class LoginComponent implements OnInit {
   registerUser() {
     console.log('username is: ' + this.username);
     console.log('password is: ' + this.password);
-    this.authService.registerUser('a@b.com', 'username', 'password', '2019-4-29').then( res => {
-      console.log(res);
-    });
+    this.isRegistering = !this.isRegistering;
+
+    // this.authService.registerUser('a@b.com', 'username', 'password', '2019-4-29').then( res => {
+    //   console.log(res);
+    // });
   }
 
   loginUser() {
     console.log('attempting to login user');
     console.log('username is: ' + this.username);
     console.log('password is: ' + this.password);
+
+    this.isRegistering = false;
   }
 
 }
