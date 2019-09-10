@@ -15,10 +15,15 @@ export class LoginComponent implements OnInit {
     console.log('here');
   }
 
-  onClick() {
+  registerUser() {
+    console.log('begin');
     this.authService.registerUser('a@b.com', 'username', 'password', '2019-4-29').then( res => {
       console.log(res);
     });
+  }
+
+  loginUser() {
+    console.log('attempting to login user');
   }
 
 }
