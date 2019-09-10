@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, UrlSerializer } from "@angular/router";
+import { Router, UrlSerializer } from '@angular/router';
 
 @Component({
   selector: 'app-root',
