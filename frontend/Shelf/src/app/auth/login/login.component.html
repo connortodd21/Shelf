@@ -10,8 +10,19 @@
     <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
     <mat-card-content>
       <p>
-        Description about Shelf maybe??
       </p>
+      <span class="ui-float-label">
+        <input id="float-input" type="text" size="30" pInputText [(ngModel)]="username"> 
+        <label for="float-input">Username</label>
+    </span>
+
+    <br><br><br>
+    <span class="ui-float-label">
+        <input id="float-input" type="text" size="30" [feedback]="false" type="password" pPassword [(ngModel)]="password"> 
+        <label for="float-input">Password</label>
+
+    </span>
+    
     </mat-card-content>
     <mat-card-actions>
         <p-button label="Register" (onClick)="registerUser()" styleClass="ui-button-raised ui-button-secondary"></p-button>

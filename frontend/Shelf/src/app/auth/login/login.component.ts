@@ -9,14 +9,18 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  username: string;
+  password: string;
+
   constructor(private router: Router, public authService: AuthService) { }
 
   ngOnInit() {
-    console.log('here');
+    console.log('login initialized');
   }
 
   registerUser() {
-    console.log('begin');
+    console.log('username is: ' + this.username);
+    console.log('password is: ' + this.password);
     this.authService.registerUser('a@b.com', 'username', 'password', '2019-4-29').then( res => {
       console.log(res);
     });
@@ -24,6 +28,8 @@ export class LoginComponent implements OnInit {
 
   loginUser() {
     console.log('attempting to login user');
+    console.log('username is: ' + this.username);
+    console.log('password is: ' + this.password);
   }
 
 }
