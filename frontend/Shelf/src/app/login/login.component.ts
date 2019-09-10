@@ -25,9 +25,9 @@ export class LoginComponent implements OnInit {
     console.log('password is: ' + this.password);
     this.isRegistering = !this.isRegistering;
 
-    // this.authService.registerUser('a@b.com', 'username', 'password', '2019-4-29').then( res => {
-    //   console.log(res);
-    // });
+    this.authService.registerUser('a@b.com', 'username', 'password', '2019-4-29').then( res => {
+      console.log(res);
+    });
   }
 
   loginUser() {

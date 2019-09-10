@@ -20,7 +20,6 @@ import {InputMaskModule} from 'primeng/inputmask';
     InputTextModule,
     PasswordModule,
     FormsModule,
-    
 
   ]
 })
