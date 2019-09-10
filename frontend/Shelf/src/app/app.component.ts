@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, UrlSerializer } from "@angular/router";
+import { Router, UrlSerializer } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import { Router, UrlSerializer } from "@angular/router";
 export class AppComponent {
   title = 'Shelf';
 
-  constructor(private router: Router){
+  constructor(private router: Router) {
 
   }
 }
