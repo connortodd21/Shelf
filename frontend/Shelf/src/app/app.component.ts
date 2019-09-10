@@ -9,7 +9,7 @@ import { Router, UrlSerializer } from "@angular/router";
 export class AppComponent {
   title = 'Shelf';
 
-  constructor(private router: Router){
+  constructor(private router: Router) {
 
   }
 }

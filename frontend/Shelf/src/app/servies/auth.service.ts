@@ -15,7 +15,7 @@ export class AuthService {
     constructor(private http: HttpClient, private router: Router) { }
 
     registerUser(email: string, username: string, password: string, birthday: string) {
-        const auth: AuthData = { email: email, username: username, password: password, birthday: birthday }
+        const auth: AuthData = { email: email, username: username, password: password, birthday: birthday };
         return this.http.post<Object>('http://localhost:8080/user/register', auth).toPromise();
     }
 }
