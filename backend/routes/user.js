@@ -3,6 +3,7 @@ var router = express.Router();
 let mongoose = require('mongoose');
 var hash = require('../middleware/hash')
 var bcrypt = require('bcrypt')
+var authenticate = require('../middleware/authenticate')
 
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true });
 mongoose.set('useCreateIndex', true);
@@ -20,6 +21,13 @@ var User = require('../model/user');
 router.get("/", function (req, res) {
     res.send('This route is for all user related tasks');
 });
+
+/*
+ * Get user data 
+ */
+router.get("/data", authenticate, (req, res) => {
+    res.status(200).send(req.user)
+})
 
 /*
  * Register new user 
@@ -63,6 +71,9 @@ router.post("/register", (req, res) => {
     })
 });
 
+/*
+ * Login 
+ */
 router.post('/login', (req,res) => {
     
     if (!req.body.username || !req.body.password) {
