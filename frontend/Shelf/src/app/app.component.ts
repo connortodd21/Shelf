@@ -1,5 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { AuthService } from './servies/auth.service';
+import { LoginService } from './login/login.service';
 
 @Injectable({ providedIn: 'root' })
 @Component({
@@ -10,7 +10,7 @@ import { AuthService } from './servies/auth.service';
 export class AppComponent implements OnInit {
   title = 'Shelf';
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: LoginService) {
   }
 
   ngOnInit() {
