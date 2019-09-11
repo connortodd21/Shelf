@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../servies/auth.service';
+import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   isRegistering: boolean;
   date: string;
 
-  constructor(private router: Router, public authService: AuthService) { }
+  constructor(private router: Router, public loginService: LoginService) { }
 
   ngOnInit() {
     console.log('login initialized');
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     console.log('password is: ' + this.password);
     this.isRegistering = !this.isRegistering;
 
-    this.authService.registerUser('a@b.com', 'username', 'password', '2019-4-29').then( res => {
+    this.loginService.registerUser('a@b.com', 'username', 'password', '2019-4-29').then( res => {
       console.log(res);
     });
   }
