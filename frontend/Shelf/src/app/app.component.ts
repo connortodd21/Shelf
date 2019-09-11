@@ -10,8 +10,7 @@ import { LoginService } from './login/login.service';
 export class AppComponent implements OnInit {
   title = 'Shelf';
 
-  constructor(private authService: LoginService) {
-  }
+  constructor(private authService: LoginService) {}
 
   ngOnInit() {
     this.authService.checkAuthenticationStatus();
