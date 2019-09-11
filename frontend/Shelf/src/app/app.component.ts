@@ -16,11 +16,4 @@ export class AppComponent implements OnInit {
     this.loginService.checkAuthenticationStatus();
   }
 
-  logout() {
-    this.loginService.logoutUser().then(res => {
-      console.log(res);
-      this.loginService.logout();
-    });
-  }
-
 }

@@ -10,6 +10,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { LoginModule } from './login/login.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeModule } from './home/home.module';
+import {ToastModule} from "primeng/toast";
 
 
 @NgModule({
@@ -27,6 +28,8 @@ import { HomeModule } from './home/home.module';
     AppRoutingModule,
     LoginModule,
     HomeModule,
+    ToastModule,
+
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
