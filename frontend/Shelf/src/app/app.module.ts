@@ -9,14 +9,13 @@ import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { LoginModule } from './login/login.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HomeComponent } from './home/home/home.component';
+import { HomeModule } from './home/home.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,6 +26,7 @@ import { HomeComponent } from './home/home/home.component';
     HttpClientModule,
     AppRoutingModule,
     LoginModule,
+    HomeModule,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]

@@ -8,7 +8,7 @@ import { HomeComponent } from './home/home/home.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
@@ -28,7 +28,6 @@ const routes: Routes = [
     // 404
     path: '**',
     redirectTo: 'page-not-found',
-    canActivate: [AuthGuard]
   }
 ];
 
