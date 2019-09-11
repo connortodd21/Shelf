@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import {Observable, of, throwError} from 'rxjs';
 import { Subject } from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {loginRoute, logoutRoute, registerRoute} from "../constants/constants.routes";
+import {loginRoute, logoutRoute, registerRoute} from '../constants/constants.routes';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -48,7 +48,7 @@ export class LoginService {
             localStorage.setItem('user', username);
           }
         }),
-        catchError(error => throwError(error)))
+        catchError(error => throwError(error)));
     }
 
 

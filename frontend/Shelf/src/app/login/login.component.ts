@@ -3,7 +3,7 @@ import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 import { AuthData } from '../models/auth.data.model';
 import {MessageService} from 'primeng/api';
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -39,9 +39,8 @@ export class LoginComponent implements OnInit {
       } else {
 
         this.loginService.registerUser(authData).subscribe(
-          () => {this.showRegistrationSuccess()},
-          error => {this.showError(error.error.message)},
-
+          () => {this.showRegistrationSuccess(); },
+          error => {this.showError(error.error.message); }
         );
 
       }
@@ -66,7 +65,7 @@ export class LoginComponent implements OnInit {
     this.isRegistering = false;
     this.loginService.loginUser(this.username, this.password).subscribe(
       response => {
-       console.log(response)
+       console.log(response);
       },
       error => {
         this.handleError(error);
@@ -76,13 +75,13 @@ export class LoginComponent implements OnInit {
   }
 
 
-  //below is a cool typescript feature. variable errorMessage will take whatever value is passed in.
-  //if not value is passed in, it will default to "All fields must be filled out"
-  showError(errorMessage = "All fields must be filled out") {
+  // below is a cool typescript feature. variable errorMessage will take whatever value is passed in.
+  // if not value is passed in, it will default to "All fields must be filled out"
+  showError(errorMessage = 'All fields must be filled out') {
     this.messageService.add({severity: 'error', summary: 'Error!', detail: errorMessage});
   }
 
-  showRegistrationSuccess(successMessage = "Registration successful!") {
+  showRegistrationSuccess(successMessage = 'Registration successful!') {
     this.messageService.add({severity: 'success', summary: 'Success!', detail: successMessage});
   }
 
