@@ -3,6 +3,7 @@ import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 import { AuthData } from '../models/auth.data.model';
 import {MessageService} from 'primeng/api';
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -63,9 +64,15 @@ export class LoginComponent implements OnInit {
   loginUser() {
     this.subtitle = 'Login!';
     this.isRegistering = false;
-    this.loginService.login(this.username, this.password).then( res => {
-      // console.log(res)
-    });
+    this.loginService.loginUser(this.username, this.password).subscribe(
+      response => {
+       console.log(response)
+      },
+      error => {
+        this.handleError(error);
+      }
+
+    );
   }
 
 
@@ -78,5 +85,19 @@ export class LoginComponent implements OnInit {
   showRegistrationSuccess(successMessage = "Registration successful!") {
     this.messageService.add({severity: 'success', summary: 'Success!', detail: successMessage});
   }
+
+
+  handleError(err: HttpErrorResponse) {
+    if (err.error.message === 'Bad request: Login user data is incomplete') {
+      this.showError('badRequest');
+    } else if (err.error.message === 'Unauthorized: Password is incorrect') {
+      this.showError('badPassword');
+    } else if (err.error.message === 'Not Found: User does not exist') {
+      this.showError('DNE');
+    } else {
+      this.showError('failed');
+    }
+  }
+
 
 }
