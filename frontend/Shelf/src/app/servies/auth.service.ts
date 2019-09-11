@@ -110,4 +110,11 @@ export class AuthService {
             this.logout();
         }, duration * 1000);
     }
+
+    getAuthToken() {
+        if (localStorage.getItem(this.token)) {
+            return localStorage.getItem(this.token);
+        }
+        return false;
+    }
 }
