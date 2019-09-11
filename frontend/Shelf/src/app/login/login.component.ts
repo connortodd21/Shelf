@@ -37,9 +37,11 @@ export class LoginComponent implements OnInit {
         this.showError();
       } else {
 
-        this.loginService.registerUser(authData).subscribe( res => {
-          console.log(res);
-        });
+        this.loginService.registerUser(authData).subscribe(
+          success => {},
+          error => {this.showError(error.error.message)},
+
+        );
 
       }
     } else {
@@ -67,8 +69,10 @@ export class LoginComponent implements OnInit {
   }
 
 
-  showError() {
-    this.messageService.add({severity: 'error', summary: 'Error!', detail: 'All fields must be filled out'});
+  //below is a cool typescript feature. variable errorMessage will take whatever value is passed in.
+  //if not value is passed in, it will default to "All fields must be filled out"
+  showError(errorMessage = "All fields must be filled out") {
+    this.messageService.add({severity: 'error', summary: 'Error!', detail: errorMessage});
   }
 
 }
