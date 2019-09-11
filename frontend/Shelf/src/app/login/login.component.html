@@ -1,25 +1,34 @@
 
-<div class="hero-image">
+<div class="hero-image"> 
+        <p-toast [style]="{marginTop: '80px'}"></p-toast>
+        
         <mat-card class="example-card">
                 <mat-card-header layout="row" layout-align="center">
                   
                   <mat-card-title>Welcome to Shelf</mat-card-title>
-                  <mat-card-subtitle>wow so cool</mat-card-subtitle>
+
+                  <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
                 </mat-card-header>
             
                 <mat-card-content>
 
-                    <p>Username</p>
-                    <input id="float-input-username" type="text" size="30" pInputText [(ngModel)]="username"> 
+                    <p>Email Address</p>
+                    <input type="text" size="30" pInputText [(ngModel)]="email"> 
                     <br><br><br>
-                
+
+                    <div *ngIf="isRegistering">
+                        <p>Username</p>
+                        <input type="text" size="30" pInputText [(ngModel)]="username"> 
+                        <br><br><br>
+                    </div>
+
                     <p>Password</p>
-                    <input id="float-input-password" type="text" size="30" [feedback]="false" type="password" pPassword [(ngModel)]="password"> 
+                    <input type="text" size="30" [feedback]="false" type="password" pPassword [(ngModel)]="password"> 
                     
                     <br><br><br>
                     <div *ngIf="isRegistering">
                         <p>Birthdate</p>
-                        <p-inputMask mask="99/99/9999" type="text" size="30" id="float-input-date" [(ngModel)]="date" slotChar="mm/dd/yyyy"></p-inputMask> 
+                        <p-inputMask mask="99/99/9999" type="text" size="30" [(ngModel)]="birthday" slotChar="mm/dd/yyyy"></p-inputMask> 
                     </div>
             
                 </mat-card-content>

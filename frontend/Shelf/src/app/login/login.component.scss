@@ -2,7 +2,7 @@
 
     min-width: 600px;
     max-width: 600px;
-    max-height: 500px;
+    max-height: 600px;
     margin-right: 100px;
     background-color: #3440eb;
     color: white;
@@ -43,3 +43,18 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
   }
+
+  :host ::ng-deep button {
+    margin-right: .25em;
+}
+
+:host ::ng-deep .custom-toast .ui-toast-message {
+    color: #ffffff;
+    background: #FC466B;
+    background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
+    background: linear-gradient(to right, #3F5EFB, #FC466B);
+}
+
+:host ::ng-deep .custom-toast .ui-toast-close-icon {
+    color: #ffffff;
+}

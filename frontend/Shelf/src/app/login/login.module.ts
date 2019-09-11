@@ -7,8 +7,9 @@ import {InputTextModule} from 'primeng/inputtext';
 import {PasswordModule} from 'primeng/password';
 import { FormsModule } from '@angular/forms';
 import {InputMaskModule} from 'primeng/inputmask';
-
-
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {ToastModule} from 'primeng/toast';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -16,6 +17,9 @@ import {InputMaskModule} from 'primeng/inputmask';
     CommonModule,
     ButtonModule,
     InputMaskModule,
+    MessageModule,
+    MessagesModule,
+    ToastModule,
     MatCardModule,
     InputTextModule,
     PasswordModule,
