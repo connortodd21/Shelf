@@ -66,7 +66,7 @@ export class LoginService {
         localStorage.removeItem('token');
         localStorage.removeItem('expiresIn');
         localStorage.removeItem('user');
-        // this.router.navigate(['/login']);
+        this.router.navigate(['/login']);
     }
 
     checkAuthenticationStatus() {

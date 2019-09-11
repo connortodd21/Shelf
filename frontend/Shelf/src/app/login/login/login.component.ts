@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
-import { AuthData } from '../models/auth.data.model';
+import { AuthData } from '../../models/auth.data.model';
 import {MessageService} from 'primeng/api';
 import {HttpErrorResponse} from "@angular/common/http";
 
