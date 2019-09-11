@@ -4,30 +4,31 @@ import { LoginComponent } from './login/login/login.component';
 import { AuthGuard } from './auth/auth-guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home/home.component';
+import {HOME_PAGE, LOGIN_PAGE, NOTFOUND_PAGE} from "./constants/constants.pages";
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: HOME_PAGE,
     pathMatch: 'full'
   },
   {
-    path: 'home',
+    path: HOME_PAGE,
     component: HomeComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'login',
+    path: LOGIN_PAGE,
     component: LoginComponent
   },
   {
-    path: 'page-not-found',
+    path: NOTFOUND_PAGE,
     component: PageNotFoundComponent
   },
   {
     // 404
     path: '**',
-    redirectTo: 'page-not-found',
+    redirectTo: NOTFOUND_PAGE,
   }
 ];
 
