@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import {Observable, of, throwError} from 'rxjs';
 import { Subject } from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {LOGIN_URL, LOGOUT_URL, REGISTER_URL} from "../../constants/constants.urls";
+import {LOGIN_URL, LOGOUT_URL, REGISTER_URL} from '../../constants/constants.urls';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
