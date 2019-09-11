@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AuthData } from '../models/auth.data.model';
+import { AuthData } from '../../models/auth.data.model';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { Router } from '@angular/router';
 import {Observable, of, throwError} from 'rxjs';
 import { Subject } from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {loginRoute, logoutRoute, registerRoute} from "../constants/constants.routes";
+import {loginRoute, logoutRoute, registerRoute} from "../../constants/constants.routes";
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -46,9 +46,10 @@ export class LoginService {
             localStorage.setItem('token', token);
             localStorage.setItem('expiresIn', expirationDate.toISOString());
             localStorage.setItem('user', username);
+            this.router.navigate(['/home']);
           }
         }),
-        catchError(error => throwError(error)))
+        catchError(error => throwError(error)));
     }
 
 

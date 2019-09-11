@@ -33,46 +33,36 @@ export class LoginComponent implements OnInit {
     const authData: AuthData = {username: this.username, password: this.password, email: this.email, birthday: this.birthday};
 
     if (this.isRegistering) {
-
-      if (this.isFieldEmpty(authData)) {
-        this.showError();
-      } else {
-
-        this.loginService.registerUser(authData).subscribe(
-          () => {this.showRegistrationSuccess()},
+      this.loginService.registerUser(authData).subscribe(
+        () => {this.showRegistrationSuccess()},
           error => {this.showError(error.error.message)},
-
         );
 
-      }
     } else {
         this.isRegistering = !this.isRegistering;
       }
 
   }
 
-  isFieldEmpty(auth: AuthData): boolean {
-
-    if (!auth.username || !auth.email || !auth.password || !auth.birthday) {
-      console.log('empty');
-      return true;
-    }
-    return false;
-  }
-
 
   loginUser() {
     this.subtitle = 'Login!';
-    this.isRegistering = false;
-    this.loginService.loginUser(this.username, this.password).subscribe(
-      response => {
-       console.log(response)
-      },
-      error => {
-        this.handleError(error);
-      }
 
-    );
+    if (!this.isRegistering) {
+
+      this.loginService.loginUser(this.username, this.password).subscribe(
+        response => {
+          console.log(response)
+        },
+        error => {
+          this.handleError(error);
+        }
+
+      );
+
+    } else {
+      this.isRegistering = !this.isRegistering;
+    }
   }
 
 
