@@ -9,12 +9,14 @@ import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { LoginModule } from './auth/login.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
