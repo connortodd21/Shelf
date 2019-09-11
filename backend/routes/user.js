@@ -124,6 +124,7 @@ router.post('/logout', authenticate, (req,res) => {
         }
     }, () => {
         res.status(200).send({ message: "User \'" + req.body.username + "\' successfully logged out" })
+        return
     }).catch((err) => {
         res.status(500).send(err)
         return

@@ -11,7 +11,6 @@ const httpOptions = {
 };
 
 @Injectable({ providedIn: 'root' })
-
 export class AuthService {
 
     private tokenTimer: any;
@@ -43,7 +42,8 @@ export class AuthService {
                     this.responseLogin = 'complete';
                     localStorage.setItem('token', token);
                     localStorage.setItem('expiresIn', expirationDate.toISOString());
-                    window.location.replace('/home');
+                    localStorage.setItem('user', username);
+                    // window.location.replace('/');
                 }
             })
         ).toPromise().catch( err => {
@@ -65,7 +65,7 @@ export class AuthService {
 
     logoutUser() {
         const user = localStorage.getItem('user');
-        return this.http.post<object>('http://localhost:8080/user/logout', user).toPromise();
+        return this.http.post<object>('http://localhost:8080/user/logout', { username: user }).toPromise();
     }
 
     logout() {
@@ -74,9 +74,9 @@ export class AuthService {
         this.authStatusListener.next(false);
         clearTimeout(this.tokenTimer);
         localStorage.removeItem('token');
-        localStorage.removeItem('expiration');
+        localStorage.removeItem('expiresIn');
         localStorage.removeItem('user');
-        this.router.navigate(['/login']);
+        // this.router.navigate(['/login']);
     }
 
     checkAuthenticationStatus() {
@@ -112,8 +112,8 @@ export class AuthService {
     }
 
     getAuthToken() {
-        if (localStorage.getItem(this.token)) {
-            return localStorage.getItem(this.token);
+        if (localStorage.getItem('token')) {
+            return localStorage.getItem('token');
         }
         return false;
     }

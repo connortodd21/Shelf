@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { AuthService } from './servies/auth.service';
 
+@Injectable({ providedIn: 'root' })
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.authService.logoutUser().then(res => {
+      console.log(res);
       this.authService.logout();
     });
   }
