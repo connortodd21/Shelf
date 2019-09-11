@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 import { AuthData } from '../../models/auth.data.model';
-import {HttpErrorResponse} from '@angular/common/http';
 import {MessageService} from "primeng/api";
 
 @Component({
@@ -55,7 +54,7 @@ export class LoginComponent implements OnInit {
           console.log(response)
         },
         error => {
-          this.handleError(error);
+          this.showError(error.error.message);
         }
 
       );
@@ -64,20 +63,6 @@ export class LoginComponent implements OnInit {
       this.isRegistering = !this.isRegistering;
     }
   }
-
-
-  handleError(err: HttpErrorResponse) {
-    if (err.error.message === 'Bad request: Login user data is incomplete') {
-      this.showError('badRequest');
-    } else if (err.error.message === 'Unauthorized: Password is incorrect') {
-      this.showError('badPassword');
-    } else if (err.error.message === 'Not Found: User does not exist') {
-      this.showError('DNE');
-    } else {
-      this.showError('failed');
-    }
-  }
-
 
   showError(errorMessage = 'All fields must be filled out') {
     this.messageService.add({severity: 'error', summary: 'Error!', detail: errorMessage});
