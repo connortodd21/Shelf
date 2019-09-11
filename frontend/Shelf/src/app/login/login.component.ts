@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
       } else {
 
         this.loginService.registerUser(authData).subscribe(
-          success => {},
+          () => {this.showRegistrationSuccess()},
           error => {this.showError(error.error.message)},
 
         );
@@ -73,6 +73,10 @@ export class LoginComponent implements OnInit {
   //if not value is passed in, it will default to "All fields must be filled out"
   showError(errorMessage = "All fields must be filled out") {
     this.messageService.add({severity: 'error', summary: 'Error!', detail: errorMessage});
+  }
+
+  showRegistrationSuccess(successMessage = "Registration successful!") {
+    this.messageService.add({severity: 'success', summary: 'Success!', detail: successMessage});
   }
 
 }
