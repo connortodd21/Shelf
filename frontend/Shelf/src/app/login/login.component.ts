@@ -35,16 +35,14 @@ export class LoginComponent implements OnInit {
 
       if (this.isFieldEmpty(authData)) {
         this.showError();
-      }
-      else {
+      } else {
 
         this.loginService.registerUser(authData).subscribe( res => {
           console.log(res);
         });
 
       }
-    }
-    else {
+    } else {
         this.isRegistering = !this.isRegistering;
       }
 
@@ -63,11 +61,14 @@ export class LoginComponent implements OnInit {
   loginUser() {
     this.subtitle = 'Login!';
     this.isRegistering = false;
+    this.loginService.login(this.username, this.password).then( res => {
+      // console.log(res)
+    });
   }
 
 
   showError() {
     this.messageService.add({severity: 'error', summary: 'Error!', detail: 'All fields must be filled out'});
-}
+  }
 
 }
