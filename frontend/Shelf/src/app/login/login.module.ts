@@ -11,8 +11,12 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {ToastModule} from 'primeng/toast';
 
+
+
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [
+    LoginComponent
+  ],
   imports: [
     CommonModule,
     ButtonModule,
@@ -24,7 +28,6 @@ import {ToastModule} from 'primeng/toast';
     InputTextModule,
     PasswordModule,
     FormsModule,
-
   ]
 })
 export class LoginModule { }
