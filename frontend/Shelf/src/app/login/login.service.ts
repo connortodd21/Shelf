@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {loginRoute, logoutRoute, registerRoute} from "../constants/constants.routes";
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -24,12 +25,12 @@ export class LoginService {
     constructor(private http: HttpClient, private router: Router) { }
 
     registerUser(authData: AuthData): Observable<any> {
-        return this.http.post<object>('http://localhost:8080/user/register', authData);
+        return this.http.post<any>(registerRoute, authData);
     }
 
     async login(username: string, password: string) {
         const userInfo: AuthData = {username, password, email: '', birthday: ''};
-        await this.http.post<object>('http://localhost:8080/user/login', userInfo, httpOptions).pipe(
+        await this.http.post<object>(loginRoute, userInfo, httpOptions).pipe(
             map( response => {
                 const token = response.headers.get('token');
                 this.token = token;
@@ -66,7 +67,7 @@ export class LoginService {
 
     logoutUser() {
         const user = localStorage.getItem('user');
-        return this.http.post<object>('http://localhost:8080/user/logout', { username: user }).toPromise();
+        return this.http.post<object>(logoutRoute, { username: user }).toPromise();
     }
 
     logout() {
