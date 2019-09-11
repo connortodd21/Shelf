@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { LoginModule } from './login/login.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomeModule } from './home/home.module';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     HttpClientModule,
     AppRoutingModule,
     LoginModule,
+    HomeModule,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]

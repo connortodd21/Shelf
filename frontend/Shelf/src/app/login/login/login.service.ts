@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthData } from '../models/auth.data.model';
+import { AuthData } from '../../models/auth.data.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -44,7 +44,7 @@ export class LoginService {
                     localStorage.setItem('token', token);
                     localStorage.setItem('expiresIn', expirationDate.toISOString());
                     localStorage.setItem('user', username);
-                    // window.location.replace('/');
+                    window.location.replace('/home');
                 }
             })
         ).toPromise().catch( err => {
@@ -77,7 +77,7 @@ export class LoginService {
         localStorage.removeItem('token');
         localStorage.removeItem('expiresIn');
         localStorage.removeItem('user');
-        // this.router.navigate(['/login']);
+        this.router.navigate(['/login']);
     }
 
     checkAuthenticationStatus() {
