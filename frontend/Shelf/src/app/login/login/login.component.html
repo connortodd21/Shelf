@@ -24,7 +24,7 @@
 
                     <div class="form-group">
                         <p class="input_title">Username</p>
-                        <input type="text" class="form-control" size="30" id="username" ng-required pInputText
+                        <input type="text" class="form-control" autocomplete="username" size="30" id="username" ng-required pInputText
                             formControlName="username"
                             [ngClass]="{ 'is-invalid': loginSubmit && loginForm.controls.username.errors }">
                         <div *ngIf="loginSubmit && loginForm.controls.username.errors" class="invalid-feedback">
@@ -34,7 +34,7 @@
 
                     <div class="form-group">
                         <p class="input_title">Password</p>
-                        <input type="password" class="form-control" size="30" id="password" ng-required pInputText
+                        <input type="password" autocomplete="current-password" class="form-control" size="30" id="password" ng-required pInputText
                             formControlName="password"
                             [ngClass]="{ 'is-invalid': loginSubmit && loginForm.controls.password.errors }">
                         <div *ngIf="loginSubmit && loginForm.controls.password.errors" class="invalid-feedback">
@@ -69,7 +69,7 @@
 
                     <div class="form-group">
                         <p class="input_title">Username</p>
-                        <input type="text" class="form-control" size="30" id="username" ng-required pInputText
+                        <input type="text" class="form-control" autocomplete="new-username"  size="30" id="username" ng-required pInputText
                             formControlName="username"
                             [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.username.errors }">
                         <div *ngIf="registerSubmit && registerForm.controls.username.errors" class="invalid-feedback">
@@ -79,7 +79,7 @@
 
                     <div class="form-group">
                         <p class="input_title">Password</p>
-                        <input type="password" class="form-control" size="30" id="password" ng-required pInputText
+                        <input type="password" class="form-control" autocomplete="password" size="30" id="password" ng-required pInputText
                             formControlName="password"
                             [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.password.errors }">
                         <div *ngIf="registerSubmit && registerForm.controls.password.errors" class="invalid-feedback">
@@ -91,7 +91,7 @@
 
                     <div class="form-group">
                         <p class="input_title">Confirm Password</p>
-                        <input type="password" class="form-control" size="30" id="confirmPassword" ng-required
+                        <input type="password" class="form-control" autocomplete="new-password" size="30" id="confirmPassword" ng-required
                             pInputText formControlName="confirmPassword"
                             [ngClass]="{ 'is-invalid': registerSubmit && registerForm.hasError('notSame') }">
                         <div *ngIf="registerSubmit && registerForm.hasError('notSame')" class="invalid-feedback">
@@ -101,7 +101,7 @@
 
                     <div class="form-group">
                         <p class="input_title">Email Address</p>
-                        <input type="text" class="form-control" size="30" id="email" ng-required pInputText
+                        <input type="email" autocomplete="email" class="form-control" size="30" id="email" ng-required pInputText
                             formControlName="email"
                             [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.email.errors }">
                         <div *ngIf="registerSubmit && registerForm.controls.email.errors" class="invalid-feedback">
