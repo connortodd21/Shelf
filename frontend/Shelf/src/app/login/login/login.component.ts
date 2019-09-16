@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthData } from '../../models/auth.data.model';
 import { MessageService } from 'primeng/api';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CustomValidators } from 'ngx-custom-validators';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
   loginSubmit = false;
   registerForm: FormGroup;
   registerSubmit = false;
+  error = 'NULL';
 
 
   // tslint:disable-next-line: max-line-length
@@ -33,6 +35,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+      // tslint:disable: one-line
     this.subtitle = 'Login!';
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -40,11 +43,11 @@ export class LoginComponent implements OnInit {
     });
     this.registerForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', [ Validators.required, Validators.minLength(8) ]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required],
-      email: ['', [ Validators.required, Validators.email ]],
-      birthday: ['', Validators.required]
-    }, { validator: this.checkPasswords } );
+      email: ['', [Validators.required, Validators.email]],
+      birthday: ['', [Validators.required, CustomValidators.date]]
+    }, { validator: this.checkPasswords });
   }
 
   setIsRegistering(value: boolean) {
@@ -64,7 +67,18 @@ export class LoginComponent implements OnInit {
     if (this.isRegistering) {
       this.loginService.registerUser(authData).subscribe(
         () => { this.showRegistrationSuccess(); },
-        error => { this.showError(error.error.message); },
+        error => {
+          this.showError(error.error.message);
+          if (error.error.message === 'Conflict: Email already exists') {
+            this.error = 'emailExists';
+          }
+          else if (error.error.message === 'Conflict: User already exists') {
+            this.error = 'userAlreadyExists';
+          }
+          else {
+            this.error = 'fatal';
+          }
+        },
       );
     } else {
       this.isRegistering = !this.isRegistering;
@@ -82,7 +96,18 @@ export class LoginComponent implements OnInit {
       this.loginService.loginUser(form.value.username, form.value.password).subscribe(
         response => {
         },
-        error => {this.showError(error.error.message); }
+        error => {
+          this.error = error.error.message;
+          if (error.error.message === 'Unauthorized: Password is incorrect') {
+            this.error = 'unauthorized';
+          }
+          else if (error.error.message === 'Not Found: User does not exist') {
+            this.error = 'userNotFound';
+          }
+          else {
+            this.error = 'fatal';
+          }
+        }
       );
     } else {
       this.isRegistering = !this.isRegistering;
@@ -98,9 +123,9 @@ export class LoginComponent implements OnInit {
   }
 
   private checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-        const pass = group.controls.password.value;
-        const confirmPass = group.controls.confirmPassword.value;
+    const pass = group.controls.password.value;
+    const confirmPass = group.controls.confirmPassword.value;
 
-        return pass === confirmPass ? null : { notSame: true };
-    }
+    return pass === confirmPass ? null : { notSame: true };
+  }
 }

@@ -46,6 +46,20 @@
                         <p-button label="Login" type="submit" styleClass="ui-button-raised ui-button-secondary">
                         </p-button>
                     </div>
+                    <br>
+                    <div *ngIf="error === 'unauthorized'" class="alert alert-danger"
+                        role="alert">
+                        Password is incorrect
+                    </div>
+
+                    <div *ngIf="error === 'userNotFound'" class="alert alert-danger"
+                        role="alert">
+                        User does not exist
+                    </div>
+
+                    <div *ngIf="error === 'fatal'" class="alert alert-danger" role="alert">
+                        A Fatal Error Has Occoured. PLease Try Again Later.
+                    </div>
 
                 </form>
             </div>
@@ -70,14 +84,15 @@
                             [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.password.errors }">
                         <div *ngIf="registerSubmit && registerForm.controls.password.errors" class="invalid-feedback">
                             <div *ngIf="registerForm.controls.password.errors.required">Please enter your password</div>
-                            <div *ngIf="registerForm.controls.password.errors.minlength">Password must be 8 characters long</div>
+                            <div *ngIf="registerForm.controls.password.errors.minlength">Password must be 8 characters
+                                long</div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <p class="input_title">Confirm Password</p>
-                        <input type="password" class="form-control" size="30" id="confirmPassword" ng-required pInputText
-                            formControlName="confirmPassword"
+                        <input type="password" class="form-control" size="30" id="confirmPassword" ng-required
+                            pInputText formControlName="confirmPassword"
                             [ngClass]="{ 'is-invalid': registerSubmit && registerForm.hasError('notSame') }">
                         <div *ngIf="registerSubmit && registerForm.hasError('notSame')" class="invalid-feedback">
                             <div *ngIf="registerForm.hasError('notSame')">Passwords do not match</div>
@@ -90,24 +105,41 @@
                             formControlName="email"
                             [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.email.errors }">
                         <div *ngIf="registerSubmit && registerForm.controls.email.errors" class="invalid-feedback">
-                            <div *ngIf="registerForm.controls.email.errors.required">Please enter your email address</div>
+                            <div *ngIf="registerForm.controls.email.errors.required">Please enter your email address
+                            </div>
                             <div *ngIf="registerForm.controls.email.errors.email">Please enter a valid email</div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <p class="input_title">Birthday</p>
-                        <input type="text" class="form-control" size="30" id="birthday" ng-required pInputText
+                        <input type="date" class="form-control" size="30" id="birthday" ng-required pInputText
                             formControlName="birthday"
                             [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.birthday.errors }">
                         <div *ngIf="registerSubmit && registerForm.controls.birthday.errors" class="invalid-feedback">
                             <div *ngIf="registerForm.controls.birthday.errors.required">Please enter your birthday</div>
+                            <div *ngIf="registerForm.controls.birthday.errors.date">Please use a valid date</div>
                         </div>
                     </div>
 
                     <div *ngIf="isRegistering">
                         <p-button label="Sign Up" type="submit" styleClass="ui-button-raised ui-button-secondary"
                             class="secondary_button"></p-button>
+                    </div>
+
+                    <br>
+                    <div *ngIf="error === 'emailExists'" class="alert alert-danger"
+                        role="alert">
+                        Sorry, this email has already been used
+                    </div>
+
+                    <div *ngIf="error === 'userAlreadyExists'" class="alert alert-danger"
+                        role="alert">
+                        Sorry, this username has already been taken
+                    </div>
+
+                    <div *ngIf="error === 'fatal'" class="alert alert-danger" role="alert">
+                        A Fatal Error Has Occoured. PLease Try Again Later.
                     </div>
                 </form>
             </div>
