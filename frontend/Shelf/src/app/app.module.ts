@@ -16,7 +16,7 @@ import {ToastModule} from "primeng/toast";
 @NgModule({
   declarations: [
     AppComponent,
-    PageNotFoundComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
