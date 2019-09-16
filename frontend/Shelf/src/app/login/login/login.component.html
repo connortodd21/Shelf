@@ -4,14 +4,14 @@
             <div *ngIf="!isRegistering">
                 <p class="title" id="white" style="margin-bottom: 8px">Create Account</p>
                 <p class="subtitle" id="white">To start tracking and sharing your games, create a Shelf account.</p>
-                <p-button label="Sign Up" (onClick)="registerUser()" styleClass="ui-button-raised ui-button-secondary"
-                    class="secondary_button"></p-button>
+                <p-button label="Sign Up" (onClick)="setIsRegistering(true)"
+                    styleClass="ui-button-raised ui-button-secondary" class="secondary_button"></p-button>
             </div>
             <div *ngIf="isRegistering">
                 <p class="title" id="white" style="margin-bottom: 8px">Sign In</p>
                 <p class="subtitle" id="white">Log back into Shelf to pick up where you left off.</p>
-                <p-button label="Login" (onClick)="loginUser()" styleClass="ui-button-raised ui-button-secondary"
-                    class="secondary_button"></p-button>
+                <p-button label="Login" (onClick)="setIsRegistering(false)"
+                    styleClass="ui-button-raised ui-button-secondary" class="secondary_button"></p-button>
             </div>
 
         </div>
@@ -19,61 +19,92 @@
 
             <div *ngIf="!isRegistering">
                 <p class="title" id="red">Welcome Back!</p>
+
+                <form (submit)="loginUser(f)" #f="ngForm" [formGroup]="loginForm">
+
+                    <div class="form-group">
+                        <p class="input_title">Username</p>
+                        <input type="text" class="form-control" size="30" id="username" ng-required pInputText
+                            formControlName="username"
+                            [ngClass]="{ 'is-invalid': loginSubmit && loginForm.controls.username.errors }">
+                        <div *ngIf="loginSubmit && loginForm.controls.username.errors" class="invalid-feedback">
+                            <div *ngIf="loginForm.controls.username.errors.required">Please Enter your Username</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <p class="input_title">Password</p>
+                        <input type="text" class="form-control" size="30" id="password" ng-required pInputText
+                            formControlName="password"
+                            [ngClass]="{ 'is-invalid': loginSubmit && loginForm.controls.password.errors }">
+                        <div *ngIf="loginSubmit && loginForm.controls.password.errors" class="invalid-feedback">
+                            <div *ngIf="loginForm.controls.password.errors.required">Please Enter your password</div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!isRegistering">
+                        <p-button label="Login" type="submit" styleClass="ui-button-raised ui-button-secondary">
+                        </p-button>
+                    </div>
+
+                </form>
             </div>
 
-            <form (submit)="loginUser(f)" #f="ngForm" [formGroup]="loginForm">
+            <div *ngIf="isRegistering">
+                <form (submit)="registerUser(f)" #f="ngForm" [formGroup]="registerForm">
 
-                <div class="form-group">
-                    <p class="input_title">Username</p>
-                    <input type="text" class="form-control" size="30" id="username" ng-required pInputText
-                        formControlName="username"
-                        [ngClass]="{ 'is-invalid': loginSubmit && loginForm.controls.username.errors }">
-                    <div *ngIf="loginSubmit && loginForm.controls.username.errors" class="invalid-feedback">
-                        <div *ngIf="loginForm.controls.username.errors.required">Please Enter your Username</div>
+                    <div class="form-group">
+                        <p class="input_title">Username</p>
+                        <input type="text" class="form-control" size="30" id="username" ng-required pInputText
+                            formControlName="username"
+                            [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.username.errors }">
+                        <div *ngIf="registerSubmit && registerForm.controls.username.errors" class="invalid-feedback">
+                            <div *ngIf="registerForm.controls.username.errors.required">Please Enter your Username</div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <p class="input_title">Password</p>
-                    <input type="text" class="form-control" size="30" id="password" ng-required pInputText
-                        formControlName="password"
-                        [ngClass]="{ 'is-invalid': loginSubmit && loginForm.controls.password.errors }">
-                    <div *ngIf="loginSubmit && loginForm.controls.password.errors" class="invalid-feedback">
-                        <div *ngIf="loginForm.controls.password.errors.required">Please Enter your password</div>
+                    <div class="form-group">
+                        <p class="input_title">Password</p>
+                        <input type="text" class="form-control" size="30" id="password" ng-required pInputText
+                            formControlName="password"
+                            [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.password.errors }">
+                        <div *ngIf="registerSubmit && registerForm.controls.password.errors" class="invalid-feedback">
+                            <div *ngIf="registerForm.controls.password.errors.required">Please Enter your password</div>
+                        </div>
                     </div>
-                </div>
 
-                <div *ngIf="!isRegistering">
-                    <p-button label="Login" type="submit" styleClass="ui-button-raised ui-button-secondary">
-                    </p-button>
-                </div>
+                    <div class="form-group">
+                        <p class="input_title">Email Address</p>
+                        <input type="text" class="form-control" size="30" id="email" ng-required pInputText
+                            formControlName="email"
+                            [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.email.errors }">
+                        <div *ngIf="registerSubmit && registerForm.controls.email.errors" class="invalid-feedback">
+                            <div *ngIf="registerForm.controls.email.errors.required">Please Enter your Email</div>
+                        </div>
+                    </div>
 
-                <div *ngIf="error">
-                    {{error}}
-                </div>
+                    <div class="form-group">
+                        <p class="input_title">Birthday</p>
+                        <input type="text" class="form-control" size="30" id="birthday" ng-required pInputText
+                            formControlName="birthday"
+                            [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.birthday.errors }">
+                        <div *ngIf="registerSubmit && registerForm.controls.birthday.errors" class="invalid-feedback">
+                            <div *ngIf="registerForm.controls.birthday.errors.required">Please Enter your birthday</div>
+                        </div>
+                    </div>
 
-            </form>
+                    <div *ngIf="isRegistering">
+                        <p-button label="Sign Up" type="submit" styleClass="ui-button-raised ui-button-secondary"
+                            class="secondary_button"></p-button>
+                    </div>
+                </form>
+            </div>
 
             <div *ngIf="isRegistering">
                 <p class="title" id="red">We're Excited You're Here</p>
                 <p class="subtitle">Fill in these details to get started with Shelf.</p>
             </div>
 
-            <div *ngIf="isRegistering" class="input_field">
-                <p class="input_title">Email Address</p>
-                <input type="text" size="30" ng-required pInputText [(ngModel)]="email">
-            </div>
-
-            <div *ngIf="isRegistering" class="input_field">
-                <p class="input_title">Birthdate</p>
-                <p-inputMask mask="99/99/9999" type="text" size="30" [(ngModel)]="birthday" slotChar="mm/dd/yyyy">
-                </p-inputMask>
-            </div>
-
-            <div *ngIf="isRegistering">
-                <p-button label="Sign Up" (onClick)="registerUser()" styleClass="ui-button-raised ui-button-secondary"
-                    class="secondary_button"></p-button>
-            </div>
         </div>
     </div>
 </div>

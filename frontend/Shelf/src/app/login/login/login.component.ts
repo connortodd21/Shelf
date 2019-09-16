@@ -38,11 +38,22 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+    this.registerForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      email: ['', Validators.required],
+      birthday: ['', Validators.required]
+    });
   }
 
-  registerUser() {
+  setIsRegistering(value: boolean) {
+    this.isRegistering = value;
+  }
+
+  registerUser(form: NgForm) {
 
     this.subtitle = 'Sign up!';
+    this.registerSubmit = true;
 
     const authData: AuthData = { username: this.username, password: this.password, email: this.email, birthday: this.birthday };
 
