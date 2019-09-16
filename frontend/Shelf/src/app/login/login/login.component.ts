@@ -40,10 +40,11 @@ export class LoginComponent implements OnInit {
     });
     this.registerForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required],
-      email: ['', Validators.required],
+      password: ['', [ Validators.required, Validators.minLength(8) ]],
+      confirmPassword: ['', Validators.required],
+      email: ['', [ Validators.required, Validators.email ]],
       birthday: ['', Validators.required]
-    });
+    }, { validator: this.checkPasswords } );
   }
 
   setIsRegistering(value: boolean) {
@@ -54,8 +55,11 @@ export class LoginComponent implements OnInit {
 
     this.subtitle = 'Sign up!';
     this.registerSubmit = true;
-
-    const authData: AuthData = { username: this.username, password: this.password, email: this.email, birthday: this.birthday };
+    if (this.registerForm.invalid) {
+      return;
+    }
+    // tslint:disable-next-line: max-line-length
+    const authData: AuthData = { username: form.value.username, password: form.value.password, email: form.value.email, birthday: form.value.birthday };
 
     if (this.isRegistering) {
       this.loginService.registerUser(authData).subscribe(
@@ -93,4 +97,10 @@ export class LoginComponent implements OnInit {
     this.messageService.add({ severity: 'success', summary: 'Success!', detail: successMessage });
   }
 
+  private checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+        const pass = group.controls.password.value;
+        const confirmPass = group.controls.confirmPassword.value;
+
+        return pass === confirmPass ? null : { notSame: true };
+    }
 }
