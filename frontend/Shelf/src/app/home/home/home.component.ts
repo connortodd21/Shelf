@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {UserModel} from "../../models/user.model";
 import {UserService} from "../../user/user.service";
+import {GamesService} from "../../games/games.service";
 
 @Component({
   selector: 'app-home',
@@ -12,11 +13,12 @@ export class HomeComponent implements OnInit {
 
   user: UserModel;
 
+  dashboardGames;
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, private userService: UserService, private gamesService: GamesService) { }
     ngOnInit() {
-    console.log('HOME PAGE');
     this.setupUser();
+    this.getDashboardGames();
   }
 
   logout() {
@@ -32,6 +34,15 @@ export class HomeComponent implements OnInit {
         this.user = {birthday: response.birthday, email: response.email, username: response.username};
       },
       (error) => console.log(error)
+    )
+  }
+
+  private getDashboardGames() {
+    this.gamesService.getDashboardGames().subscribe(
+      (response) => {
+        this.dashboardGames = response;
+        console.log(this.dashboardGames);
+      }
     )
   }
 }

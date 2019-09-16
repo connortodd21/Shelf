@@ -20,3 +20,6 @@
     </ul>
   </div>
 </nav>
+<div>
+  <app-game-overview *ngFor="let item of dashboardGames; let i = index" [name]=item.name [image_id]=item.cover.image_id></app-game-overview>
+</div>
