@@ -23,4 +23,4 @@
   </div>
 </nav>
 
-<app-game-overview></app-game-overview>
+<app-game-overview *ngFor="let item of a; let i = index" [name]=item.name></app-game-overview>

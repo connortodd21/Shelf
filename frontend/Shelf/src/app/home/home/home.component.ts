@@ -13,6 +13,23 @@ export class HomeComponent implements OnInit {
 
   user: UserModel;
 
+  items = ['First', 'Second'];
+  
+  a = [
+    {
+        "id": 104945,
+        "name": "Woodpunk",
+        "rating": 70
+    },
+    {
+        "id": 91579,
+        "name": "Racing Live"
+    },
+    {
+        "id": 81332,
+        "name": "Stick Fighter II"
+    }
+  ]
 
   constructor(private router: Router, private userService: UserService, private gamesService: GamesService) { }
     ngOnInit() {
