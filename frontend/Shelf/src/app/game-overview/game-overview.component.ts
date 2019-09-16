@@ -10,4 +10,5 @@ export class GameOverviewComponent implements OnInit {
   ngOnInit() {
   }
   @Input() name: String;
+  @Input() image_id: String;
 }
