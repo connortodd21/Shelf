@@ -1,96 +1,79 @@
-
-<div class="hero-image"> 
+<div class="hero-image">
     <div id="login-card">
         <div id="red-login-area">
             <div *ngIf="!isRegistering">
                 <p class="title" id="white" style="margin-bottom: 8px">Create Account</p>
-                <p class="subtitle" id="white" >To start tracking and sharing your games, create a Shelf account.</p>
-                <p-button label="Sign Up" (onClick)="registerUser()" styleClass="ui-button-raised ui-button-secondary" class="secondary_button"></p-button>
+                <p class="subtitle" id="white">To start tracking and sharing your games, create a Shelf account.</p>
+                <p-button label="Sign Up" (onClick)="registerUser()" styleClass="ui-button-raised ui-button-secondary"
+                    class="secondary_button"></p-button>
             </div>
             <div *ngIf="isRegistering">
-                    <p class="title" id="white" style="margin-bottom: 8px">Sign In</p>
-                    <p class="subtitle" id="white" >Log back into Shelf to pick up where you left off.</p>
-                    <p-button label="Login" (onClick)="loginUser()" styleClass="ui-button-raised ui-button-secondary" class="secondary_button"></p-button>
+                <p class="title" id="white" style="margin-bottom: 8px">Sign In</p>
+                <p class="subtitle" id="white">Log back into Shelf to pick up where you left off.</p>
+                <p-button label="Login" (onClick)="loginUser()" styleClass="ui-button-raised ui-button-secondary"
+                    class="secondary_button"></p-button>
             </div>
-            
+
         </div>
         <div id="login-form-area">
+
             <div *ngIf="!isRegistering">
                 <p class="title" id="red">Welcome Back!</p>
             </div>
+
+            <form (submit)="loginUser(f)" #f="ngForm" [formGroup]="loginForm">
+
+                <div class="form-group">
+                    <p class="input_title">Username</p>
+                    <input type="text" class="form-control" size="30" id="username" ng-required pInputText
+                        formControlName="username"
+                        [ngClass]="{ 'is-invalid': loginSubmit && loginForm.controls.username.errors }">
+                    <div *ngIf="loginSubmit && loginForm.controls.username.errors" class="invalid-feedback">
+                        <div *ngIf="loginForm.controls.username.errors.required">Please Enter your Username</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <p class="input_title">Password</p>
+                    <input type="text" class="form-control" size="30" id="password" ng-required pInputText
+                        formControlName="password"
+                        [ngClass]="{ 'is-invalid': loginSubmit && loginForm.controls.password.errors }">
+                    <div *ngIf="loginSubmit && loginForm.controls.password.errors" class="invalid-feedback">
+                        <div *ngIf="loginForm.controls.password.errors.required">Please Enter your password</div>
+                    </div>
+                </div>
+
+                <div *ngIf="!isRegistering">
+                    <p-button label="Login" type="submit" styleClass="ui-button-raised ui-button-secondary">
+                    </p-button>
+                </div>
+
+                <div *ngIf="error">
+                    {{error}}
+                </div>
+
+            </form>
+
             <div *ngIf="isRegistering">
                 <p class="title" id="red">We're Excited You're Here</p>
-                <p class="subtitle" >Fill in these details to get started with Shelf.</p>
-            </div>
-            
-            
-            <div class="input_field">
-                <p class="input_title">Username</p>
-                <input type="text" size="30" pInputText [(ngModel)]="username">
+                <p class="subtitle">Fill in these details to get started with Shelf.</p>
             </div>
 
             <div *ngIf="isRegistering" class="input_field">
                 <p class="input_title">Email Address</p>
-                <input type="text" size="30" pInputText [(ngModel)]="email">
-            </div>
-
-            <div class="input_field">
-                <p class="input_title">Password</p>
-                <input type="text" size="30" [feedback]="false" type="password" pPassword [(ngModel)]="password">
+                <input type="text" size="30" ng-required pInputText [(ngModel)]="email">
             </div>
 
             <div *ngIf="isRegistering" class="input_field">
                 <p class="input_title">Birthdate</p>
-                <p-inputMask mask="99/99/9999" type="text" size="30" [(ngModel)]="birthday" slotChar="mm/dd/yyyy"></p-inputMask>
+                <p-inputMask mask="99/99/9999" type="text" size="30" [(ngModel)]="birthday" slotChar="mm/dd/yyyy">
+                </p-inputMask>
             </div>
 
-            
-            <div *ngIf="!isRegistering">
-                <p-button label="Login" (onClick)="loginUser()" styleClass="ui-button-raised ui-button-secondary"></p-button>
-            </div>
             <div *ngIf="isRegistering">
-                <p-button label="Sign Up" (onClick)="registerUser()" styleClass="ui-button-raised ui-button-secondary" class="secondary_button"></p-button>
+                <p-button label="Sign Up" (onClick)="registerUser()" styleClass="ui-button-raised ui-button-secondary"
+                    class="secondary_button"></p-button>
             </div>
         </div>
     </div>
-
-    <!--
-  <p-toast [style]="{marginTop: '80px'}"></p-toast>
-        <mat-card class="example-card">
-                <mat-card-header layout="row" layout-align="center">
-
-                  <mat-card-title>Welcome to Shelf</mat-card-title>
-
-                  <mat-card-subtitle>{{subtitle}}</mat-card-subtitle>
-                </mat-card-header>
-
-                <mat-card-content>
-
-                    
-                    <p>Username</p>
-                    <input type="text" size="30" pInputText [(ngModel)]="username">
-                    <br><br><br>
-
-                    <div *ngIf="isRegistering">
-                        <p>Email Address</p>
-                        <input type="text" size="30" pInputText [(ngModel)]="email">
-                        <br><br><br>
-                    </div>
-
-                    <p>Password</p>
-                    <input type="text" size="30" [feedback]="false" type="password" pPassword [(ngModel)]="password">
-
-                    <br><br><br>
-                    <div *ngIf="isRegistering">
-                        <p>Birthdate</p>
-                        <p-inputMask mask="99/99/9999" type="text" size="30" [(ngModel)]="birthday" slotChar="mm/dd/yyyy"></p-inputMask>
-                    </div>
-
-                </mat-card-content>
-                <mat-card-actions>
-                    <p-button label="Register" (onClick)="registerUser()" styleClass="ui-button-raised ui-button-secondary"></p-button>
-                    <p-button label="Login" (onClick)="loginUser()" styleClass="ui-button-raised ui-button-secondary"></p-button>
-                </mat-card-actions>
-            </mat-card>
-        -->
 </div>
