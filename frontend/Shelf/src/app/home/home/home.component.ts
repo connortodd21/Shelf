@@ -38,10 +38,9 @@ export class HomeComponent implements OnInit {
   }
 
   private getDashboardGames() {
-    console.log('games!')
     this.gamesService.getDashboardGames().subscribe(
       (response) => {
-        console.log(response)
+        console.log(response);
       }
     )
   }
