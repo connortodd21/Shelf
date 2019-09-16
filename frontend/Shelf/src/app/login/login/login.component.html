@@ -34,7 +34,7 @@
 
                     <div class="form-group">
                         <p class="input_title">Password</p>
-                        <input type="text" class="form-control" size="30" id="password" ng-required pInputText
+                        <input type="password" class="form-control" size="30" id="password" ng-required pInputText
                             formControlName="password"
                             [ngClass]="{ 'is-invalid': loginSubmit && loginForm.controls.password.errors }">
                         <div *ngIf="loginSubmit && loginForm.controls.password.errors" class="invalid-feedback">
@@ -65,18 +65,18 @@
 
                     <div class="form-group">
                         <p class="input_title">Password</p>
-                        <input type="text" class="form-control" size="30" id="password" ng-required pInputText
+                        <input type="password" class="form-control" size="30" id="password" ng-required pInputText
                             formControlName="password"
                             [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.password.errors }">
                         <div *ngIf="registerSubmit && registerForm.controls.password.errors" class="invalid-feedback">
                             <div *ngIf="registerForm.controls.password.errors.required">Please enter your password</div>
-                            <div *ngIf="registerForm.password.errors.minlength">Password must be 8 characters long</div>
+                            <div *ngIf="registerForm.controls.password.errors.minlength">Password must be 8 characters long</div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <p class="input_title">Confirm Password</p>
-                        <input type="text" class="form-control" size="30" id="confirmPassword" ng-required pInputText
+                        <input type="password" class="form-control" size="30" id="confirmPassword" ng-required pInputText
                             formControlName="confirmPassword"
                             [ngClass]="{ 'is-invalid': registerSubmit && registerForm.hasError('notSame') }">
                         <div *ngIf="registerSubmit && registerForm.hasError('notSame')" class="invalid-feedback">
