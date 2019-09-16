@@ -13,27 +13,10 @@ export class HomeComponent implements OnInit {
 
   user: UserModel;
 
-  items = ['First', 'Second'];
-  
-  a = [
-    {
-        "id": 104945,
-        "name": "Woodpunk",
-        "rating": 70
-    },
-    {
-        "id": 91579,
-        "name": "Racing Live"
-    },
-    {
-        "id": 81332,
-        "name": "Stick Fighter II"
-    }
-  ]
+  dashboardGames;
 
   constructor(private router: Router, private userService: UserService, private gamesService: GamesService) { }
     ngOnInit() {
-    console.log('HOME PAGE');
     this.setupUser();
     this.getDashboardGames();
   }
@@ -57,7 +40,8 @@ export class HomeComponent implements OnInit {
   private getDashboardGames() {
     this.gamesService.getDashboardGames().subscribe(
       (response) => {
-        console.log(response);
+        this.dashboardGames = response;
+        console.log(this.dashboardGames);
       }
     )
   }

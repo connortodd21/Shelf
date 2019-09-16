@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const axios = require('axios');
 let mongoose = require('mongoose');
 var authenticate = require('../middleware/authenticate')
 
@@ -27,10 +28,32 @@ router.get("/", function (req, res) {
 /*
  * Get user data 
  */
-router.get("/allgames", authenticate, (req, res) => {
-    res.status(200).send({
-        'Hello': 'Hello'
-    })
+router.get("/allgames", authenticate, async (req, res) => {
+
+    const thing = await getGames();
+    if (thing.data) {
+        res.status(200).send(thing.data);
+    } else {
+        res.status(200).send({
+            'Hello': 'Hello'
+        })
+    }
 })
+
+const getGames = async () => {
+
+    const body = 'fields id,name,rating,url,cover.url;';
+
+    try {
+        return await axios.post('https://api-v3.igdb.com/games', body, {
+            headers: {
+                'user-key': '627c80f0f5bb9d77ae1a092ed94de20b'
+            }
+        })
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 
 module.exports = router;

@@ -19,8 +19,7 @@
       <li *ngIf="user" class="nav-item"><a class="nav-link">Welcome, {{user.username}}!</a></li>
     </ul>
   </div>
-  <div>
-  </div>
 </nav>
-
-<app-game-overview *ngFor="let item of a; let i = index" [name]=item.name></app-game-overview>
+<div>
+  <app-game-overview *ngFor="let item of dashboardGames; let i = index" [name]=item.name></app-game-overview>
+</div>

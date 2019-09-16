@@ -12,7 +12,6 @@ export class GamesService {
   constructor(private http: HttpClient, private router: Router) { }
 
   getDashboardGames(): Observable<any> {
-    console.log('Getting dashbaord games!');
     return this.http.get('http://localhost:8080/games/allgames');
   }
 }
