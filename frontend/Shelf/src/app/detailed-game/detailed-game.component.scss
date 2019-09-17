@@ -1,0 +1,35 @@
+* {
+    font-family: 'Karla', sans-serif;
+}
+
+.detailed-game-cover {
+    border-radius: 6px;
+    border: 1px solid black;
+    margin: 8px;
+}
+
+.detailed-game-name {
+    font-size: 24px;
+    color: black;
+    margin: 8px;
+}
+
+.detailed-game-heading {
+    font-size: 17px;
+    color: rgb(77, 77, 77);
+    margin: 8px;
+}
+
+.detailed-game-description {
+    font-size: 17px;
+    color: gray;
+    margin: 8px;
+}
+
+.detailed-game-badge {
+    border-radius: 5px;
+    border: 1px solid black;
+    font-size: 12px;
+    margin: 8px;
+    padding: 8px;
+}

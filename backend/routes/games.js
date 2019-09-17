@@ -50,7 +50,7 @@ router.post("/detailedgamedata", authenticate, async (req, res) => {
         return;
     }
 
-    const body = `fields *; where id = ${req.body.id};`;
+    const body = `fields name,artworks.image_id,cover.image_id,first_release_date,genres.name,platforms.name,storyline; where id = ${req.body.id};`;
     const url = 'https://api-v3.igdb.com/games';
 
     const result = await axiosPost(url, body);

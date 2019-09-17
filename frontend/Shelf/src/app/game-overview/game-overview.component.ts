@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { COVER_BIG } from '../constants/constants.images';
 
 @Component({
   selector: 'app-game-overview',
@@ -8,6 +9,8 @@ import { Router } from '@angular/router';
 })
 export class GameOverviewComponent implements OnInit {
   constructor(private router: Router) { }
+  coverPath = COVER_BIG;
+  
   ngOnInit() {
   }
   @Input() name: String;

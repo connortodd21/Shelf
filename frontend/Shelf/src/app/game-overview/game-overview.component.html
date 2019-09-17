@@ -1,5 +1,5 @@
 <div (click)="gotoDetailedGameView()" class="game-overview-container">
     <div class="game-overview-text">{{name}}</div>
-    <img *ngIf="image_id != ''" class="game-overview-img" src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{image_id}}.jpg" />
+    <img *ngIf="image_id != ''" class="game-overview-img" src="{{coverPath}}{{image_id}}.jpg" />
     <img *ngIf="image_id == ''" class="game-overview-img" src="../../assets/NoImageAvailable.png" />
 </div>
