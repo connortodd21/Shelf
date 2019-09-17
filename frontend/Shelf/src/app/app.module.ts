@@ -10,7 +10,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { LoginModule } from './login/login.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeModule } from './home/home.module';
-import {ToastModule} from "primeng/toast";
+import { ToastModule } from 'primeng/toast';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -19,7 +20,7 @@ import {ToastModule} from "primeng/toast";
     PageNotFoundComponent
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
@@ -29,7 +30,8 @@ import {ToastModule} from "primeng/toast";
     LoginModule,
     HomeModule,
     ToastModule,
-
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
