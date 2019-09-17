@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
+import { GamesService } from '../games/games.service';
 
 @Component({
   selector: 'app-detailed-game',
@@ -10,13 +11,18 @@ import { ActivatedRoute } from "@angular/router";
 export class DetailedGameComponent implements OnInit {
   id;
 
-  constructor(private route: ActivatedRoute) { 
+  constructor(private route: ActivatedRoute, private gamesService: GamesService) { 
     this.route.params.subscribe( params => this.id = params.id );
   }
   ngOnInit() {
     this.getDetailedGameData();
   }
   getDetailedGameData() {
-    console.log(`Getting detailed game data with the id of: ${this.id}`);
+    this.gamesService.getDetailedInfoAboutGame(this.id).subscribe(
+      (response) => {
+        // BEN TODO: MAKE IT SO THE GAME DATA IS SAVED IN THE COMPONENT
+        console.log(response);
+      }
+    )
   }
 }
