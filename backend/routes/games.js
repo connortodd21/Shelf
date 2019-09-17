@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const axios = require('axios');
 let mongoose = require('mongoose');
-var authenticate = require('../middleware/authenticate')
+var authenticate = require('../middleware/authenticate');
 
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set('useNewUrlParser', true);
@@ -41,12 +41,12 @@ router.get("/allgames", authenticate, async (req, res) => {
 
 const getGames = async () => {
 
-    const body = 'fields id,name,rating,url,cover.image_id,popularity; where rating > 90; limit 10; sort popularity desc;';
+    const body = 'fields id,name,rating,url,cover.image_id,popularity; where aggregated_rating > 95; limit 20; sort popularity desc;';
 
     try {
         return await axios.post('https://api-v3.igdb.com/games', body, {
             headers: {
-                'user-key': '627c80f0f5bb9d77ae1a092ed94de20b'
+                'user-key': process.env.API_KEY
             }
         })
     } catch (error) {
