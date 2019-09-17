@@ -22,6 +22,6 @@
 </nav>
 <p class="game-section-header">Highest rated critically acclaimed games of all time:</p>
 <span *ngFor="let item of dashboardGames; let i = index">
-  <app-game-overview *ngIf="item.cover" [name]=item.name [image_id]=item.cover.image_id></app-game-overview>
-  <app-game-overview *ngIf="!item.cover" [name]=item.name image_id=""></app-game-overview>
+  <app-game-overview *ngIf="item.cover" [name]=item.name [id]=item.id [image_id]=item.cover.image_id></app-game-overview>
+  <app-game-overview *ngIf="!item.cover" [name]=item.name [id]=item.id image_id=""></app-game-overview>
 </span>

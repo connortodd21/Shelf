@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AuthData } from '../../models/auth.data.model';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {Observable, of, throwError} from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Subject } from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
-import {LOGIN_URL, LOGOUT_URL, REGISTER_URL} from '../../constants/constants.urls';
+import { catchError, map } from 'rxjs/operators';
+import { LOGIN_URL, LOGOUT_URL, REGISTER_URL } from '../../constants/constants.urls';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

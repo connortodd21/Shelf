@@ -41,7 +41,7 @@ router.get("/allgames", authenticate, async (req, res) => {
 
 const getGames = async () => {
 
-    const body = 'fields id,name,rating,url,cover.image_id,popularity; where aggregated_rating > 95; limit 20; sort popularity desc;';
+    const body = 'fields id,name,cover.image_id; where aggregated_rating > 95; limit 20; sort popularity desc;';
 
     try {
         return await axios.post('https://api-v3.igdb.com/games', body, {
