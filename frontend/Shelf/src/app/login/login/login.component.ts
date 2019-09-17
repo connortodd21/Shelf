@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 import { AuthData } from '../../models/auth.data.model';
-import {MessageService} from "primeng/api";
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -33,8 +33,8 @@ export class LoginComponent implements OnInit {
 
     if (this.isRegistering) {
       this.loginService.registerUser(authData).subscribe(
-        () => {this.showRegistrationSuccess()},
-          error => {this.showError(error.error.message)},
+        () => {this.showRegistrationSuccess(); },
+          error => {this.showError(error.error.message); },
         );
 
     } else {
@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
 
       this.loginService.loginUser(this.username, this.password).subscribe(
         response => {
-          console.log(response)
         },
         error => {
           this.showError(error.error.message);
@@ -71,6 +70,5 @@ export class LoginComponent implements OnInit {
   showRegistrationSuccess(successMessage = 'Registration successful!') {
     this.messageService.add({severity: 'success', summary: 'Success!', detail: successMessage});
   }
-
 
 }
