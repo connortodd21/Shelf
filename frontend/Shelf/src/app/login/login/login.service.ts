@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AuthData } from '../../models/auth.data.model';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {Observable, of, throwError} from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { Subject } from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
-import {LOGIN_URL, LOGOUT_URL, REGISTER_URL} from '../../constants/constants.urls';
+import { catchError, map } from 'rxjs/operators';
+import { LOGIN_URL, LOGOUT_URL, REGISTER_URL } from '../../constants/constants.urls';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -29,30 +29,28 @@ export class LoginService {
     }
 
     loginUser(username: string, password: string): Observable<any> {
-      const userInfo: AuthData = {username, password, email: '', birthday: ''};
+        const userInfo: AuthData = { username, password, email: '', birthday: '' };
 
-      return this.http.post<object>(LOGIN_URL, userInfo, httpOptions).pipe(
-        map(response => {
-          const token = response.headers.get('token');
-          this.token = token;
-          if (token) {
-            const expiresInDuration = 7200;
-            this.setAuthTimer(expiresInDuration);
-            this.isAuthenticated = true;
-            this.authStatusListener.next(true);
-            const now = new Date();
-            const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-            this.responseLogin = 'complete';
-            localStorage.setItem('token', token);
-            localStorage.setItem('expiresIn', expirationDate.toISOString());
-            localStorage.setItem('user', username);
-            this.router.navigate(['/home']);
-          }
-        }),
-        catchError(error => throwError(error)));
+        return this.http.post<object>(LOGIN_URL, userInfo, httpOptions).pipe(
+            map(response => {
+                const token = response.headers.get('token');
+                this.token = token;
+                if (token) {
+                    const expiresInDuration = 7200;
+                    this.setAuthTimer(expiresInDuration);
+                    this.isAuthenticated = true;
+                    this.authStatusListener.next(true);
+                    const now = new Date();
+                    const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
+                    this.responseLogin = 'complete';
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('expiresIn', expirationDate.toISOString());
+                    localStorage.setItem('user', username);
+                    this.router.navigate(['/home']);
+                }
+            }),
+            catchError(error => throwError(error)));
     }
-
-
 
     logoutUser() {
         const user = localStorage.getItem('user');
@@ -86,9 +84,9 @@ export class LoginService {
         }
     }
 
-    private getAuthenticationData() {
+    public getAuthenticationData() {
         const token = localStorage.getItem('token');
-        const expirationDate = localStorage.getItem('expiration');
+        const expirationDate = localStorage.getItem('expiresIn');
         if (!token || !expirationDate) {
             return;
         }
@@ -96,7 +94,7 @@ export class LoginService {
     }
 
     private setAuthTimer(duration: number) {
-        console.log('Setting timer: ' + duration);
+        // console.log('Setting timer: ' + duration);
         this.tokenTimer = setTimeout(() => {
             this.logout();
         }, duration * 1000);
