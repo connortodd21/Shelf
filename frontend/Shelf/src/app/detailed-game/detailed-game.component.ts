@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 import { GamesService } from '../games/games.service';
 import { COVER_BIG, SCREENSHOT_BIG } from '../constants/constants.images';
 
@@ -16,7 +16,7 @@ export class DetailedGameComponent implements OnInit {
   screenshotPath;
   artworkUrls;
 
-  constructor(private route: ActivatedRoute, private gamesService: GamesService) { 
+  constructor(private route: ActivatedRoute, private gamesService: GamesService) {
     this.route.params.subscribe( params => this.id = params.id );
   }
   ngOnInit() {
@@ -35,7 +35,7 @@ export class DetailedGameComponent implements OnInit {
           this.artworkUrls.push(`${SCREENSHOT_BIG}${artwork.image_id}.jpg`);
         });
       }
-    )
+    );
   }
 
   getDateString(timestamp) {
@@ -46,7 +46,7 @@ export class DetailedGameComponent implements OnInit {
   }
 
   gotoGamePage() {
-    window.open(this.game.url, "_blank");
+    window.open(this.game.url, '_blank');
   }
 
   goBack() {

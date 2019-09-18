@@ -9,12 +9,9 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
         const auth = this.loginService.getAuthenticationData();
-        console.log(auth)
-        console.log(new Date(auth.expirationDate) > new Date())
         if (auth && auth.token && (new Date(auth.expirationDate) > new Date())) {
             return true;
         } else {
-            console.log('here')
             this.loginService.logoutUser().then( res => {
                 this.loginService.logout();
             });
