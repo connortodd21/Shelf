@@ -47,7 +47,6 @@ export class ProfileComponent implements OnInit {
     if (confirm === false) {
       return;
     }
-    console.log(user)
     this.profileService.addFriend(user.username).then( res => {
       window.location.reload();
     });
