@@ -1,4 +1,5 @@
 <span *ngIf="game">
+    <div (click)="goBack()" class="back-arrow">←</div>
     <img (click)="gotoGamePage()" *ngIf="game && game.cover" class="detailed-game-cover" src="{{coverPath}}{{game.cover.image_id}}.jpg" />
     <p class="detailed-game-name">{{game.name}}</p>
     <p class="detailed-game-heading">Release date: {{game.release_date}}</p>

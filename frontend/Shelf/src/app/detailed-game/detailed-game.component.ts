@@ -47,4 +47,8 @@ export class DetailedGameComponent implements OnInit {
   gotoGamePage() {
     window.open(this.game.url, "_blank");
   }
+
+  goBack() {
+    // TODO CONNOR OR ALEX: ROUTE BACK TO PREVIOUS URL, PROBABLY NEEDS TO BE IN A SERVICE IN GUESSING
+  }
 }
