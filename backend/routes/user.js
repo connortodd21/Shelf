@@ -24,11 +24,19 @@ router.get("/", function (req, res) {
     res.send('This route is for all user related tasks');
 });
 
-/*
- * Get user data 
+/**
+ * Get All Users
  */
-router.get("/data", authenticate, (req, res) => {
-    res.status(200).send(req.user)
+router.get("/all-users", authenticate, (req, res) => {
+
+    User.find({}).then((users) => {
+        res.status(200).send(users);
+        return
+    }).catch((err) => {
+        res.status(500).send(err);
+        return
+    })
+
 })
 
 /*
@@ -58,7 +66,7 @@ router.post("/register", (req, res) => {
             });
         }).catch((err) => {
             if (err.code == 11000) {
-                if(err.errmsg.includes("email", 0)){
+                if (err.errmsg.includes("email", 0)) {
                     res.status(409).send({ message: "Conflict: Email already exists" })
                     return
                 }
@@ -76,27 +84,27 @@ router.post("/register", (req, res) => {
 /*
  * Login 
  */
-router.post('/login', (req,res) => {
-    
+router.post('/login', (req, res) => {
+
     if (!req.body.username || !req.body.password) {
         res.status(400).send({ message: "Bad request: Login user data is incomplete" })
         return;
     }
 
-    User.findOne({username: req.body.username}).then( user => {
+    User.findOne({ username: req.body.username }).then(user => {
 
-        if(!user){
+        if (!user) {
             res.status(404).send({ message: "Not Found: User does not exist" })
             return;
         }
 
         bcrypt.compare(req.body.password, user.password, (err, comp) => {
-            if(comp == false){
+            if (comp == false) {
                 res.status(401).send({ message: "Unauthorized: Password is incorrect" })
                 return
             }
 
-            user.generateAuth().then( token => {
+            user.generateAuth().then(token => {
                 res.status(200).header('token', token).send(user)
                 return
             })
@@ -110,14 +118,14 @@ router.post('/login', (req,res) => {
 /*
  * Logout
  */
-router.post('/logout', authenticate, (req,res) => {
-    
+router.post('/logout', authenticate, (req, res) => {
+
     if (!req.body.username) {
         res.status(400).send({ message: "Bad request: Logout user data is incomplete" })
         return;
     }
 
-    User.findOneAndUpdate({username: req.body.username}, {
+    User.findOneAndUpdate({ username: req.body.username }, {
         $set: {
             tokens: []
         }
@@ -129,5 +137,96 @@ router.post('/logout', authenticate, (req,res) => {
         return
     })
 })
+
+router.post('/add-friend', authenticate, (req, res) => {
+    if (!req.body || !req.body.friend) {
+        res.status(400).send({ message: "Bad request: Add friend data is incomplete" })
+        return;
+    }
+
+    if(req.body.friend === req.user.username) {
+        res.status(400).send({ message: "Bad request: you can't add yourself as a friend" })
+        return;
+    }
+
+    User.findById(req.user._id, (err, user) => {
+        if (err) {
+            res.status(401).send({ message: "User does not exist" })
+            return
+        }
+
+        User.findByIdAndUpdate(user._id, {
+            $push: {
+                friends: req.body.friend
+            }
+        }).then(usr => {
+            res.status(200).send({ message: req.body.friend + " added to friends list!" })
+            return
+        }).catch((err) => {
+            res.status(500).send(err)
+            return
+        })
+    }).catch((err) => {
+        res.status(500).send(err)
+        return
+    })
+})
+
+router.post('/remove-friend', authenticate, (req, res) => {
+    if (!req.body || !req.body.friend) {
+        res.status(400).send({ message: "Bad request: Add friend data is incomplete" })
+        return;
+    }
+
+    if(req.body.friend === req.user.username) {
+        res.status(400).send({ message: "Bad request: you can't remove yourself as a friend" })
+        return;
+    }
+
+    User.findById(req.user._id, (err, user) => {
+        if (err) {
+            res.status(401).send({ message: "User does not exist" })
+            return
+        }
+
+        User.findByIdAndUpdate(user._id, {
+            $pull: {
+                friends: req.body.friend
+            }
+        }).then(usr => {
+            res.status(200).send({ message: req.body.friend + " deleted from friends list!" })
+            return
+        }).catch((err) => {
+            res.status(500).send(err)
+            return
+        })
+    }).catch((err) => {
+        res.status(500).send(err)
+        return
+    })
+})
+
+/*
+ * Get user data 
+ */
+router.post("/data", authenticate, (req, res) => {
+    if (!req.body || !req.body.username) {
+        res.status(400).send({ message: "Bad request: get user data data is incomplete" })
+        return;
+    }
+
+    User.findOne({ username: req.body.username }).then(user => {
+        if (!user) {
+            res.status(401).send({ message: "User does not exist" })
+            return
+        }
+        res.status(200).send(user)
+        return
+    }).catch((err) => {
+        res.status(500).send(err)
+        return
+    })
+})
+
 
 module.exports = router;

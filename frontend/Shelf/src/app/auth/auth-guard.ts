@@ -12,6 +12,9 @@ export class AuthGuard implements CanActivate {
         if (auth && auth.token && (new Date(auth.expirationDate) > new Date())) {
             return true;
         } else {
+            this.loginService.logoutUser().then( res => {
+                this.loginService.logout();
+            });
             this.router.navigate(['/login']);
             return false;
         }
