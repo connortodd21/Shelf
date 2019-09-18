@@ -14,6 +14,7 @@ export class DetailedGameComponent implements OnInit {
   game;
   coverPath;
   screenshotPath;
+  artworkUrls;
 
   constructor(private route: ActivatedRoute, private gamesService: GamesService) { 
     this.route.params.subscribe( params => this.id = params.id );
@@ -23,18 +24,27 @@ export class DetailedGameComponent implements OnInit {
     this.coverPath = COVER_BIG;
     this.screenshotPath = SCREENSHOT_BIG;
   }
+
   getDetailedGameData() {
     this.gamesService.getDetailedInfoAboutGame(this.id).subscribe(
       (response) => {
         this.game = response.shift();
         this.game.release_date = this.getDateString(this.game.first_release_date);
-        console.log(this.game);
+        this.artworkUrls = [];
+        this.game.artworks.forEach(artwork => {
+          this.artworkUrls.push(`${SCREENSHOT_BIG}${artwork.image_id}.jpg`);
+        });
       }
     )
   }
+
   getDateString(timestamp) {
     const date = new Date(timestamp * 1000);
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+  }
+
+  gotoGamePage() {
+    window.open(this.game.url, "_blank");
   }
 }
