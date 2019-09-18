@@ -16,14 +16,16 @@
 <p *ngIf="user != null"> Wish List {{user.wish_list}} </p>
 
 <div>
-    <input type="text" [(ngModel)]="queryString" id="search" class="form-control" placeholder="Search for User"
-        title="Type in a category">
+    <input type="text" [(ngModel)]="queryString" id="search" class="form-control" placeholder="Search for friend"
+        title="friendSearch">
 
+        <!-- Whoever wants to make this look good, maybe add a button to add friend?  -->
+        <!-- maybe add some modal popup thingy idk, just make it more intuitive -->
     <div class="table">
         <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">
             <tbody>
                 <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString" >
-                    <td>{{user.username}}</td>
+                    <td (click)="addFriend(user)">{{user.username}}</td>
                 </tr>
             </tbody>
         </table>

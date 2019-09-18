@@ -39,8 +39,18 @@ export class ProfileComponent implements OnInit {
   }
 
   public goToProfile(username) {
-    // this.router.navigate(['/profile/' + username]);
     window.location.replace('/profile/' + username);
+  }
+
+  public addFriend(user) {
+    const confirm = window.confirm('Are you sure you want to add ' + user.username + ' as a friend?');
+    if (confirm === false) {
+      return;
+    }
+    console.log(user)
+    this.profileService.addFriend(user.username).then( res => {
+      window.location.reload();
+    });
   }
 
 }
