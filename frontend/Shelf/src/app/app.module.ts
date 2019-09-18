@@ -21,7 +21,7 @@ import { ProfileModule } from './profile/profile.module';
     PageNotFoundComponent,
   ],
   imports: [
-  BrowserModule,
+    BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,

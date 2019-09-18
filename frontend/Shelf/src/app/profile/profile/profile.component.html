@@ -4,7 +4,9 @@
 <p *ngIf="user != null"> Date Created {{user.date_created}} </p>
 <div>
     <div *ngIf="user != null">
-        <li *ngFor="let f of friends" (click)="goToProfile(f)"> <p> {{f}} </p> </li>
+        <li *ngFor="let f of friends" (click)="goToProfile(f)">
+            <p> {{f}} </p>
+        </li>
     </div>
 </div>
 
@@ -12,3 +14,18 @@
 <p *ngIf="user != null"> Games Rated {{user.games_rated}} </p>
 <p *ngIf="user != null"> Inbox {{user.inbox}} </p>
 <p *ngIf="user != null"> Wish List {{user.wish_list}} </p>
+
+<div>
+    <input type="text" [(ngModel)]="queryString" id="search" class="form-control" placeholder="Search for User"
+        title="Type in a category">
+
+    <div class="table">
+        <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">
+            <tbody>
+                <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString" >
+                    <td>{{user.username}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -8,12 +8,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ToastModule } from 'primeng/toast';
 import { ProfileComponent } from './profile/profile.component';
+import { UsernameFilter } from '../username.pipe';
 
 
 
 @NgModule({
   declarations: [
-    ProfileComponent
+    ProfileComponent,
+    UsernameFilter,
   ],
   imports: [
   CommonModule,

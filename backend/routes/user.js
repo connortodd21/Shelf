@@ -24,6 +24,21 @@ router.get("/", function (req, res) {
     res.send('This route is for all user related tasks');
 });
 
+/**
+ * Get All Users
+ */
+router.get("/all-users", authenticate, (req, res) => {
+
+    User.find({}).then((users) => {
+        res.status(200).send(users);
+        return
+    }).catch((err) => {
+        res.status(500).send(err);
+        return
+    })
+
+})
+
 /*
  * Register new user 
  */
@@ -129,6 +144,11 @@ router.post('/add-friend', authenticate, (req, res) => {
         return;
     }
 
+    if(req.body.friend === req.user.username) {
+        res.status(400).send({ message: "Bad request: you can't add yourself as a friend" })
+        return;
+    }
+
     User.findById(req.user._id, (err, user) => {
         if (err) {
             res.status(401).send({ message: "User does not exist" })
@@ -155,6 +175,11 @@ router.post('/add-friend', authenticate, (req, res) => {
 router.post('/remove-friend', authenticate, (req, res) => {
     if (!req.body || !req.body.friend) {
         res.status(400).send({ message: "Bad request: Add friend data is incomplete" })
+        return;
+    }
+
+    if(req.body.friend === req.user.username) {
+        res.status(400).send({ message: "Bad request: you can't remove yourself as a friend" })
         return;
     }
 
@@ -190,8 +215,8 @@ router.post("/data", authenticate, (req, res) => {
         return;
     }
 
-    User.findOne({username: req.body.username}).then( user => {
-        if(!user) {
+    User.findOne({ username: req.body.username }).then(user => {
+        if (!user) {
             res.status(401).send({ message: "User does not exist" })
             return
         }

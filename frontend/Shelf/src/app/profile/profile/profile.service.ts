@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserModel } from '../../models/user.model';
-import { USER_DATA_URL } from '../../constants/constants.urls';
+import { USER_DATA_URL, ALL_USERS_URL } from '../../constants/constants.urls';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -17,6 +17,10 @@ export class ProfileService {
 
     getUserData(username: string) {
         return this.http.post<UserModel>(USER_DATA_URL, {username} ).toPromise();
+    }
+
+    getAllUsers() {
+        return this.http.get(ALL_USERS_URL).toPromise();
     }
 
 }
