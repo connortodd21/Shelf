@@ -52,4 +52,11 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  public isMyProfile() {
+    if (this.route.snapshot.params.username === localStorage.getItem('user')) {
+      return true;
+    }
+    return false;
+  }
+
 }
