@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
-import { UserModel } from "../../models/user.model";
-import { UserService } from "../../user/user.service";
-import { GamesService } from "../../games/games.service";
+import { Router } from '@angular/router';
+import { UserModel } from '../../models/user.model';
+import { UserService } from '../../user/user.service';
+import { GamesService } from '../../games/games.service';
 
 @Component({
   selector: 'app-home',
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
         this.user = {birthday: response.birthday, email: response.email, username: response.username};
       },
       (error) => console.log(error)
-    )
+    );
   }
 
   private getDashboardGames() {
@@ -43,6 +43,12 @@ export class HomeComponent implements OnInit {
         this.dashboardGames = response;
         console.log(this.dashboardGames);
       }
-    )
+    );
+  }
+
+  public goToProfile() {
+    this.router.navigate(['/profile/' + this.user.username]);
   }
 }
+
+

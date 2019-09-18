@@ -40,6 +40,7 @@ export class DetailedGameComponent implements OnInit {
 
   getDateString(timestamp) {
     const date = new Date(timestamp * 1000);
+    // tslint:disable: max-line-length
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
   }
