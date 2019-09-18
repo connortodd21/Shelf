@@ -11,7 +11,15 @@ export class GamesService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  // BEN TODO: MAKE THESE URLS CONSTANTS
   getDashboardGames(): Observable<any> {
     return this.http.get('http://localhost:8080/games/allgames');
+  }
+
+  // BEN TODO: MAKE THESE URLS CONSTANTS
+  getDetailedInfoAboutGame(id): Observable<any> {
+    return this.http.post<object>('http://localhost:8080/games/detailedgamedata', {
+      id
+    });
   }
 }

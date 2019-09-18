@@ -4,7 +4,8 @@ import { LoginComponent } from './login/login/login.component';
 import { AuthGuard } from './auth/auth-guard';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home/home.component';
-import {HOME_PAGE, LOGIN_PAGE, NOTFOUND_PAGE} from './constants/constants.pages';
+import { HOME_PAGE, LOGIN_PAGE, NOTFOUND_PAGE, DETAILED_GAME_PAGE } from './constants/constants.pages';
+import { DetailedGameComponent } from './detailed-game/detailed-game.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: LOGIN_PAGE,
     component: LoginComponent
+  },
+  {
+    path: DETAILED_GAME_PAGE + '/:id',
+    component: DetailedGameComponent,
   },
   {
     path: NOTFOUND_PAGE,

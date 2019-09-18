@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthData } from '../../models/auth.data.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Subject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { LOGIN_URL, LOGOUT_URL, REGISTER_URL } from '../../constants/constants.urls';

@@ -1,28 +1,35 @@
 .game-overview-container {
-    background-image: url(../../assets/LoginImage.png);
     background-position: center center;
     background-repeat: no-repeat;
-    background-color: #BB003A;
+    background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 0.815), rgb(73, 73, 73));
     width: 200px;
     height: 300px;
     margin: 8px;
     display: inline-block;
-    transition: all .2s ease-in-out;
+    transition: all .4s ease-in-out;
+    border-radius: 6px;
+    border: 1px solid black;
 }
 
 .game-overview-container:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
+    cursor: pointer;
 }
 
 .game-overview-img {
     width: 100%;
-    height: 90%;
+    height: 92%;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom: 1px solid black;
 }
 
 .game-overview-text {
     color: white;
     font-family: 'Karla', sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     padding: 6px;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

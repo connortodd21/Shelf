@@ -1,0 +1,28 @@
+<span *ngIf="game">
+    <div (click)="goBack()" class="back-arrow">←</div>
+    <img (click)="gotoGamePage()" *ngIf="game && game.cover" class="detailed-game-cover" src="{{coverPath}}{{game.cover.image_id}}.jpg" />
+    <p class="detailed-game-name">{{game.name}}</p>
+    <p class="detailed-game-heading">Release date: {{game.release_date}}</p>
+    <span *ngIf="game.storyline">
+        <p class="detailed-game-description">{{game.storyline}}</p>
+    </span>
+    <p class="detailed-game-heading">Rate this game!</p>
+    <star-rating class="detailed-game-star-rating" value="2" checkedcolor="purple" uncheckedcolor="gray" size="24px" readonly="false"></star-rating>
+    <span *ngIf="game.genres">
+        <p class="detailed-game-heading">Genre</p>
+        <span *ngFor="let genre of game.genres; let i = index" class="detailed-game-badge">
+            {{genre.name}}
+        </span>
+    </span>
+    <span *ngIf="game.platforms">
+        <p class="detailed-game-heading">Platforms</p>
+        <span *ngFor="let platform of game.platforms; let i = index" class="detailed-game-badge">
+            {{platform.name}}
+        </span>
+    </span>
+    <span *ngIf="game.artworks">
+        <p class="detailed-game-heading">Artworks</p>
+        <img *ngFor="let art of game.artworks; let i = index" src="{{screenshotPath}}{{art.image_id}}.jpg" 
+            class="detailed-game-art" />
+    </span>
+</span>
