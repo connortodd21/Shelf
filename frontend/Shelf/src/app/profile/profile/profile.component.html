@@ -15,7 +15,7 @@
 <p *ngIf="user != null"> Inbox {{user.inbox}} </p>
 <p *ngIf="user != null"> Wish List {{user.wish_list}} </p>
 
-<div>
+<div *ngIf="isMyProfile()">
     <input type="text" [(ngModel)]="queryString" id="search" class="form-control" placeholder="Search for friend"
         title="friendSearch">
 
