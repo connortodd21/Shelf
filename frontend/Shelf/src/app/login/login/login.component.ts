@@ -66,7 +66,10 @@ export class LoginComponent implements OnInit {
 
     if (this.isRegistering) {
       this.loginService.registerUser(authData).subscribe(
-        () => { this.showRegistrationSuccess(); },
+        () => {
+           this.showRegistrationSuccess();
+           this.router.navigate(['home']);
+        },
         error => {
           this.showError(error.error.message);
           if (error.error.message === 'Conflict: Email already exists') {

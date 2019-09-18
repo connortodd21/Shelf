@@ -130,4 +130,62 @@ router.post('/logout', authenticate, (req,res) => {
     })
 })
 
+router.post('/add-friend', authenticate, (req, res) => {
+    if (!req.body || !req.body.friend) {
+        res.status(400).send({ message: "Bad request: Add friend data is incomplete" })
+        return;
+    }
+
+    User.findById(req.user._id, (err, user) => {
+        if (err) {
+            res.status(401).send({ message: "User does not exist" })
+            return
+        }
+
+        User.findByIdAndUpdate(user._id, {
+            $push: {
+                friends: req.body.friend
+            }
+        }).then( usr => {
+            res.status(200).send({ message: req.body.friend + " added to friends list!" })
+            return
+        }).catch((err) => {
+            res.status(500).send(err)
+            return
+        })
+    }).catch((err) => {
+        res.status(500).send(err)
+        return
+    })
+})
+
+router.post('/remove-friend', authenticate, (req, res) => {
+    if (!req.body || !req.body.friend) {
+        res.status(400).send({ message: "Bad request: Add friend data is incomplete" })
+        return;
+    }
+
+    User.findById(req.user._id, (err, user) => {
+        if (err) {
+            res.status(401).send({ message: "User does not exist" })
+            return
+        }
+
+        User.findByIdAndUpdate(user._id, {
+            $pull: {
+                friends: req.body.friend
+            }
+        }).then( usr => {
+            res.status(200).send({ message: req.body.friend + " deleted from friends list!" })
+            return
+        }).catch((err) => {
+            res.status(500).send(err)
+            return
+        })
+    }).catch((err) => {
+        res.status(500).send(err)
+        return
+    })
+})
+
 module.exports = router;
