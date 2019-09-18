@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {  Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {Observable} from 'rxjs';
-import {LOGOUT_URL} from '../constants/constants.urls';
+import { Observable } from 'rxjs';
+import { LOGOUT_URL, USER_DATA_URL } from '../constants/constants.urls';
+import { UserModel } from '../models/user.model';
 
 
 
@@ -12,8 +13,8 @@ export class UserService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  fetchUser(): Observable<any> {
-    return this.http.get('http://localhost:8080/user/data');
+  fetchUser(username): Observable<any> {
+    return this.http.post<UserModel>(USER_DATA_URL, {username} );
   }
 
   logoutUser(): boolean {

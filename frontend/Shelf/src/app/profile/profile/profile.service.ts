@@ -15,8 +15,8 @@ export class ProfileService {
 
     constructor(private http: HttpClient, private router: Router) { }
 
-    getUserData() {
-        return this.http.get<UserModel>(USER_DATA_URL).toPromise();
+    getUserData(username: string) {
+        return this.http.post<UserModel>(USER_DATA_URL, {username} ).toPromise();
     }
 
 }

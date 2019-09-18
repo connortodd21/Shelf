@@ -2,8 +2,13 @@
 <p *ngIf="user != null"> birthday {{user.birthday}} </p>
 <p *ngIf="user != null"> email {{user.email}} </p>
 <p *ngIf="user != null"> Date Created {{user.date_created}} </p>
+<div>
+    <div *ngIf="user != null">
+        <li *ngFor="let f of friends" (click)="goToProfile(f)"> <p> {{f}} </p> </li>
+    </div>
+</div>
+
 <p *ngIf="user != null"> Games Played {{user.games_played}} </p>
 <p *ngIf="user != null"> Games Rated {{user.games_rated}} </p>
-<p *ngIf="user != null"> Friends {{user.friends}} </p>
 <p *ngIf="user != null"> Inbox {{user.inbox}} </p>
 <p *ngIf="user != null"> Wish List {{user.wish_list}} </p>

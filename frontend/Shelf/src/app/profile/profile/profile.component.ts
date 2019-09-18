@@ -11,6 +11,7 @@ import { UserModel } from '../../models/user.model';
 export class ProfileComponent implements OnInit {
 
   user: UserModel;
+  friends: string[];
 
   constructor(private route: ActivatedRoute, private profileService: ProfileService, private router: Router) { }
 
@@ -19,9 +20,15 @@ export class ProfileComponent implements OnInit {
     // if valid, display info
     // if not valid, return to home
     const username = this.route.snapshot.params.username;
-    this.profileService.getUserData().then( res => {
+    this.profileService.getUserData(username).then( res => {
       this.user = res;
+      this.friends = res.friends;
     });
+  }
+
+  public goToProfile(username) {
+    // this.router.navigate(['/profile/' + username]);
+    window.location.replace('/profile/' + username);
   }
 
 }
