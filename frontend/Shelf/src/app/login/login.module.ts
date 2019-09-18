@@ -5,9 +5,9 @@ import {MatCardModule} from '@angular/material/card';
 import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {PasswordModule} from 'primeng/password';
-import { FormsModule } from '@angular/forms';
-import {InputMaskModule} from 'primeng/inputmask';
-import {ToastModule} from "primeng/toast";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputMaskModule } from 'primeng/inputmask';
+import { ToastModule } from 'primeng/toast';
 
 
 
@@ -23,7 +23,8 @@ import {ToastModule} from "primeng/toast";
     InputTextModule,
     PasswordModule,
     FormsModule,
-    ToastModule
+    ToastModule,
+    ReactiveFormsModule
   ]
 })
 export class LoginModule { }

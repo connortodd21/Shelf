@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Router } from '@angular/router';
-import {Observable} from "rxjs";
-import {LOGOUT_URL} from "../constants/constants.urls";
+import {Observable} from 'rxjs';
+import {LOGOUT_URL} from '../constants/constants.urls';
 
 
 
@@ -13,7 +13,7 @@ export class UserService {
   constructor(private http: HttpClient, private router: Router) { }
 
   fetchUser(): Observable<any> {
-    return this.http.get('http://localhost:8080/user/data')
+    return this.http.get('http://localhost:8080/user/data');
   }
 
   logoutUser(): boolean {
@@ -24,7 +24,7 @@ export class UserService {
         return true;
         },
       () => {
-        return false
+        return false;
       }
     );
     return false;
