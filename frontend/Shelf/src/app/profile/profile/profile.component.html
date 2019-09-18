@@ -1,3 +1,5 @@
+<!-- Here, the is a list of user stuff and a search bar -->
+<!-- If you click a username on the friends list item in the *ngFor thing, it will take you to their profile -->
 <p *ngIf="user != null"> username {{user.username}} </p>
 <p *ngIf="user != null"> birthday {{user.birthday}} </p>
 <p *ngIf="user != null"> email {{user.email}} </p>
@@ -21,6 +23,7 @@
 
         <!-- Whoever wants to make this look good, maybe add a button to add friend?  -->
         <!-- maybe add some modal popup thingy idk, just make it more intuitive -->
+        <!-- Right now, to add a friend you just need to search then click their name -->
     <div class="table">
         <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">
             <tbody>
