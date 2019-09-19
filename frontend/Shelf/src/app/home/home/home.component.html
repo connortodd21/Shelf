@@ -1,3 +1,23 @@
+<div id="full-container">
+  <nav id="nav-container">
+    <div>
+        <img src="../../../assets/Nav/Logo.png" id="nav-logo">
+        <a class="zach-nav-link nav-current-page" routerLink="/home"><img src="../../../assets/Nav/Home.svg" class="nav-icon">Home</a>
+        <a class="zach-nav-link" routerLink="TODO">Friends</a>
+        <a class="zach-nav-link" routerLink="TODO"><img src="../../../assets/Nav/MyShelf.svg" class="nav-icon">My Shelf</a>
+        <a class="zach-nav-link" routerLink="TODO"><img src="../../../assets/Nav/Messaging.svg" class="nav-icon">Messages</a>
+        <a class="zach-nav-link" routerLink="TODO"><img src="../../../assets/Nav/Reviews.svg" class="nav-icon">Game Reviews</a>
+    </div>
+    
+    <div>
+        <a class="zach-nav-link" routerLink="TODO"><img src="../../../assets/Nav/Settings.svg" class="nav-icon">Settings</a>
+        <a class="zach-nav-link" (click)="logout()"><img src="../../../assets/Nav/Sign Out.svg" class="nav-icon">Sign Out</a>
+    </div>
+    
+  </nav>
+</div>
+
+<!--
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
   <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
     <ul class="navbar-nav mr-auto">
@@ -25,3 +45,4 @@
   <app-game-overview *ngIf="item.cover" [name]=item.name [id]=item.id [image_id]=item.cover.image_id></app-game-overview>
   <app-game-overview *ngIf="!item.cover" [name]=item.name [id]=item.id image_id=""></app-game-overview>
 </span>
+-->
