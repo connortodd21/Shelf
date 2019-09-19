@@ -39,16 +39,41 @@ router.get('/:gameId', authenticate, async (req,res) => {
 router.post("/:gameId", authenticate, async (req, res) => {
 
 
-    RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
-        $inc: {
-            number_of_ratings: 1,
-            total_rating_value: req.body.rating
+
+    RatingInfo.findOne({game_id: req.params.gameId}).then( ratingInfo => {
+
+        if (ratingInfo) {
+            RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                $inc: {
+                    number_of_ratings: 1,
+                    total_rating_value: req.body.rating
+                }
+
+
+            }).exec();
+        }
+        else {
+
+            var newRatingInfo = new RatingInfo({
+                game_id: req.params.gameId,
+                total_rating_value: req.body.rating,
+                number_of_players: 1,
+                number_of_ratings: 1
+            });
+
+            // Add to database with auth
+            newRatingInfo.save().then(() => {
+                res.status(200).send(newRatingInfo);
+                return
+            })
         }
 
+    }).catch((err) => {
+        res.status(500).send(err);
+        return;
+    })
 
-    }).exec();
-
-    res.status(200).send();
+    // res.status(200).send();
 
 });
 

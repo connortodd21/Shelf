@@ -70,4 +70,10 @@ export class HomeComponent implements OnInit {
       });
   }
 
+
+  public goToProfile() {
+    this.router.navigate(['/profile/' + this.user.username]);
+  }
+
+
 }
