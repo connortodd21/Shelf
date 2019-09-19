@@ -7,7 +7,7 @@ mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTo
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
-
+mongoose.set('debug', true)
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -38,20 +38,17 @@ router.get('/:gameId', authenticate, async (req,res) => {
 
 router.post("/:gameId", authenticate, async (req, res) => {
 
-    console.log("helo")
+
     RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
         $inc: {
             number_of_ratings: 1,
             total_rating_value: req.body.rating
         }
-    }, () => {
-        console.log("inside");
-        res.status(200).send({ message:"Rating updated successfully" });
-        return
-    }).catch((err) => {
-        res.status(500).send(err);
-        return
-    })
+
+
+    }).exec();
+
+    res.status(200).send();
 
 });
 
