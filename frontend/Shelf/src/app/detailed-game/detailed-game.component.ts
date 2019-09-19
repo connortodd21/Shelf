@@ -16,7 +16,7 @@ export class DetailedGameComponent implements OnInit {
   screenshotPath;
   artworkUrls;
 
-  constructor(private route: ActivatedRoute, private gamesService: GamesService) { 
+  constructor(private route: ActivatedRoute, private gamesService: GamesService) {
     this.route.params.subscribe( params => this.id = params.id );
   }
   ngOnInit() {
@@ -50,5 +50,6 @@ export class DetailedGameComponent implements OnInit {
 
   goBack() {
     // TODO CONNOR OR ALEX: ROUTE BACK TO PREVIOUS URL, PROBABLY NEEDS TO BE IN A SERVICE IN GUESSING
+    this.gamesService.toHomePage();
   }
 }

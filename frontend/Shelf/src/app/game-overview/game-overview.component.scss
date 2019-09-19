@@ -5,11 +5,14 @@
     width: 200px;
     height: 300px;
     margin: 8px;
+    margin-top: 60px ;
     display: inline-block;
     transition: all .4s ease-in-out;
     border-radius: 6px;
     border: 1px solid black;
 }
+
+
 
 .game-overview-container:hover {
     transform: scale(1.03);
@@ -32,4 +35,18 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.colored {
+  color: red !important;
+  background-color: red;
+}
+
+.a {
+  color: red;
+}
+
+.ui-rating-icon {
+  background-color: red;
+  color: red;
 }

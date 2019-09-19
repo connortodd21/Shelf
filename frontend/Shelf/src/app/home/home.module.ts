@@ -4,8 +4,9 @@ import { AppRoutingModule } from "../app-routing.module";
 import { CommonModule } from "@angular/common";
 import { GameOverviewComponent } from '../game-overview/game-overview.component';
 import { DetailedGameComponent } from '../detailed-game/detailed-game.component';
-import { RatingModule } from 'ng-starrating';
 import { BrowserModule } from '@angular/platform-browser';
+import {RatingModule} from 'primeng/rating';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,8 +17,9 @@ import { BrowserModule } from '@angular/platform-browser';
   imports: [
     AppRoutingModule,
     CommonModule,
+    FormsModule,
+    BrowserModule,
     RatingModule,
-    BrowserModule
   ]
 })
 export class HomeModule { }

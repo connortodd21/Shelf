@@ -38,11 +38,36 @@ export class HomeComponent implements OnInit {
   }
 
   private getDashboardGames() {
+
     this.gamesService.getDashboardGames().subscribe(
+      //TODO try to make this nicer/ more performant in the future
       (response) => {
         this.dashboardGames = response;
-        console.log(this.dashboardGames);
+        let i;
+        for (i = 0; i < response.length; i++) {
+          this.addRatingInfo(i);
+        }
       }
-    )
+    );
+
   }
+
+  private addRatingInfo(i) {
+    this.gamesService.getRatingInfo(this.dashboardGames[i].id).subscribe(
+      ratingInfo => {
+        if (ratingInfo) {
+          this.dashboardGames[i].number_of_players = ratingInfo.number_of_players;
+          this.dashboardGames[i].number_of_ratings = ratingInfo.number_of_ratings;
+          this.dashboardGames[i].total_rating_value = ratingInfo.total_rating_value;
+          this.dashboardGames[i].globalRating = ratingInfo.total_rating_value / ratingInfo.number_of_players;
+        }
+        else {
+          this.dashboardGames[i].number_of_players = 0;
+          this.dashboardGames[i].number_of_ratings = 0;
+          this.dashboardGames[i].total_rating_value = 0;
+          this.dashboardGames[i].globalRating = 0;
+        }
+      });
+  }
+
 }

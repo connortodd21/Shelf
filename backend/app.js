@@ -6,7 +6,7 @@ require('dotenv').config();
 /* Routes */
 let User = require('./routes/user.js');
 let Games = require('./routes/games.js');
-
+let RatingInfo = require('./routes/ratingInfo');
 const app = express(cors());
 
 /* Parsers */
@@ -26,6 +26,7 @@ app.use((req, res, next) => {
 /* Routes */
 app.use('/user', User);
 app.use('/games', Games);
+app.use('/ratingInfo', RatingInfo);
 
 app.get('/', (res, req) => {});
 

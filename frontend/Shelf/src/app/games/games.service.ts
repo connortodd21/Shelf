@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import { Router } from '@angular/router';
 import {Observable} from "rxjs";
 import { HttpHeaders } from '@angular/common/http';
+import {HOME_PAGE} from "../constants/constants.pages";
+import {GameModel} from "./game.model";
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +23,15 @@ export class GamesService {
     return this.http.post<object>('http://localhost:8080/games/detailedgamedata', {
       id
     });
+  }
+
+
+  getRatingInfo(id): Observable<any> {
+    return this.http.get<GameModel>('http://localhost:8080/ratingInfo/' + id);
+
+  }
+
+  toHomePage() {
+    this.router.navigate([HOME_PAGE]);
   }
 }
