@@ -59,7 +59,7 @@ export class HomeComponent implements OnInit {
           this.dashboardGames[i].number_of_players = ratingInfo.number_of_players;
           this.dashboardGames[i].number_of_ratings = ratingInfo.number_of_ratings;
           this.dashboardGames[i].total_rating_value = ratingInfo.total_rating_value;
-          this.dashboardGames[i].globalRating = ratingInfo.total_rating_value / ratingInfo.number_of_players;
+          this.dashboardGames[i].globalRating = ratingInfo.total_rating_value / ratingInfo.number_of_ratings;
         }
         else {
           this.dashboardGames[i].number_of_players = 0;

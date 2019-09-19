@@ -15,6 +15,7 @@ export class DetailedGameComponent implements OnInit {
   coverPath;
   screenshotPath;
   artworkUrls;
+  globalRating: number;
 
   constructor(private route: ActivatedRoute, private gamesService: GamesService) {
     this.route.params.subscribe( params => this.id = params.id );
@@ -34,6 +35,11 @@ export class DetailedGameComponent implements OnInit {
         this.game.artworks.forEach(artwork => {
           this.artworkUrls.push(`${SCREENSHOT_BIG}${artwork.image_id}.jpg`);
         });
+        this.gamesService.getRatingInfo(this.id).subscribe(
+          response => {
+            this.globalRating = response.total_rating_value / response.number_of_ratings;
+          }
+        )
       }
     )
   }
