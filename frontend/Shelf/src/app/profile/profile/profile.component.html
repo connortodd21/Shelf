@@ -1,0 +1,36 @@
+<!-- Here, the is a list of user stuff and a search bar -->
+<!-- If you click a username on the friends list item in the *ngFor thing, it will take you to their profile -->
+<p *ngIf="user != null"> username {{user.username}} </p>
+<p *ngIf="user != null"> birthday {{user.birthday}} </p>
+<p *ngIf="user != null"> email {{user.email}} </p>
+<p *ngIf="user != null"> Date Created {{user.date_created}} </p>
+<div>
+    <div *ngIf="user != null">
+        <li *ngFor="let f of friends" (click)="goToProfile(f)">
+            <p> {{f}} </p>
+        </li>
+    </div>
+</div>
+
+<p *ngIf="user != null"> Games Played {{user.games_played}} </p>
+<p *ngIf="user != null"> Games Rated {{user.games_rated}} </p>
+<p *ngIf="user != null"> Inbox {{user.inbox}} </p>
+<p *ngIf="user != null"> Wish List {{user.wish_list}} </p>
+
+<div *ngIf="isMyProfile()">
+    <input type="text" [(ngModel)]="queryString" id="search" class="form-control" placeholder="Search for friend"
+        title="friendSearch">
+
+        <!-- Whoever wants to make this look good, maybe add a button to add friend?  -->
+        <!-- maybe add some modal popup thingy idk, just make it more intuitive -->
+        <!-- Right now, to add a friend you just need to search then click their name -->
+    <div class="table">
+        <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">
+            <tbody>
+                <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString" >
+                    <td (click)="addFriend(user)">{{user.username}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

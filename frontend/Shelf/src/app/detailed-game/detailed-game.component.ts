@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 import { GamesService } from '../games/games.service';
 import { COVER_BIG, SCREENSHOT_BIG } from '../constants/constants.images';
 
@@ -41,17 +41,18 @@ export class DetailedGameComponent implements OnInit {
           }
         )
       }
-    )
+    );
   }
 
   getDateString(timestamp) {
     const date = new Date(timestamp * 1000);
+    // tslint:disable: max-line-length
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
   }
 
   gotoGamePage() {
-    window.open(this.game.url, "_blank");
+    window.open(this.game.url, '_blank');
   }
 
   goBack() {

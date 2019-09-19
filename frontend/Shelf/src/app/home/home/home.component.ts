@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
-import { UserModel } from "../../models/user.model";
-import { UserService } from "../../user/user.service";
-import { GamesService } from "../../games/games.service";
+import { Router } from '@angular/router';
+import { UserModel } from '../../models/user.model';
+import { UserService } from '../../user/user.service';
+import { GamesService } from '../../games/games.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +12,6 @@ import { GamesService } from "../../games/games.service";
 export class HomeComponent implements OnInit {
 
   user: UserModel;
-
   dashboardGames;
 
   constructor(private router: Router, private userService: UserService, private gamesService: GamesService) { }
@@ -28,13 +27,14 @@ export class HomeComponent implements OnInit {
   }
 
   private setupUser() {
-    this.userService.fetchUser().subscribe(
+    this.userService.fetchUser(localStorage.getItem('user')).subscribe(
       (response) => {
         console.log(response);
-        this.user = {birthday: response.birthday, email: response.email, username: response.username};
+        // tslint:disable: max-line-length
+        this.user = {birthday: response.birthday, email: response.email, username: response.username, friends: response.friends, wishList: response.wish_list, dateCreated: response.date_created, inbox: response.inbox, gamesPlayed: response.games_played, gamesRated: response.games_rated};
       },
       (error) => console.log(error)
-    )
+    );
   }
 
   private getDashboardGames() {

@@ -30,7 +30,6 @@ export class LoginService {
 
     loginUser(username: string, password: string): Observable<any> {
         const userInfo: AuthData = { username, password, email: '', birthday: '' };
-
         return this.http.post<object>(LOGIN_URL, userInfo, httpOptions).pipe(
             map(response => {
                 const token = response.headers.get('token');
