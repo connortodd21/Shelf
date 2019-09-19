@@ -27,15 +27,30 @@ router.get('/:gameId', authenticate, async (req,res) => {
 
     RatingInfo.findOne({game_id: req.params.gameId}).then( ratingInfo => {
 
-        // if(!ratingInfo){
-        //     res.status(404).send({ message: "Not Found: User does not exist" })
-        //     return;
-        // }
         res.status(200).send(ratingInfo);
 
     }).catch((err) => {
         res.status(500).send(err);
         return;
+    })
+
+});
+
+router.post("/:gameId", authenticate, async (req, res) => {
+
+    console.log("helo")
+    RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+        $inc: {
+            number_of_ratings: 1,
+            total_rating_value: req.body.rating
+        }
+    }, () => {
+        console.log("inside");
+        res.status(200).send({ message:"Rating updated successfully" });
+        return
+    }).catch((err) => {
+        res.status(500).send(err);
+        return
     })
 
 });

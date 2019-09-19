@@ -26,7 +26,7 @@ export class GamesService {
   }
 
 
-  getRatingInfo(id): Observable<any> {
+  getRatingInfo(id: string): Observable<any> {
     return this.http.get<GameModel>('http://localhost:8080/ratingInfo/' + id);
 
   }
@@ -34,4 +34,15 @@ export class GamesService {
   toHomePage() {
     this.router.navigate([HOME_PAGE]);
   }
+
+  submitRating(rating: number, id: string): Observable<any> {
+    console.log("CALLING SUBMIT")
+    return this.http.post<object>('http://localhost:8080/ratingInfo/' + id, {
+      rating
+    });
+  }
+
+  // removeRating(id: string): Observable<any> {
+  //   this.submitRating(0,id)
+  // }
 }
