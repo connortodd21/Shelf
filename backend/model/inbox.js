@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 let InboxSchema = new mongoose.Schema({
-  inbox: [{
+  notification: [{
     message: { type: String },
     sender: { type: String },
     time_stamp: { type: Date, default: Date.now() },
-    isRead: { type: Boolean}
+    hasBeenRead: { type: Boolean, default: false}
   }]
 })
 

@@ -55,6 +55,7 @@ router.post("/register", (req, res) => {
     hash(req.body.password).then((password) => {
 
         var inbox = new Inbox()
+        inbox.save();
 
         // User Data
         var newUser = new User({
