@@ -63,12 +63,12 @@ export class DetailedGameComponent implements OnInit {
 
   handleRate(event) {
     console.log(event);
-    this.gamesService.submitRating(event.value, this.id).subscribe(
-      (res) => {
-        console.log("submitted rating");
-        console.log(res);
-      }
-    );
+    // this.gamesService.submitRating(event.value, this.id).subscribe(
+    //   (res) => {
+    //     console.log("submitted rating");
+    //     console.log(res);
+    //   }
+    // );
 
   }
 

@@ -40,42 +40,131 @@ router.get('/:gameId', authenticate, async (req,res) => {
 router.post("/:gameId", authenticate, async (req, res) => {
 
 
+    //not in db
+    RatingInfo.findOne({game_id: req.params.gameId}).then(ratingInfo => {
 
-    RatingInfo.findOne({game_id: req.params.gameId}).then( ratingInfo => {
-
-        if (ratingInfo) {
-            RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
-                $inc: {
-                    number_of_ratings: 1,
-                    total_rating_value: req.body.rating
-                }
-
-
-            }).exec();
-        }
-        else {
-
+        if (!ratingInfo) {
             var newRatingInfo = new RatingInfo({
                 game_id: req.params.gameId,
-                total_rating_value: req.body.rating,
-                number_of_players: 1,
-                number_of_ratings: 1
+                total_rating_value: 0,
+                number_of_players: 0,
+                number_of_ratings: 0
             });
 
             // Add to database with auth
-            newRatingInfo.save().then(() => {
-                res.status(200).send(newRatingInfo);
-                return
-            })
+            newRatingInfo.save().then(res => {
+                if (req.body.oldRating === '0') {
+                    console.log("TRYING LOOP");
+
+                    RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                        $inc: {
+                            number_of_ratings: 1,
+                            total_rating_value: req.body.newRating
+                        }
+
+
+                    }).exec().then(usr => {
+                        res.status(200).send({ message: req.body.gameId + " added to rated list!" })
+                        return
+                    }).catch((err) => {
+                        res.status(500).send(err);
+                        return
+                    })
+
+                }
+                //user asking to delete rating
+                else if (req.body.oldRating === req.body.newRating) {
+                    RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                        $inc: {
+                            number_of_ratings: -1,
+                            total_rating_value: (-1*req.body.oldRating)
+                        }
+                    }).exec().then(usr => {
+                        res.status(200).send({ message: req.body.gameId + " removed from rated list!" })
+                        return
+                    }).catch((err) => {
+                        res.status(500).send(err);
+                        return
+                    })
+                }
+                else {
+                    //previous rating
+                    RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                        $inc: {
+                            number_of_ratings: 0,
+                            total_rating_value: (req.body.newRating - req.body.oldRating)
+                        }
+                    }).then(usr => {
+                        res.status(200).send({ message: req.body.gameId + " updated to rated list!" })
+                        return
+                    }).catch((err) => {
+                        res.status(500).send(err);
+                        return
+                    })
+                }
+            });
         }
+        else {
+            if (req.body.oldRating === '0') {
+                console.log("TRYING LOOP");
+
+                RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                    $inc: {
+                        number_of_ratings: 1,
+                        total_rating_value: req.body.newRating
+                    }
+
+
+                }).exec().then(usr => {
+                    res.status(200).send({ message: req.body.gameId + " added to rated list!" })
+                    return
+                }).catch((err) => {
+                    res.status(500).send(err);
+                    return
+                })
+
+            }
+            //user asking to delete rating
+            else if (req.body.oldRating === req.body.newRating) {
+                RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                    $inc: {
+                        number_of_ratings: -1,
+                        total_rating_value: (-1*req.body.oldRating)
+                    }
+                }).exec().then(usr => {
+                    res.status(200).send({ message: req.body.gameId + " removed from rated list!" })
+                    return
+                }).catch((err) => {
+                    res.status(500).send(err);
+                    return
+                })
+            }
+            else {
+                //previous rating
+                RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                    $inc: {
+                        number_of_ratings: 0,
+                        total_rating_value: (req.body.newRating - req.body.oldRating)
+                    }
+                }).then(usr => {
+                    res.status(200).send({ message: req.body.gameId + " updated to rated list!" })
+                    return
+                }).catch((err) => {
+                    res.status(500).send(err);
+                    return
+                })
+            }
+        }
+
 
     }).catch((err) => {
         res.status(500).send(err);
         return;
-    })
+    });
 
-    // res.status(200).send();
 
 });
+
+
 
 module.exports = router;
