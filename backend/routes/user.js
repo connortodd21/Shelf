@@ -168,7 +168,7 @@ router.post('/follow', authenticate, (req, res) => {
                 following: req.body.user
             }
         }).then(usr => {
-            User.findByIdAndUpdate({username: req.body.user}, {
+            User.findOneAndUpdate({username: req.body.user}, {
                 $push: {
                     followers: req.user.username
                 }

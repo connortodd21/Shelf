@@ -25,7 +25,7 @@ export class ProfileService {
     }
 
     followUser(username: string) {
-        return this.http.post(FOLLOW_URL, { friend: username }).toPromise();
+        return this.http.post(FOLLOW_URL, { user: username }).toPromise();
     }
 
     getMessages(receiver: string) {
