@@ -152,7 +152,7 @@ router.post('/follow', authenticate, (req, res) => {
         return;
     }
 
-    if(req.body.user === req.user.username) {
+    if (req.body.user === req.user.username) {
         res.status(400).send({ message: "Bad request: you can't follow yourself" })
         return;
     }
@@ -163,16 +163,24 @@ router.post('/follow', authenticate, (req, res) => {
             return
         }
 
+        let i = 0;
+        for (i = 0; i < user.following.length; i++) {
+            if (user.following[i] === req.body.user) {
+                res.status(409).send({ message: "Bad request: you are already following this person" })
+                return;
+            }
+        }
+
         User.findByIdAndUpdate(user._id, {
             $push: {
                 following: req.body.user
             }
         }).then(usr => {
-            User.findOneAndUpdate({username: req.body.user}, {
+            User.findOneAndUpdate({ username: req.body.user }, {
                 $push: {
                     followers: req.user.username
                 }
-            }).then ( () => {
+            }).then(() => {
                 res.status(200).send({ message: "You are now following " + req.body.user })
                 return
             })
@@ -192,7 +200,7 @@ router.post('/unfollow', authenticate, (req, res) => {
         return;
     }
 
-    if(req.body.user === req.user.username) {
+    if (req.body.user === req.user.username) {
         res.status(400).send({ message: "Bad request: you can't unfollow yourseld" })
         return;
     }
@@ -208,11 +216,11 @@ router.post('/unfollow', authenticate, (req, res) => {
                 following: req.body.user
             }
         }).then(usr => {
-            User.findByIdAndUpdate({username: req.body.user}, {
+            User.findByIdAndUpdate({ username: req.body.user }, {
                 $pull: {
                     followers: req.user.username
                 }
-            }).then ( () => {
+            }).then(() => {
                 res.status(200).send({ message: "You have unfollowed " + req.body.user })
                 return
             })
