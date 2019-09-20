@@ -4,3 +4,6 @@ export const REGISTER_URL = 'http://localhost:8080/user/register';
 export const USER_DATA_URL = 'http://localhost:8080/user/data';
 export const ALL_USERS_URL = 'http://localhost:8080/user/all-users';
 export const ADD_FRIEND_URL = 'http://localhost:8080/user/add-friend';
+export const GET_ALL_MESSAGES_URL = 'http://localhost:8080/message/all';
+export const SEND_MESSAGE_URL = 'http://localhost:8080/message/send';
+export const NEW_MESSAGE_URL = 'http://localhost:8080/message/new';

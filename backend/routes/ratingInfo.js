@@ -7,7 +7,8 @@ mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTo
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
-mongoose.set('debug', true)
+mongoose.set('debug', false)
+
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));

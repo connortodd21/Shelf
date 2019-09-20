@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from './profile.service';
 import { UserModel } from '../../models/user.model';
 import { ProfileModel } from '../../models/profile.model';
+import { Message } from '../../models/message.model';
 
 @Component({
   selector: 'app-profile',
@@ -14,8 +15,12 @@ export class ProfileComponent implements OnInit {
   user: UserModel;
   allUsers: ProfileModel[];
   friends: string[];
+  messages: Message[];
+  messageID: string;
 
-  constructor(private route: ActivatedRoute, private profileService: ProfileService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private profileService: ProfileService, private router: Router) {
+    this.messages = [];
+  }
 
   ngOnInit() {
     const username = this.route.snapshot.params.username;
@@ -47,7 +52,7 @@ export class ProfileComponent implements OnInit {
     if (confirm === false) {
       return;
     }
-    this.profileService.addFriend(user.username).then( res => {
+    this.profileService.addFriend(user.username).then(res => {
       window.location.reload();
     });
   }
@@ -57,6 +62,33 @@ export class ProfileComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  public getMessages() {
+    this.profileService.getMessages(this.route.snapshot.params.username).then(msg => {
+      if (msg) {
+        // tslint:disable: no-string-literal
+        const messages = msg['messages'];
+        this.messageID = msg['_id'];
+        let i = 0;
+        messages.forEach(message => {
+          this.messages[i] = new Message(message);
+          i++;
+        });
+      } else {
+        this.newConversation();
+      }
+    });
+  }
+
+  public sendMessage(message: string, receiver: string) {
+    this.profileService.sendMessage(message, this.messageID).then( res => {
+      window.location.reload();
+    });
+  }
+
+  public newConversation() {
+    this.profileService.newConversation(localStorage.getItem('user'), this.user.username);
   }
 
 }
