@@ -1,7 +1,7 @@
 export class Inbox {
     sender: string;
     message: string;
-    timeStamp: Date;
+    timeStamp: string;
     hasBeenRead: boolean;
 
     constructor(response: any) {

@@ -4,7 +4,7 @@ import { ProfileService } from './profile.service';
 import { UserModel } from '../../models/user.model';
 import { ProfileModel } from '../../models/profile.model';
 import { Message } from '../../models/message.model';
-import { InboxService } from '../../inbox/inbox.service';
+import { InboxService } from '../../inbox/inbox/inbox.service';
 import { SEND_MESSAGE_NOTIFICATION, ADD_FRIEND_NOTIFICATION } from '../../constants/constants.messages';
 
 @Component({

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ADD_NOTIFICATION_URL, DELETE_NOTIFICATION_URL, GET_INBOX_URL, MARK_AS_READ_URL } from '../constants/constants.urls';
-import { Inbox } from '../models/inbox.model';
+import { ADD_NOTIFICATION_URL, DELETE_NOTIFICATION_URL, GET_INBOX_URL, MARK_AS_READ_URL } from '../../constants/constants.urls';
+import { Inbox } from '../../models/inbox.model';
 
 @Injectable({ providedIn: 'root' })
 
@@ -23,7 +23,7 @@ export class InboxService {
   }
 
   getInbox() {
-    this.http.get<Inbox[]>(GET_INBOX_URL).toPromise();
+    return this.http.get(GET_INBOX_URL).toPromise();
   }
 
   markAsRead(notificationID: string) {
