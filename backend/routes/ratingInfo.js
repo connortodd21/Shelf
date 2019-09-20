@@ -7,7 +7,7 @@ mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTo
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
-mongoose.set('debug', false)
+mongoose.set('debug', true);
 
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -52,7 +52,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
             });
 
             // Add to database with auth
-            newRatingInfo.save().then(res => {
+            newRatingInfo.save().then(resp => {
                 if (req.body.oldRating === '0') {
                     console.log("TRYING LOOP");
 
@@ -67,6 +67,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                         res.status(200).send({ message: req.body.gameId + " added to rated list!" })
                         return
                     }).catch((err) => {
+                        console.log(err)
                         res.status(500).send(err);
                         return
                     })
