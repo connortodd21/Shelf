@@ -27,7 +27,7 @@
         <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">
             <tbody>
                 <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString">
-                    <td (click)="sendFriendRequest(user)">{{user.username}}</td>
+                    <td (click)="addFriend(user)">{{user.username}}</td>
                 </tr>
             </tbody>
         </table>
