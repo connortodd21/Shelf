@@ -5,8 +5,8 @@
   <div class="game-overview-text">
       {{name}}
     <p>
-      <p-rating stars="5" [cancel]="false" readonly="true" [(ngModel)]="globalRating"></p-rating>
-      <p-rating stars="5" (onRate)="handleRate($event)" [ngModel]="userRating"></p-rating>
+      <p-rating stars="5" [cancel]="false" readonly="true" disabled="true" [(ngModel)]="globalRating"></p-rating>
+      <p-rating stars="5" [cancel]="false" (onRate)="handleRate($event)" [ngModel]="userRating"></p-rating>
     </p>
     </div>
 </div>
