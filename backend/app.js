@@ -28,11 +28,8 @@ app.use((req, res, next) => {
 /* Routes */
 app.use('/user', User);
 app.use('/games', Games);
-<<<<<<< HEAD
 app.use('/message', Message);
-=======
 app.use('/ratingInfo', RatingInfo);
->>>>>>> 17bbc9fe273a81f44981a3823f894295b03474a4
 
 app.get('/', (res, req) => {});
 

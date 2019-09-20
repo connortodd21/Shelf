@@ -1,7 +1,4 @@
 const mongoose = require('mongoose');
-const vdator = require('validator');
-const jwt = require('jsonwebtoken');
-const ld = require('lodash');
 
 let MessageSchema = new mongoose.Schema({
   firstUser: { type: String},

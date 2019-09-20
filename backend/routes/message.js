@@ -7,6 +7,7 @@ mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTo
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
+mongoose.set('debug', false);
 
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -24,16 +25,21 @@ router.get("/", function (req, res) {
 });
 
 router.get('/all', authenticate, (req, res) => {
-    if(!req.headers.messageid) {
-        res.status(400).send({message: 'Bad Request: missing messageid header'})
+    if (!req.headers.receiver) {
+        res.status(400).send({ message: 'Bad Request: missing messageid header' })
         return
     }
 
-    Message.findById(req.headers.messageid, (err, msg) => {
-        res.status(200).send(msg);
+    Message.findOne({
+        $or: [
+            { $and: [{ firstUser: req.user.username }, { secondUser: req.headers.receiver }] },
+            { $and: [{ firstUser: req.headers.receiver }, { secondUser: req.user.username }] }]
+    }).then(msg => {
+        // console.log(msg)
+        res.status(200).send(msg)
         return;
-    }).catch((err) => {
-        res.status(500).send(err)
+    }).catch(err => {
+        res.status(500).send(err);
         return;
     })
 
@@ -105,7 +111,7 @@ router.post('/send', authenticate, (req, res) => {
 
             Message.findById(req.body.messageID, (err, resp) => {
                 if (err) {
-                    res.status(404).send({message: 'Message object does not exist'})
+                    res.status(404).send({ message: 'Message object does not exist' })
                     return;
                 }
                 else {
