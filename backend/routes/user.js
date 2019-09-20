@@ -257,4 +257,72 @@ router.post("/data", authenticate, (req, res) => {
 })
 
 
+router.post("/:username/games-rated", authenticate, (req, res) => {
+    //no previous rating
+    if (req.body.oldRating === '0') {
+
+        User.findOneAndUpdate({username: req.params.username}, {
+            $push: {
+                games_rated: {
+                    game_id: req.body.gameId,
+                    rating: req.body.newRating,
+                }
+            }
+        }).then(usr => {
+            res.status(200).send({ message: req.body.gameId + " added to rated list!" })
+            return
+        }).catch((err) => {
+            res.status(500).send(err);
+            return
+        })
+
+
+    }
+    //user asking to delete rating
+    else if (req.body.oldRating === req.body.newRating) {
+        User.findOneAndUpdate({username: req.params.username}, {
+            $pull: {
+                games_rated: {
+                    game_id: req.body.gameId,
+                    rating: req.body.newRating,
+                }
+            }
+        }).then(usr => {
+            res.status(200).send({ message: req.body.gameId + " removed from rated list!" })
+            return
+        }).catch((err) => {
+            res.status(500).send(err);
+            return
+        })
+    }
+    else {
+        //previous rating
+        User.findOneAndUpdate({username: req.params.username, "games_rated.game_id": req.body.gameId}, {
+            $set: { "games_rated.$.rating" : req.body.newRating}
+        }).then(usr => {
+            res.status(200).send({ message: req.body.gameId + " updated to rated list!" })
+            return
+        }).catch((err) => {
+            res.status(500).send(err);
+            return
+        })
+    }
+});
+
+
+router.get("/:username/games-rated/:gameId", authenticate, (req, res) => {
+
+    User.findOne({username: req.params.username},{games_rated: {$elemMatch: {game_id:req.params.gameId}}}).then(user => {
+            if (!user.games_rated.length) {
+                res.status(200).send({rating: '0'});
+                return
+            }
+            res.status(200).send({rating: user.games_rated[0].rating});
+            return
+        }).catch((err) => {
+            res.status(500).send(err)
+            return
+        })
+});
+
 module.exports = router;

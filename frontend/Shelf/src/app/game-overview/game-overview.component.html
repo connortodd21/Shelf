@@ -3,7 +3,10 @@
     <img *ngIf="image_id != ''" class="game-overview-img" src="{{coverPath}}{{image_id}}.jpg" />
     <img *ngIf="image_id == ''" class="game-overview-img" src="../../assets/NoImageAvailable.png" />
   <div class="game-overview-text">
-      {{name}}<p><p-rating stars="5" (onRate)="handleRate($event)" (onCancel)="handleCancel()"
-                           [(ngModel)]="globalRating"></p-rating></p>
+      {{name}}
+    <p>
+      <p-rating stars="5" [cancel]="false" readonly="true" disabled="true" [(ngModel)]="globalRating"></p-rating>
+      <p-rating stars="5" [cancel]="false" (onRate)="handleRate($event)" [ngModel]="userRating"></p-rating>
+    </p>
     </div>
 </div>

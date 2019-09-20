@@ -16,7 +16,10 @@ let userSchema = new mongoose.Schema({
   },
   birthday: { type: Date },
   games_played: { type: [String] },
-  games_rated: { type: [String] },
+    games_rated: [{
+        game_id: { type: String },
+        rating: { type: Number },
+    }],
   favorites: { type: [String] }, 
   followers: { type: [String] },
   following: { type: [String] },

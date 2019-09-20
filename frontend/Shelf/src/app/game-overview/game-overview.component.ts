@@ -13,12 +13,15 @@ export class GameOverviewComponent implements OnInit {
   coverPath = COVER_BIG;
 
   ngOnInit() {
+
+    this.getUserRating();
   }
+
   @Input() name: string;
   @Input() image_id: string;
   @Input() id: string;
   @Input() globalRating: number;
-  @Input() userRating: number;
+  userRating: number;
 
   gotoDetailedGameView() {
     this.router.navigate([`/detailed-game/${this.id}`]);
@@ -27,18 +30,23 @@ export class GameOverviewComponent implements OnInit {
 
   handleRate(event) {
     console.log(event);
-    this.gameService.submitRating(event.value, this.id).subscribe(
+    this.gameService.submitRatingToUser(event.value, this.userRating, this.id).subscribe(
       (res) => {
         console.log("submitted rating");
-        console.log(res);
+        this.gameService.submitRatingToGame(event.value, this.userRating, this.id).subscribe(
+          (res) => {
+            console.log(res);
+          }
+        )
       }
     );
 
   }
 
-  handleCancel() {
-    // this.gameService.removeRating().subscribe(
-    //   res => (console.log("removed"))
-    // );
+  private getUserRating() {
+    this.gameService.fetchUserRating(this.id).subscribe(
+      res => {this.userRating = res.rating;
+      console.log(this.userRating + " " + this.id + " " + this.globalRating)}
+    )
   }
 }

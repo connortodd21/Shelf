@@ -59,4 +59,17 @@ export class DetailedGameComponent implements OnInit {
     // TODO CONNOR OR ALEX: ROUTE BACK TO PREVIOUS URL, PROBABLY NEEDS TO BE IN A SERVICE IN GUESSING
     this.gamesService.toHomePage();
   }
+
+
+  handleRate(event) {
+    console.log(event);
+    // this.gamesService.submitRating(event.value, this.id).subscribe(
+    //   (res) => {
+    //     console.log("submitted rating");
+    //     console.log(res);
+    //   }
+    // );
+
+  }
+
 }

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Router } from '@angular/router';
 import {Observable} from 'rxjs';
-import { HttpHeaders } from '@angular/common/http';
 import {HOME_PAGE} from '../constants/constants.pages';
 import {GameModel} from './game.model';
+import {RatingModel} from "../models/rating.model";
 
 @Injectable({
   providedIn: 'root'
@@ -35,14 +35,32 @@ export class GamesService {
     this.router.navigate([HOME_PAGE]);
   }
 
-  submitRating(rating: number, id: string): Observable<any> {
+  submitRatingToUser(newRating: number, oldRating: number, gameId: string): Observable<any> {
     console.log('CALLING SUBMIT');
-    return this.http.post<object>('http://localhost:8080/ratingInfo/' + id, {
-      rating
+
+    //update games_rated
+
+    console.log(newRating);
+    console.log(oldRating);
+    let username = localStorage.getItem('user');
+    return this.http.post<object>('http://localhost:8080/user/' + username + "/games-rated", {
+      gameId,
+      newRating,
+      oldRating
     });
   }
 
-  // removeRating(id: string): Observable<any> {
-  //   this.submitRating(0,id)
-  // }
+  submitRatingToGame(newRating: string, oldRating: number, gameId: string): Observable<any> {
+
+    return this.http.post<object>('http://localhost:8080/ratingInfo/' + gameId, {
+      gameId,
+      newRating,
+      oldRating
+    });
+  }
+
+  fetchUserRating(id: string) {
+    let username = localStorage.getItem('user');
+    return this.http.get<RatingModel>('http://localhost:8080/user/' + username  + "/games-rated/" + id);
+  }
 }
