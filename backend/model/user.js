@@ -18,7 +18,8 @@ let userSchema = new mongoose.Schema({
   games_played: { type: [String] },
   games_rated: { type: [String] },
   favorites: { type: [String] }, 
-  friends: { type: [String] },
+  followers: { type: [String] },
+  following: { type: [String] },
   inbox: { type: [String] },
   wish_list: { type: [String] },
   date_created: { type: Date, default: Date.now() },
@@ -68,7 +69,7 @@ userSchema.statics.findByToken = function (token) {
 
 /* Function to prevent too much information from being returned on request when the response is the object */
 userSchema.methods.toJSON = function () {
-  return ld.pick(this.toObject(), ['_id', 'username', 'email', 'birthday', 'games_played', 'games_rated', 'favorites', 'friends', 'inbox', 'wish_list', 'date_created', 'inboxID'])
+  return ld.pick(this.toObject(), ['_id', 'username', 'email', 'birthday', 'games_played', 'games_rated', 'favorites', 'followers', 'following' , 'inbox', 'wish_list', 'date_created', 'inboxID'])
 }
 
 /* Creating the user model from the schema and giving it to Mongoose */

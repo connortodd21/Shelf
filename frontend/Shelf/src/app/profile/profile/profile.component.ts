@@ -5,7 +5,7 @@ import { UserModel } from '../../models/user.model';
 import { ProfileModel } from '../../models/profile.model';
 import { Message } from '../../models/message.model';
 import { InboxService } from '../../inbox/inbox/inbox.service';
-import { SEND_MESSAGE_NOTIFICATION, ADD_FRIEND_NOTIFICATION } from '../../constants/constants.messages';
+import { SEND_MESSAGE_NOTIFICATION, NEW_FOLLOWER_NOTIFICATION } from '../../constants/constants.messages';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +16,8 @@ export class ProfileComponent implements OnInit {
 
   user: UserModel;
   allUsers: ProfileModel[];
-  friends: string[];
+  followers: string[];
+  following: string[];
   messages: Message[];
   messageID: string;
 
@@ -29,7 +30,8 @@ export class ProfileComponent implements OnInit {
     const username = this.route.snapshot.params.username;
     this.profileService.getUserData(username).then(res => {
       this.user = res;
-      this.friends = res.friends;
+      this.followers = res.followers;
+      this.following = res.following;
       this.profileService.getAllUsers().then(users => {
         let i: number;
         const response = [];
@@ -50,15 +52,15 @@ export class ProfileComponent implements OnInit {
     window.location.replace('/profile/' + username);
   }
 
-  public addFriend(user) {
-    const confirm = window.confirm('Are you sure you want to add ' + user.username + ' as a friend?');
+  public followUser(user) {
+    const confirm = window.confirm('Are you sure you want to follow ' + user.username );
     if (confirm === false) {
       return;
     }
-    this.profileService.addFriend(user.username).then(res => {
-      const receiver = user.username;
-      const sender = localStorage.getItem('user');
-      this.inboxService.sendNotification( ADD_FRIEND_NOTIFICATION(sender, receiver), receiver).then( (resp) => {
+    const receiver = user.username;
+    const sender = localStorage.getItem('user');
+    this.profileService.followUser(receiver).then(() => {
+      this.inboxService.sendNotification(NEW_FOLLOWER_NOTIFICATION(sender, receiver), receiver).then((resp) => {
         window.location.reload();
       });
     });
@@ -89,10 +91,10 @@ export class ProfileComponent implements OnInit {
   }
 
   public sendMessage(message: string, receiver: string) {
-    this.profileService.sendMessage(message, this.messageID).then( res => {
+    this.profileService.sendMessage(message, this.messageID).then(res => {
       const sender = localStorage.getItem('user');
       receiver = this.route.snapshot.params.username;
-      this.inboxService.sendNotification( SEND_MESSAGE_NOTIFICATION(sender, receiver), receiver).then( (resp) => {
+      this.inboxService.sendNotification(SEND_MESSAGE_NOTIFICATION(sender, receiver), receiver).then((resp) => {
         window.location.reload();
       });
     });

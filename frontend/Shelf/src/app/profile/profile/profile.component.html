@@ -6,7 +6,15 @@
 <p *ngIf="user != null"> Date Created {{user.date_created}} </p>
 <div>
     <div *ngIf="user != null">
-        <li *ngFor="let f of friends" (click)="goToProfile(f)">
+        <li *ngFor="let f of followers" (click)="goToProfile(f)">
+            <p> {{f}} </p>
+        </li>
+    </div>
+</div>
+
+<div>
+    <div *ngIf="user != null">
+        <li *ngFor="let f of following" (click)="goToProfile(f)">
             <p> {{f}} </p>
         </li>
     </div>
@@ -17,7 +25,7 @@
 <p *ngIf="user != null"> Wish List {{user.wish_list}} </p>
 
 <div *ngIf="isMyProfile()">
-    <input type="text" [(ngModel)]="queryString" id="search" class="form-control" placeholder="Search for friend"
+    <input type="text" [(ngModel)]="queryString" id="search" class="form-control" placeholder="Search for users"
         title="friendSearch">
 
     <!-- Whoever wants to make this look good, maybe add a button to add friend?  -->
@@ -27,7 +35,7 @@
         <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">
             <tbody>
                 <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString">
-                    <td (click)="addFriend(user)">{{user.username}}</td>
+                    <td (click)="followUser(user)">{{user.username}}</td>
                 </tr>
             </tbody>
         </table>

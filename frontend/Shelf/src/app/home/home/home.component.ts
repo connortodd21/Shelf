@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
       (response) => {
         console.log(response);
         // tslint:disable: max-line-length
-        this.user = {birthday: response.birthday, email: response.email, username: response.username, friends: response.friends, wishList: response.wish_list, dateCreated: response.date_created, inbox: response.inbox, gamesPlayed: response.games_played, gamesRated: response.games_rated, inboxID: response.inboxID};
+        this.user = {birthday: response.birthday, email: response.email, username: response.username, wishList: response.wish_list, dateCreated: response.date_created, inbox: response.inbox, gamesPlayed: response.games_played, gamesRated: response.games_rated, inboxID: response.inboxID, followers: response.followers, following: response.following};
       },
       (error) => console.log(error)
     );

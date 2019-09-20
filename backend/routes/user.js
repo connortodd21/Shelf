@@ -146,14 +146,14 @@ router.post('/logout', authenticate, (req, res) => {
     })
 })
 
-router.post('/add-friend', authenticate, (req, res) => {
-    if (!req.body || !req.body.friend) {
-        res.status(400).send({ message: "Bad request: Add friend data is incomplete" })
+router.post('/follow', authenticate, (req, res) => {
+    if (!req.body || !req.body.user) {
+        res.status(400).send({ message: "Bad request: Follow is incomplete" })
         return;
     }
 
-    if(req.body.friend === req.user.username) {
-        res.status(400).send({ message: "Bad request: you can't add yourself as a friend" })
+    if(req.body.user === req.user.username) {
+        res.status(400).send({ message: "Bad request: you can't follow yourself" })
         return;
     }
 
@@ -165,11 +165,17 @@ router.post('/add-friend', authenticate, (req, res) => {
 
         User.findByIdAndUpdate(user._id, {
             $push: {
-                friends: req.body.friend
+                following: req.body.user
             }
         }).then(usr => {
-            res.status(200).send({ message: req.body.friend + " added to friends list!" })
-            return
+            User.findByIdAndUpdate({username: req.body.user}, {
+                $push: {
+                    followers: req.user.username
+                }
+            }).then ( () => {
+                res.status(200).send({ message: "You are now following " + req.body.user })
+                return
+            })
         }).catch((err) => {
             res.status(500).send(err)
             return
@@ -180,14 +186,14 @@ router.post('/add-friend', authenticate, (req, res) => {
     })
 })
 
-router.post('/remove-friend', authenticate, (req, res) => {
-    if (!req.body || !req.body.friend) {
-        res.status(400).send({ message: "Bad request: Add friend data is incomplete" })
+router.post('/unfollow', authenticate, (req, res) => {
+    if (!req.body || !req.body.user) {
+        res.status(400).send({ message: "Bad request: Unfollow data is incomplete" })
         return;
     }
 
-    if(req.body.friend === req.user.username) {
-        res.status(400).send({ message: "Bad request: you can't remove yourself as a friend" })
+    if(req.body.user === req.user.username) {
+        res.status(400).send({ message: "Bad request: you can't unfollow yourseld" })
         return;
     }
 
@@ -199,11 +205,17 @@ router.post('/remove-friend', authenticate, (req, res) => {
 
         User.findByIdAndUpdate(user._id, {
             $pull: {
-                friends: req.body.friend
+                following: req.body.user
             }
         }).then(usr => {
-            res.status(200).send({ message: req.body.friend + " deleted from friends list!" })
-            return
+            User.findByIdAndUpdate({username: req.body.user}, {
+                $pull: {
+                    followers: req.user.username
+                }
+            }).then ( () => {
+                res.status(200).send({ message: "You have unfollowed " + req.body.user })
+                return
+            })
         }).catch((err) => {
             res.status(500).send(err)
             return
