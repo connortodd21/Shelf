@@ -17,6 +17,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 /* Objects */
 var User = require('../model/user');
+var Inbox = require('../model/inbox')
 
 /**
  * All user related routes
@@ -46,17 +47,23 @@ router.get("/all-users", authenticate, (req, res) => {
 router.post("/register", (req, res) => {
 
     if (!req.body.email || !req.body.password || !req.body.username || !req.body.birthday) {
+        console.log(req.body)
         res.status(400).send({ message: "Bad Request: Register user data is incomplete" });
         return;
     }
 
     hash(req.body.password).then((password) => {
+
+        var inbox = new Inbox()
+        inbox.save();
+
         // User Data
         var newUser = new User({
             username: req.body.username,
             email: req.body.email,
             password: password,
-            birthday: req.body.birthday
+            birthday: req.body.birthday,
+            inboxID: inbox._id
         });
 
         // Add to database with auth

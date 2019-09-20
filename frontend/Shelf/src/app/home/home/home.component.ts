@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
       (response) => {
         console.log(response);
         // tslint:disable: max-line-length
-        this.user = {birthday: response.birthday, email: response.email, username: response.username, friends: response.friends, wishList: response.wish_list, dateCreated: response.date_created, inbox: response.inbox, gamesPlayed: response.games_played, gamesRated: response.games_rated};
+        this.user = {birthday: response.birthday, email: response.email, username: response.username, friends: response.friends, wishList: response.wish_list, dateCreated: response.date_created, inbox: response.inbox, gamesPlayed: response.games_played, gamesRated: response.games_rated, inboxID: response.inboxID};
       },
       (error) => console.log(error)
     );
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
   private getDashboardGames() {
 
     this.gamesService.getDashboardGames().subscribe(
-      //TODO try to make this nicer/ more performant in the future
+      // TODO try to make this nicer/ more performant in the future
       (response) => {
         this.dashboardGames = response;
         let i;
@@ -60,8 +60,7 @@ export class HomeComponent implements OnInit {
           this.dashboardGames[i].number_of_ratings = ratingInfo.number_of_ratings;
           this.dashboardGames[i].total_rating_value = ratingInfo.total_rating_value;
           this.dashboardGames[i].globalRating = ratingInfo.total_rating_value / ratingInfo.number_of_ratings;
-        }
-        else {
+        } else {
           this.dashboardGames[i].number_of_players = 0;
           this.dashboardGames[i].number_of_ratings = 0;
           this.dashboardGames[i].total_rating_value = 0;

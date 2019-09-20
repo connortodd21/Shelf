@@ -34,7 +34,8 @@ let userSchema = new mongoose.Schema({
       type: String,
       require: true
     }]
-  }]
+  }],
+  inboxID: { type: String }
 })
 
 /* Generate authentication token for user */
@@ -70,7 +71,7 @@ userSchema.statics.findByToken = function (token) {
 
 /* Function to prevent too much information from being returned on request when the response is the object */
 userSchema.methods.toJSON = function () {
-  return ld.pick(this.toObject(), ['_id', 'username', 'email', 'birthday', 'games_played', 'games_rated', 'favorites', 'friends', 'inbox', 'wish_list', 'date_created'])
+  return ld.pick(this.toObject(), ['_id', 'username', 'email', 'birthday', 'games_played', 'games_rated', 'favorites', 'friends', 'inbox', 'wish_list', 'date_created', 'inboxID'])
 }
 
 /* Creating the user model from the schema and giving it to Mongoose */

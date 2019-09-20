@@ -13,7 +13,7 @@ import { HomeModule } from './home/home.module';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileModule } from './profile/profile.module';
-
+import { InboxModule } from './inbox/inbox.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +34,7 @@ import { ProfileModule } from './profile/profile.module';
     FormsModule,
     ReactiveFormsModule,
     ProfileModule,
+    InboxModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
