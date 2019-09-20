@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<div class="grid-item">
+<div class="grid-item" *ngIf="messages != null">
     <button class="messagesButton" mdbBtn type="button" color="info" mdbWavesEffect (click)="show = !show"
         (click)="getMessages()"> View Messages </button>
     <div class="overflowTest" *ngIf="show">

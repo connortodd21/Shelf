@@ -75,6 +75,8 @@ export class ProfileComponent implements OnInit {
           this.messages[i] = new Message(message);
           i++;
         });
+      } else {
+        this.newConversation();
       }
     });
   }
@@ -83,6 +85,10 @@ export class ProfileComponent implements OnInit {
     this.profileService.sendMessage(message, this.messageID).then( res => {
       window.location.reload();
     });
+  }
+
+  public newConversation() {
+    this.profileService.newConversation(localStorage.getItem('user'), this.user.username);
   }
 
 }

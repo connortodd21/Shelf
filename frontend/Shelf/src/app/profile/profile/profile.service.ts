@@ -45,4 +45,12 @@ export class ProfileService {
         return this.http.post(SEND_MESSAGE_URL, options).toPromise();
     }
 
+    newConversation(firstUser: string, secondUser: string) {
+        const options = {
+            firstUser,
+            secondUser
+        };
+        return this.http.post(NEW_MESSAGE_URL, options).toPromise().catch(err => {});
+    }
+
 }
