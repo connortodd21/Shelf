@@ -9,12 +9,12 @@
         <a class="zach-nav-link" routerLink="TODO"><img src="../../../assets/Nav/Messaging.svg" class="nav-icon">Messages</a>
         <a class="zach-nav-link" routerLink="TODO"><img src="../../../assets/Nav/Reviews.svg" class="nav-icon">Game Reviews</a>
     </div>
-    
+
     <div class="flex-item-shrink">
         <a class="zach-nav-link" routerLink="TODO"><img src="../../../assets/Nav/Settings.svg" class="nav-icon">Settings</a>
         <a class="zach-nav-link" (click)="logout()"><img src="../../../assets/Nav/Sign Out.svg" class="nav-icon">Sign Out</a>
     </div>
-    
+
   </nav>
 
   <!-- This div contains all of the actual content, such as the search bar and game list -->
@@ -29,7 +29,7 @@
 
         <div class="profile-link">
           <div class="profile-photo">
-            
+
           </div>
           <a class="profile-name" (click)="goToProfile()">{{user.username}}</a>
         </div>
@@ -44,7 +44,8 @@
     <div id="home-critically-acclaimed">
       <a class="header-link"><h1>Critically Acclaimed Games</h1><img class="header-link-arrow" src="../../../assets/Arrow.svg"></a>
       <span *ngFor="let item of dashboardGames; let i = index">
-          <app-game-overview *ngIf="item.cover" [name]=item.name [id]=item.id [image_id]=item.cover.image_id></app-game-overview>
+          <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [name]=item.name [id]=item.id
+                             [image_id]=item.cover.image_id></app-game-overview>
           <app-game-overview *ngIf="!item.cover" [name]=item.name [id]=item.id image_id=""></app-game-overview>
         </span>
     </div>
