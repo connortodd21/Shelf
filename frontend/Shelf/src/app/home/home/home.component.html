@@ -1,6 +1,7 @@
+
 <div id="full-container">
   <nav id="nav-container">
-    <div>
+    <div class="flex-item-grow">
         <img src="../../../assets/Nav/Logo.png" id="nav-logo">
         <a class="zach-nav-link nav-current-page" routerLink="/home"><img src="../../../assets/Nav/Home.svg" class="nav-icon">Home</a>
         <a class="zach-nav-link" routerLink="TODO">Friends</a>
@@ -9,13 +10,38 @@
         <a class="zach-nav-link" routerLink="TODO"><img src="../../../assets/Nav/Reviews.svg" class="nav-icon">Game Reviews</a>
     </div>
     
-    <div>
+    <div class="flex-item-shrink">
         <a class="zach-nav-link" routerLink="TODO"><img src="../../../assets/Nav/Settings.svg" class="nav-icon">Settings</a>
         <a class="zach-nav-link" (click)="logout()"><img src="../../../assets/Nav/Sign Out.svg" class="nav-icon">Sign Out</a>
     </div>
     
   </nav>
+
+  <!-- This div contains all of the actual content, such as the search bar and game list -->
+  <div id="content-container">
+
+    <!-- Search bar and profile information located at the top of the page -->
+    <div id="content-bar">
+        <div class="search-wrapper">
+            <input class="search-bar" placeholder="Search for games" type="text" value="" name="search" id="home-page-search"/>
+            <img class="search-pic"src="../../../assets/Nav/Search.svg"/>
+        </div>
+
+        <div class="profile-link">
+          <div class="profile-photo">
+            
+          </div>
+          <a class="profile-name" (click)="goToProfile()">{{user.username}}</a>
+        </div>
+    </div>
+
+    <!-- This div contains a sneak peak of the list of games a user has saved -->
+    <div id="home-my-games">
+
+    </div>
+  </div>
 </div>
+
 
 <!--
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
