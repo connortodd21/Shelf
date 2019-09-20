@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from './profile.service';
 import { UserModel } from '../../models/user.model';
 import { ProfileModel } from '../../models/profile.model';
+import { Message } from '../../models/message.model';
 
 @Component({
   selector: 'app-profile',
@@ -14,8 +15,11 @@ export class ProfileComponent implements OnInit {
   user: UserModel;
   allUsers: ProfileModel[];
   friends: string[];
+  messages: Message[];
 
-  constructor(private route: ActivatedRoute, private profileService: ProfileService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private profileService: ProfileService, private router: Router) {
+    this.messages = [];
+  }
 
   ngOnInit() {
     const username = this.route.snapshot.params.username;
@@ -35,6 +39,8 @@ export class ProfileComponent implements OnInit {
           this.allUsers[i] = user;
         }
       });
+    }).then(() => {
+      this.getMessages();
     });
   }
 
@@ -47,7 +53,7 @@ export class ProfileComponent implements OnInit {
     if (confirm === false) {
       return;
     }
-    this.profileService.addFriend(user.username).then( res => {
+    this.profileService.addFriend(user.username).then(res => {
       window.location.reload();
     });
   }
@@ -57,6 +63,21 @@ export class ProfileComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  public getMessages() {
+    this.profileService.getMessages(this.route.snapshot.params.username).then(msg => {
+      if (msg) {
+        // tslint:disable-next-line: no-string-literal
+        const messages = msg['messages'];
+        console.log(messages);
+        let i = 0;
+        messages.forEach(message => {
+          this.messages.push(new Message(message));
+          i++;
+        });
+      }
+    });
   }
 
 }

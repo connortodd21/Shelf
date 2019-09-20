@@ -34,3 +34,11 @@
         </table>
     </div>
 </div>
+
+<div *ngFor="let m of messages">
+    <li>
+        {{m.sender}}
+        {{m.message}}
+        {{m.timeStamp}}
+    </li>
+</div>
