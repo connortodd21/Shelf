@@ -8,4 +8,5 @@ export interface UserModel {
   gamesRated: string[];
   inbox: string[];
   wishList: string[];
+  inboxID: string;
 }

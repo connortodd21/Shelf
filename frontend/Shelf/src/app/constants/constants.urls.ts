@@ -7,3 +7,7 @@ export const ADD_FRIEND_URL = 'http://localhost:8080/user/add-friend';
 export const GET_ALL_MESSAGES_URL = 'http://localhost:8080/message/all';
 export const SEND_MESSAGE_URL = 'http://localhost:8080/message/send';
 export const NEW_MESSAGE_URL = 'http://localhost:8080/message/new';
+export const GET_INBOX_URL = 'http://localhost:8080/inbox/all-notifications';
+export const ADD_NOTIFICATION_URL = 'http://localhost:8080/inbox/add-notification';
+export const DELETE_NOTIFICATION_URL = 'http://localhost:8080/inbox/delete-notification';
+export const MARK_AS_READ_URL = 'http://localhost:8080/inbox/mark-as-read';
