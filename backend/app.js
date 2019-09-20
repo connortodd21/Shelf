@@ -8,6 +8,7 @@ let User = require('./routes/user.js');
 let Games = require('./routes/games.js');
 let Message = require('./routes/message.js')
 let RatingInfo = require('./routes/ratingInfo');
+let Inbox = require('./routes/inbox')
 
 const app = express(cors());
 
@@ -30,6 +31,7 @@ app.use('/user', User);
 app.use('/games', Games);
 app.use('/message', Message);
 app.use('/ratingInfo', RatingInfo);
+app.use('/inbox', Inbox)
 
 app.get('/', (res, req) => {});
 

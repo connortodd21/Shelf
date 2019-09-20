@@ -4,6 +4,8 @@ import { ProfileService } from './profile.service';
 import { UserModel } from '../../models/user.model';
 import { ProfileModel } from '../../models/profile.model';
 import { Message } from '../../models/message.model';
+import { InboxService } from '../../inbox/inbox/inbox.service';
+import { SEND_MESSAGE_NOTIFICATION, ADD_FRIEND_NOTIFICATION } from '../../constants/constants.messages';
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +20,8 @@ export class ProfileComponent implements OnInit {
   messages: Message[];
   messageID: string;
 
-  constructor(private route: ActivatedRoute, private profileService: ProfileService, private router: Router) {
+  // tslint:disable-next-line: max-line-length
+  constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private router: Router) {
     this.messages = [];
   }
 
@@ -53,7 +56,11 @@ export class ProfileComponent implements OnInit {
       return;
     }
     this.profileService.addFriend(user.username).then(res => {
-      window.location.reload();
+      const receiver = user.username;
+      const sender = localStorage.getItem('user');
+      this.inboxService.sendNotification( ADD_FRIEND_NOTIFICATION(sender, receiver), receiver).then( (resp) => {
+        window.location.reload();
+      });
     });
   }
 
@@ -83,7 +90,11 @@ export class ProfileComponent implements OnInit {
 
   public sendMessage(message: string, receiver: string) {
     this.profileService.sendMessage(message, this.messageID).then( res => {
-      window.location.reload();
+      const sender = localStorage.getItem('user');
+      receiver = this.route.snapshot.params.username;
+      this.inboxService.sendNotification( SEND_MESSAGE_NOTIFICATION(sender, receiver), receiver).then( (resp) => {
+        window.location.reload();
+      });
     });
   }
 

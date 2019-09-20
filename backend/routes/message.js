@@ -18,10 +18,10 @@ var User = require('../model/user');
 var Message = require('../model/message')
 
 /**
- * All game related routes
+ * All message related routes
  */
 router.get("/", function (req, res) {
-    res.send('This route is for all games and API related tasks');
+    res.send('This route is for all message related tasks');
 });
 
 router.get('/all', authenticate, (req, res) => {
