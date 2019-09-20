@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserModel } from '../../models/user.model';
 // tslint:disable-next-line: max-line-length
-import { USER_DATA_URL, ALL_USERS_URL, ADD_FRIEND_URL, SEND_MESSAGE_URL, NEW_MESSAGE_URL, GET_ALL_MESSAGES_URL } from '../../constants/constants.urls';
+import { USER_DATA_URL, ALL_USERS_URL, SEND_MESSAGE_URL, NEW_MESSAGE_URL, GET_ALL_MESSAGES_URL, FOLLOW_URL } from '../../constants/constants.urls';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -24,8 +24,8 @@ export class ProfileService {
         return this.http.get(ALL_USERS_URL).toPromise();
     }
 
-    addFriend(username: string) {
-        return this.http.post(ADD_FRIEND_URL, { friend: username }).toPromise();
+    followUser(username: string) {
+        return this.http.post(FOLLOW_URL, { user: username }).toPromise();
     }
 
     getMessages(receiver: string) {

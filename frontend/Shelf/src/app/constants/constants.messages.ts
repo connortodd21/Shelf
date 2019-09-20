@@ -1,5 +1,5 @@
-export const ADD_FRIEND_NOTIFICATION = (sender, receiver) => {
-    return ('Hello ' + receiver + ', ' + sender + ' would like to add you as a friend!');
+export const NEW_FOLLOWER_NOTIFICATION = (sender, receiver) => {
+    return ('Hello ' + receiver + ', ' + sender + ' has begun following you!');
 };
 
 export const SEND_MESSAGE_NOTIFICATION = (sender, receiver) => {
