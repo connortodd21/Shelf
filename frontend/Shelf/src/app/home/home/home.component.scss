@@ -146,3 +146,27 @@ a:hover {
     background-color: #FAA61A;
     border-radius: 50px;
 }
+
+h1 {
+    font-weight: 800;
+    font-size: 20pt;
+    margin: 0px;
+}
+
+.header-link {
+    display: flex;
+    flex-direction: row;
+}
+
+#home-my-games, #home-critically-acclaimed {
+    padding-top: 48px;
+}
+
+#home-critically-acclaimed {
+    overflow: scroll;
+    height: 100%;
+}
+    
+.header-link-arrow {
+    padding-left: 16px;
+}
