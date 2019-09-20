@@ -6,7 +6,7 @@ import { Inbox } from '../models/inbox.model';
 
 @Injectable({ providedIn: 'root' })
 
-export class UserService {
+export class InboxService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
