@@ -34,9 +34,15 @@ export class ProfileService {
                 receiver
             })
         };
-        return this.http.get(GET_ALL_MESSAGES_URL, info).toPromise().catch( err => {
-            // window.location.reload();
-        });
+        return this.http.get(GET_ALL_MESSAGES_URL, info).toPromise();
+    }
+
+    sendMessage(message: string, messageID: string) {
+        const options = {
+            message,
+            messageID
+        };
+        return this.http.post(SEND_MESSAGE_URL, options).toPromise();
     }
 
 }

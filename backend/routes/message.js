@@ -93,46 +93,32 @@ router.post('/new', authenticate, (req, res) => {
 })
 
 router.post('/send', authenticate, (req, res) => {
-    if (!req.body || !req.body.receiver || !req.body.message || !req.body.messageID) {
+    if (!req.body || !req.body.message || !req.body.messageID) {
         res.status(400).send({ message: "Bad Request: send message data is incomplete" })
         return
     }
 
-    User.findOne({ username: req.user.username }).then((firstUser) => {
-        if (!firstUser) {
-            res.status(401).send({ message: "User does not exist" })
-            return
+    Message.findById(req.body.messageID, (err, resp) => {
+        if (err) {
+            res.status(404).send({ message: 'Message object does not exist' })
+            return;
         }
-        User.findOne({ username: req.body.receiver }).then((secondUser) => {
-            if (!secondUser) {
-                res.status(401).send({ message: "User does not exist" })
-                return
-            }
-
-            Message.findById(req.body.messageID, (err, resp) => {
-                if (err) {
-                    res.status(404).send({ message: 'Message object does not exist' })
-                    return;
+        else {
+            Message.findOneAndUpdate({ _id: req.body.messageID }, {
+                $push: {
+                    messages: {
+                        message: req.body.message,
+                        sender: req.user.username,
+                    }
                 }
-                else {
-                    Message.findOneAndUpdate({ _id: req.body.messageID }, {
-                        $push: {
-                            messages: {
-                                message: req.body.message,
-                                sender: req.user.username,
-                            }
-                        }
-                    }).then(msg => {
-                        res.status(200).send({ message: "Message " + req.body.message + " sent to " + req.body.receiver })
-                        return;
-                    }).catch(err => {
-                        res.status(500).send(err)
-                        return;
-                    })
-                }
+            }).then(msg => {
+                res.status(200).send({ message: "Message " + req.body.message + " sent "})
+                return;
+            }).catch(err => {
+                res.status(500).send(err)
+                return;
             })
-
-        })
+        }
     }).catch(err => {
         res.status(500).send(err)
         return;

@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
   allUsers: ProfileModel[];
   friends: string[];
   messages: Message[];
+  messageID: string;
 
   constructor(private route: ActivatedRoute, private profileService: ProfileService, private router: Router) {
     this.messages = [];
@@ -39,8 +40,6 @@ export class ProfileComponent implements OnInit {
           this.allUsers[i] = user;
         }
       });
-    }).then(() => {
-      this.getMessages();
     });
   }
 
@@ -68,15 +67,21 @@ export class ProfileComponent implements OnInit {
   public getMessages() {
     this.profileService.getMessages(this.route.snapshot.params.username).then(msg => {
       if (msg) {
-        // tslint:disable-next-line: no-string-literal
+        // tslint:disable: no-string-literal
         const messages = msg['messages'];
-        console.log(messages);
+        this.messageID = msg['_id'];
         let i = 0;
         messages.forEach(message => {
-          this.messages.push(new Message(message));
+          this.messages[i] = new Message(message);
           i++;
         });
       }
+    });
+  }
+
+  public sendMessage(message: string, receiver: string) {
+    this.profileService.sendMessage(message, this.messageID).then( res => {
+      window.location.reload();
     });
   }
 
