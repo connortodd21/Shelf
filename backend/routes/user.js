@@ -239,7 +239,7 @@ router.post("/data", authenticate, (req, res) => {
 
 router.post("/:username/games-rated", authenticate, (req, res) => {
     //no previous rating
-    if (req.body.oldRating === '0') {
+    if (req.body.oldRating === 0 || req.body.oldRating === '0' ) {
 
         User.findOneAndUpdate({username: req.params.username}, {
             $push: {
@@ -249,7 +249,7 @@ router.post("/:username/games-rated", authenticate, (req, res) => {
                 }
             }
         }).then(usr => {
-            res.status(200).send({ message: req.body.gameId + " added to rated list!" })
+            res.status(200).send({ message: req.body.gameId + " added to rated list for first time!" })
             return
         }).catch((err) => {
             res.status(500).send(err);
@@ -280,7 +280,7 @@ router.post("/:username/games-rated", authenticate, (req, res) => {
         User.findOneAndUpdate({username: req.params.username, "games_rated.game_id": req.body.gameId}, {
             $set: { "games_rated.$.rating" : req.body.newRating}
         }).then(usr => {
-            res.status(200).send({ message: req.body.gameId + " updated to rated list!" })
+            res.status(200).send({ message: req.body.gameId + " updated to new rating!" })
             return
         }).catch((err) => {
             res.status(500).send(err);

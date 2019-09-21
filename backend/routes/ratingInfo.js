@@ -24,6 +24,18 @@ router.get("/", function (req, res) {
 });
 
 
+router.get('/all', authenticate, async (req,res) => {
+
+    RatingInfo.find({}).then((ratingInfos) => {
+        res.status(200).send(ratingInfos);
+        return
+    }).catch((err) => {
+        res.status(500).send(err);
+        return
+    })
+
+});
+
 router.get('/:gameId', authenticate, async (req,res) => {
 
     RatingInfo.findOne({game_id: req.params.gameId}).then( ratingInfo => {
@@ -53,7 +65,8 @@ router.post("/:gameId", authenticate, async (req, res) => {
 
             // Add to database with auth
             newRatingInfo.save().then(resp => {
-                if (req.body.oldRating === '0') {
+                console.log("OLD RATE: " + req.body.oldRating);
+                if (req.body.oldRating === 0 || req.body.oldRating === '0') {
                     console.log("TRYING LOOP");
 
                     RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
@@ -64,7 +77,8 @@ router.post("/:gameId", authenticate, async (req, res) => {
 
 
                     }).exec().then(usr => {
-                        res.status(200).send({ message: req.body.gameId + " added to rated list!" })
+                        res.status(200).send({ message: req.body.gameId + " added to ratingInfo list for first" +
+                                " time!1" })
                         return
                     }).catch((err) => {
                         console.log(err)
@@ -81,7 +95,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                             total_rating_value: (-1*req.body.oldRating)
                         }
                     }).exec().then(usr => {
-                        res.status(200).send({ message: req.body.gameId + " removed from rated list!" })
+                        res.status(200).send({ message: req.body.gameId + " removed rating info1" })
                         return
                     }).catch((err) => {
                         res.status(500).send(err);
@@ -96,7 +110,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                             total_rating_value: (req.body.newRating - req.body.oldRating)
                         }
                     }).then(usr => {
-                        res.status(200).send({ message: req.body.gameId + " updated to rated list!" })
+                        res.status(200).send({ message: req.body.gameId + " updated to previous rating info1" })
                         return
                     }).catch((err) => {
                         res.status(500).send(err);
@@ -106,7 +120,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
             });
         }
         else {
-            if (req.body.oldRating === '0') {
+            if (req.body.oldRating === '0' || req.body.oldRating === 0) {
                 console.log("TRYING LOOP");
 
                 RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
@@ -117,7 +131,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
 
 
                 }).exec().then(usr => {
-                    res.status(200).send({ message: req.body.gameId + " added to rated list!" })
+                    res.status(200).send({ message: req.body.gameId + " added to rating info for first time2!" })
                     return
                 }).catch((err) => {
                     res.status(500).send(err);
@@ -133,7 +147,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                         total_rating_value: (-1*req.body.oldRating)
                     }
                 }).exec().then(usr => {
-                    res.status(200).send({ message: req.body.gameId + " removed from rated list!" })
+                    res.status(200).send({ message: req.body.gameId + " removed from rating info 2" })
                     return
                 }).catch((err) => {
                     res.status(500).send(err);
@@ -148,7 +162,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                         total_rating_value: (req.body.newRating - req.body.oldRating)
                     }
                 }).then(usr => {
-                    res.status(200).send({ message: req.body.gameId + " updated to rated list!" })
+                    res.status(200).send({ message: req.body.gameId + " updated previous rating info 2" })
                     return
                 }).catch((err) => {
                     res.status(500).send(err);
