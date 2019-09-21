@@ -75,8 +75,5 @@ export class GamesService {
     let username = localStorage.getItem('user');
     return this.http.get<RatingModel>('http://localhost:8080/user/' + username  + "/games-rated/" + id);
   }
-
-  refreshGlobalRating(id: string) {
-
-  }
+  
 }

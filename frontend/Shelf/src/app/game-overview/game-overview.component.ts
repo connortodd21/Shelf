@@ -8,17 +8,9 @@ import {GamesService} from "../games/games.service";
   templateUrl: './game-overview.component.html',
   styleUrls: ['./game-overview.component.scss']
 })
-export class GameOverviewComponent implements OnInit, AfterViewChecked {
+export class GameOverviewComponent {
   constructor(private router: Router, private gameService: GamesService) { }
   coverPath = COVER_BIG;
-
-  ngOnInit() {
-
-  }
-
-  ngAfterViewChecked() {
-    //console.log(this.userRating + " " + this.id + " " + this.globalRating)
-  }
 
   @Input() name: string;
   @Input() image_id: string;
@@ -27,7 +19,6 @@ export class GameOverviewComponent implements OnInit, AfterViewChecked {
   @Input() userRating: number;
 
   gotoDetailedGameView() {
-    // this.router.navigate([`/detailed-game/${this.id}`]);
     this.router.navigate([`/detailed-game/${this.id}`], {state: {globalRating: this.globalRating, userRating: this.userRating }});
   }
 
@@ -56,11 +47,4 @@ export class GameOverviewComponent implements OnInit, AfterViewChecked {
     );
   }
 
-  // private getUserRating() {
-  //   this.gameService.fetchUserRating(this.id).subscribe(
-  //     res => {this.userRating = res.rating;
-  //     console.log(this.userRating + " " + this.id + " " + this.globalRating)
-  //       }
-  //   )
-  // }
 }
