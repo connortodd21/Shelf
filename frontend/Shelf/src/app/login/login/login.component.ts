@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-      // tslint:disable: one-line
+    // tslint:disable: one-line
     this.subtitle = 'Login!';
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -63,12 +63,11 @@ export class LoginComponent implements OnInit {
     }
     // tslint:disable-next-line: max-line-length
     const authData: AuthData = { username: form.value.username, password: form.value.password, email: form.value.email, birthday: form.value.birthday };
-
     if (this.isRegistering) {
       this.loginService.registerUser(authData).subscribe(
         () => {
-           this.showRegistrationSuccess();
-           this.router.navigate(['home']);
+          this.showRegistrationSuccess();
+          this.loginUser(form);
         },
         error => {
           this.showError(error.error.message);
@@ -86,6 +85,7 @@ export class LoginComponent implements OnInit {
     } else {
       this.isRegistering = !this.isRegistering;
     }
+    window.location.replace('/login');
   }
 
 
