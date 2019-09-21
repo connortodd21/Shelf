@@ -26,9 +26,18 @@ export class GamesService {
   }
 
 
-  getRatingInfo(id: string): Observable<any> {
+  getGlobalRatingInfo(id: string): Observable<any> {
     return this.http.get<GameModel>('http://localhost:8080/ratingInfo/' + id);
 
+  }
+
+  getAllGlobalRatingInfo(): Observable<any> {
+    return this.http.get<GameModel>('http://localhost:8080/ratingInfo/all');
+  }
+
+  getAllUserRatingInfo(): Observable<any> {
+    let username = localStorage.getItem('user');
+    return this.http.get<GameModel>('http://localhost:8080/user/' + username + '/games-rated');
   }
 
   toHomePage() {
@@ -51,6 +60,9 @@ export class GamesService {
   }
 
   submitRatingToGame(newRating: string, oldRating: number, gameId: string): Observable<any> {
+    console.log("submitting rating to game");
+    console.log(newRating);
+    console.log("oldRating");
 
     return this.http.post<object>('http://localhost:8080/ratingInfo/' + gameId, {
       gameId,
@@ -62,5 +74,9 @@ export class GamesService {
   fetchUserRating(id: string) {
     let username = localStorage.getItem('user');
     return this.http.get<RatingModel>('http://localhost:8080/user/' + username  + "/games-rated/" + id);
+  }
+
+  refreshGlobalRating(id: string) {
+
   }
 }
