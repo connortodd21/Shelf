@@ -18,7 +18,7 @@ import { InboxModule } from './inbox/inbox.module';
 @NgModule({
   declarations: [
     AppComponent,
-    PageNotFoundComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

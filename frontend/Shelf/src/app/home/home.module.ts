@@ -6,7 +6,8 @@ import { DetailedGameComponent } from '../detailed-game/detailed-game.component'
 import { BrowserModule } from '@angular/platform-browser';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from "@angular/forms";
-import {GameOverviewModule} from "../game-overview/game-overview.module";
+import { GameOverviewModule } from "../game-overview/game-overview.module";
+import { NavModule } from '../nav/nav.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {GameOverviewModule} from "../game-overview/game-overview.module";
     FormsModule,
     BrowserModule,
     RatingModule,
-    GameOverviewModule
+    GameOverviewModule,
+    NavModule
   ]
 })
 export class HomeModule { }

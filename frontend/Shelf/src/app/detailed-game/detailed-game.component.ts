@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GamesService } from '../games/games.service';
 import { COVER_BIG, SCREENSHOT_BIG } from '../constants/constants.images';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-detailed-game',
@@ -17,7 +18,7 @@ export class DetailedGameComponent implements OnInit {
   artworkUrls;
   globalRating: number;
 
-  constructor(private route: ActivatedRoute, private gamesService: GamesService) {
+  constructor(private route: ActivatedRoute, private gamesService: GamesService, private location: Location) {
     this.route.params.subscribe( params => this.id = params.id );
   }
   ngOnInit() {
@@ -56,8 +57,7 @@ export class DetailedGameComponent implements OnInit {
   }
 
   goBack() {
-    // TODO CONNOR OR ALEX: ROUTE BACK TO PREVIOUS URL, PROBABLY NEEDS TO BE IN A SERVICE IN GUESSING
-    this.gamesService.toHomePage();
+    this.location.back();
   }
 
 

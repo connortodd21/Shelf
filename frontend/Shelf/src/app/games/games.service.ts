@@ -13,9 +13,8 @@ export class GamesService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  // BEN TODO: MAKE THESE URLS CONSTANTS
   getDashboardGames(): Observable<any> {
-    return this.http.get('http://localhost:8080/games/allgames');
+    return this.http.get('http://localhost:8080/games/criticallyacclaimedgames');
   }
 
   // BEN TODO: MAKE THESE URLS CONSTANTS
@@ -28,29 +27,16 @@ export class GamesService {
   getOverviewInfoAboutGames(games): Observable<any> {
     if (games.length == 0) return null;
     let gameIds = games.map(a => a.game_id);
-    console.log('In the game service!');
     return this.http.post<object>('http://localhost:8080/games/multiplegameoverviews', {
       gameIds
     });
   }
 
-
   getRatingInfo(id: string): Observable<any> {
-    return this.http.get<GameModel>('http://localhost:8080/ratingInfo/' + id);
-
-  }
-
-  toHomePage() {
-    this.router.navigate([HOME_PAGE]);
+    return this.http.get<GameModel>(`http://localhost:8080/ratingInfo/${id}`);
   }
 
   submitRatingToUser(newRating: number, oldRating: number, gameId: string): Observable<any> {
-    console.log('CALLING SUBMIT');
-
-    //update games_rated
-
-    console.log(newRating);
-    console.log(oldRating);
     let username = localStorage.getItem('user');
     return this.http.post<object>('http://localhost:8080/user/' + username + "/games-rated", {
       gameId,

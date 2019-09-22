@@ -17,56 +17,6 @@
     flex-direction: row;
 }
 
-.flex-item-grow {
-    flex-grow: 1;
-}
-
-.flex-item-shrink {
-    flex-shrink: 1;
-}
-
-#nav-container {
-    /* Size */
-    height: 100%;
-    min-width: 248px;
-    padding: 24px;
-    padding-top: 56px;
-
-    /* Color Stuff*/
-    background-color: #161B49;
-    color: white;
-
-    display: flex;
-    flex-direction: column;
-    align-content: space-between;
-}
-
-.zach-nav-link {
-    display: block;
-    padding-bottom: 24px;
-
-}
-
-.nav-icon {
-    padding-right: 16px;
-    margin-top: -1px;
-}
-
-#nav-logo {
-    width: 50%;
-    padding-bottom: 56px;
-}
-
-.nav-current-page {
-    font-weight: bold;
-    text-decoration: underline;
-    color: white;
-}
-
-.nav-current-page:hover {
-    text-decoration: underline;
-}
-
 a {
     cursor: pointer;
     color: white;

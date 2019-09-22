@@ -25,16 +25,14 @@ router.get("/", function (req, res) {
     res.send('This route is for all games and API related tasks');
 });
 
-// BEN TODO: MAKE THIS METHOD NOT CALLED ALL GAMES, CALL IT SOMETHING ELSE
 // AND MAKE THE URLS IN A CONSTANTS FOLDER
 /*
  * Get all games
  */
-router.get("/allgames", authenticate, async (req, res) => {
+router.get("/criticallyacclaimedgames", authenticate, async (req, res) => {
     const body = 'fields id,name,cover.image_id; where aggregated_rating > 95; limit 20; sort popularity desc;';
-    const url = 'https://api-v3.igdb.com/games';
 
-    const result = await axiosPost(url, body);
+    const result = await axiosPost('https://api-v3.igdb.com/games', body);
     if (result.data) {
         res.status(200).send(result.data);
     } else {
@@ -46,6 +44,7 @@ router.get("/allgames", authenticate, async (req, res) => {
  * Get detailed game data 
  */
 router.post("/detailedgamedata", authenticate, async (req, res) => {
+    
     if (!req.body.id) {
         res.status(400).send({ message: "Bad Request: ID for game was not provided" });
         return;

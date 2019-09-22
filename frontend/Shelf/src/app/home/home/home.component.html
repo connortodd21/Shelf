@@ -1,20 +1,7 @@
 
 <div id="full-container">
-  <nav id="nav-container">
-    <div class="flex-item-grow">
-        <img src="../../../assets/Nav/Logo.png" id="nav-logo">
-        <a class="zach-nav-link nav-current-page" routerLink="/home"><img src="../../../assets/Nav/Home.svg" class="nav-icon">Home</a>
-        <a class="zach-nav-link" routerLink="TODO"><img src="../../../assets/Nav/MyShelf.svg" class="nav-icon">My Shelf</a>
-        <a class="zach-nav-link" routerLink="/inbox"><img src="../../../assets/Nav/Messaging.svg" class="nav-icon">Inbox</a>
-        <a class="zach-nav-link" routerLink="TODO"><img src="../../../assets/Nav/Reviews.svg" class="nav-icon">Game Reviews</a>
-    </div>
 
-    <div class="flex-item-shrink">
-        <a class="zach-nav-link" routerLink="TODO"><img src="../../../assets/Nav/Settings.svg" class="nav-icon">Settings</a>
-        <a class="zach-nav-link" (click)="logout()"><img src="../../../assets/Nav/Sign Out.svg" class="nav-icon">Sign Out</a>
-    </div>
-
-  </nav>
+  <app-nav></app-nav>
 
   <!-- This div contains all of the actual content, such as the search bar and game list -->
   <div id="content-container">
