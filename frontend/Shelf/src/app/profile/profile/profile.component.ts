@@ -35,8 +35,8 @@ export class ProfileComponent implements OnInit {
       this.followers = res.followers;
       this.following = res.following;
       this.gamesService.getOverviewInfoAboutGames(this.user.games_rated).subscribe((gamesInfo) => {
-        this.ratedGames = gamesInfo;
-        console.log(this.ratedGames);
+        if (gamesInfo != null || gamesInfo != undefined)
+          this.ratedGames = gamesInfo;
       });
       this.profileService.getAllUsers().then(users => {
         let i: number;

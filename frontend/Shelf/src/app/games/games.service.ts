@@ -26,6 +26,7 @@ export class GamesService {
   }
 
   getOverviewInfoAboutGames(games): Observable<any> {
+    if (games.length == 0) return null;
     let gameIds = games.map(a => a.game_id);
     console.log('In the game service!');
     return this.http.post<object>('http://localhost:8080/games/multiplegameoverviews', {
