@@ -1,12 +1,14 @@
 
-<div (click)="gotoDetailedGameView()" class="game-overview-container">
+<div class="game-overview-container">
+  <div (click)="gotoDetailedGameView()">
     <img *ngIf="image_id != ''" class="game-overview-img" src="{{coverPath}}{{image_id}}.jpg" />
     <img *ngIf="image_id == ''" class="game-overview-img" src="../../assets/NoImageAvailable.png" />
   <div class="game-overview-text">
       {{name}}
-    <p>
-      <p-rating stars="5" [cancel]="false" readonly="true" disabled="true" [(ngModel)]="globalRating"></p-rating>
-      <p-rating stars="5" [cancel]="false" (onRate)="handleRate($event)" [ngModel]="userRating"></p-rating>
-    </p>
+  </div>
     </div>
+  <p>
+    <p-rating stars="5" [cancel]="false" readonly="true" disabled="true" [(ngModel)]="globalRating"></p-rating>
+    <p-rating stars="5" [cancel]="false" (onRate)="handleRate($event)" [ngModel]="userRating"></p-rating>
+  </p>
 </div>

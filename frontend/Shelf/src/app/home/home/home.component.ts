@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserModel } from '../../models/user.model';
-import { UserService } from '../../user/user.service';
-import { GamesService } from '../../games/games.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {UserModel} from '../../models/user.model';
+import {UserService} from '../../user/user.service';
+import {GamesService} from '../../games/games.service';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
     this.setupUser();
     this.getDashboardGames();
   }
+
 
   logout() {
     if (!this.userService.logoutUser()) {
@@ -40,39 +41,84 @@ export class HomeComponent implements OnInit {
   private getDashboardGames() {
 
     this.gamesService.getDashboardGames().subscribe(
-      // TODO try to make this nicer/ more performant in the future
       (response) => {
+
         this.dashboardGames = response;
-        let i;
-        for (i = 0; i < response.length; i++) {
-          this.addRatingInfo(i);
-        }
+
+        this.setupGlobalRatingInfo();
+        this.setupUserRatingInfo();
+
       }
     );
 
   }
-
-  private addRatingInfo(i) {
-    this.gamesService.getRatingInfo(this.dashboardGames[i].id).subscribe(
-      ratingInfo => {
-        if (ratingInfo) {
-          this.dashboardGames[i].number_of_players = ratingInfo.number_of_players;
-          this.dashboardGames[i].number_of_ratings = ratingInfo.number_of_ratings;
-          this.dashboardGames[i].total_rating_value = ratingInfo.total_rating_value;
-          this.dashboardGames[i].globalRating = ratingInfo.total_rating_value / ratingInfo.number_of_ratings;
-        } else {
-          this.dashboardGames[i].number_of_players = 0;
-          this.dashboardGames[i].number_of_ratings = 0;
-          this.dashboardGames[i].total_rating_value = 0;
-          this.dashboardGames[i].globalRating = 0;
-        }
-      });
-  }
-
 
   public goToProfile() {
     this.router.navigate(['/profile/' + this.user.username]);
   }
 
 
+  private setupGlobalRatingInfo() {
+    this.gamesService.getAllGlobalRatingInfo().subscribe(
+      ratingInfo => {
+
+        let map = new Map();
+        for (let i = 0; i < ratingInfo.length; i++) {
+          map.set(ratingInfo[i].game_id, ratingInfo[i]);
+        }
+
+
+        for (let i = 0; i < this.dashboardGames.length; i++) {
+
+          let key = this.dashboardGames[i].id.toString();
+
+          if (map.has(key)) {
+            let ratingInfo = map.get(key);
+            this.dashboardGames[i].number_of_players = ratingInfo.number_of_players;
+            this.dashboardGames[i].number_of_ratings = ratingInfo.number_of_ratings;
+            this.dashboardGames[i].total_rating_value = ratingInfo.total_rating_value;
+            if (ratingInfo.number_of_ratings == 0) {
+              this.dashboardGames[i].globalRating = 0;
+            }
+            else {
+              this.dashboardGames[i].globalRating = ratingInfo.total_rating_value / ratingInfo.number_of_ratings;
+            }
+
+          }
+          else {
+            this.dashboardGames[i].number_of_players = 0;
+            this.dashboardGames[i].number_of_ratings = 0;
+            this.dashboardGames[i].total_rating_value = 0;
+            this.dashboardGames[i].globalRating = 0;
+          }
+        }
+      }
+    )
+  }
+
+
+  private setupUserRatingInfo() {
+    this.userService.fetchUser(localStorage.getItem('user')).subscribe(
+      user => {
+        console.log(user.games_rated);
+        let map = new Map();
+        for (let i = 0; i < user.games_rated.length; i++) {
+          map.set(user.games_rated[i].game_id, user.games_rated[i].rating);
+        }
+        for (let i = 0; i < this.dashboardGames.length; i++) {
+
+          let key = this.dashboardGames[i].id.toString();
+
+          if (map.has(key)) {
+            this.dashboardGames[i].userRating = map.get(key);
+          }
+          else {
+            this.dashboardGames[i].userRating = 0;
+          }
+        }
+
+        console.log(this.dashboardGames)
+      }
+    )
+  }
 }
