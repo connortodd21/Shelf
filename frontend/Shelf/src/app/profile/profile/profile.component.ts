@@ -15,13 +15,15 @@ import { GamesService } from 'src/app/games/games.service';
 })
 export class ProfileComponent implements OnInit {
 
-  user: UserModel;
+  user: ProfileModel;
   allUsers: ProfileModel[];
   followers: string[];
   following: string[];
   messages: Message[];
   messageID: string;
   ratedGames;
+  globalRating: number;
+  userRating: number;
 
   // tslint:disable-next-line: max-line-length
   constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {
@@ -31,10 +33,11 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     const username = this.route.snapshot.params.username;
     this.profileService.getUserData(username).then(res => {
-      this.user = res;
+      this.user = new ProfileModel(res);
+      console.log(this.user);
       this.followers = res.followers;
       this.following = res.following;
-      this.gamesService.getOverviewInfoAboutGames(this.user.games_rated).subscribe((gamesInfo) => {
+      this.gamesService.getOverviewInfoAboutGames(this.user.gamesRated).subscribe((gamesInfo) => {
         if (gamesInfo != null || gamesInfo != undefined)
           this.ratedGames = gamesInfo;
       });
@@ -52,6 +55,8 @@ export class ProfileComponent implements OnInit {
         }
       });
     });
+
+
   }
 
   public goToProfile(username) {
