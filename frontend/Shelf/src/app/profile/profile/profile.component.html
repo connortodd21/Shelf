@@ -1,62 +1,76 @@
 <!-- Here, the is a list of user stuff and a search bar -->
 <!-- If you click a username on the friends list item in the *ngFor thing, it will take you to their profile -->
-<p *ngIf="user != null"> username {{user.username}} </p>
-<p *ngIf="user != null"> birthday {{user.birthday}} </p>
-<p *ngIf="user != null"> email {{user.email}} </p>
-<p *ngIf="user != null"> Date Created {{user.date_created}} </p>
-<div>
-    <div *ngIf="user != null">
-        Followers
-        <li *ngFor="let f of followers" (click)="goToProfile(f)">
-            <p> {{f}} </p>
-        </li>
-    </div>
-</div>
+<div id="full-container">
 
-<div>
-    <div *ngIf="user != null">
-        Following
-        <li *ngFor="let f of following" (click)="goToProfile(f)">
-            <p> {{f}} </p>
-        </li>
-    </div>
-</div>
+    <app-nav></app-nav>
 
-<p *ngIf="user != null"> Games Played {{user.games_played}} </p>
-<p *ngIf="user != null"> Games Rated {{user.games_rated}} </p>
-<p *ngIf="user != null"> Wish List {{user.wish_list}} </p>
+    <div id="content-container">
+        <p *ngIf="user != null"> username {{user.username}} </p>
+        <p *ngIf="user != null"> birthday {{user.birthday}} </p>
+        <p *ngIf="user != null"> email {{user.email}} </p>
+        <p *ngIf="user != null"> Date Created {{user.dateCreated}} </p>
+        <div>
+            <div *ngIf="user != null">
+                Followers
+                <li *ngFor="let f of followers" (click)="goToProfile(f)">
+                    <p> {{f}} </p>
+                </li>
+            </div>
+        </div>
 
-<div *ngIf="isMyProfile()">
-    <input type="text" [(ngModel)]="queryString" id="search" class="form-control" placeholder="Search for users"
-        title="friendSearch">
+        <div>
+            <div *ngIf="user != null">
+                Following
+                <li *ngFor="let f of following" (click)="goToProfile(f)">
+                    <p> {{f}} </p>
+                </li>
+            </div>
+        </div>
 
-    <!-- Whoever wants to make this look good, maybe add a button to add friend?  -->
-    <!-- maybe add some modal popup thingy idk, just make it more intuitive -->
-    <!-- Right now, to add a friend you just need to search then click their name -->
-    <div class="table">
-        <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">
-            <tbody>
-                <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString">
-                    <td (click)="followUser(user)">{{user.username}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+        <p *ngIf="user != null"> Games Played: {{user.gamesPlayed}} </p>
+        <span *ngIf="user != null && user.gamesRated != null">
+            <p>Games Rated: </p>
+            <span *ngFor="let item of ratedGames; let i = index">
+                <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating" [name]=item.name [id]=item.id
+                                   [image_id]=item.cover.image_id></app-game-overview>
+                <app-game-overview *ngIf="!item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating" [name]=item.name [id]=item.id image_id=""></app-game-overview>
+            </span>
+        </span>
+        <p *ngIf="user != null"> Wish List {{user.wishList}} </p>
 
-<div class="grid-item" *ngIf="messages != null">
-    <button class="messagesButton" mdbBtn type="button" color="info" mdbWavesEffect (click)="show = !show"
-        (click)="getMessages()"> View Messages </button>
-    <div class="overflowTest" *ngIf="show">
-        <div *ngFor="let m of messages">
-            <b>{{m.sender}}</b>:
-            {{m.message}}
-            {{m.timeStamp}}
+        <div *ngIf="isMyProfile()">
+            <input type="text" [(ngModel)]="queryString" id="search" class="form-control" placeholder="Search for users"
+                title="friendSearch">
+
+            <!-- Whoever wants to make this look good, maybe add a button to add friend?  -->
+            <!-- maybe add some modal popup thingy idk, just make it more intuitive -->
+            <!-- Right now, to add a friend you just need to search then click their name -->
+            <div class="table">
+                <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">
+                    <tbody>
+                        <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString">
+                            <td (click)="followUser(user)">{{user.username}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="grid-item" *ngIf="messages != null">
+            <button class="messagesButton" mdbBtn type="button" color="info" mdbWavesEffect (click)="show = !show"
+                (click)="getMessages()"> View Messages </button>
+            <div class="overflowTest" *ngIf="show">
+                <div *ngFor="let m of messages">
+                    <b>{{m.sender}}</b>:
+                    {{m.message}}
+                    {{m.timeStamp}}
+                </div>
+            </div>
+            <br>
+
+            <div *ngIf="show"><input #box placeholder="Add message" class="messagesInput"
+                    (keyup.enter)="sendMessage(box.value);box.value=''"> <a class="iconSize"
+                    (click)="sendMessage(box.value);box.value=''"><i class="fa fa-angle-double-right"></i></a></div>
         </div>
     </div>
-    <br>
-
-    <div *ngIf="show"><input #box placeholder="Add message" class="messagesInput"
-            (keyup.enter)="sendMessage(box.value);box.value=''"> <a class="iconSize"
-            (click)="sendMessage(box.value);box.value=''"><i class="fa fa-angle-double-right"></i></a></div>
 </div>
