@@ -42,6 +42,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: SEARCH_PAGE + '/:search',
+    component: SearchComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: INBOX_PAGE,
     component: InboxComponent,
     canActivate: [AuthGuard]

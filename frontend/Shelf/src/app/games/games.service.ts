@@ -18,13 +18,18 @@ export class GamesService {
     return this.http.get('http://localhost:8080/games/allgames');
   }
 
+  getSearchedGames(search): Observable<any> {
+    return this.http.post<object>('http://localhost:8080/games/searchedgames', {
+      search
+    });
+  }
+
   // BEN TODO: MAKE THESE URLS CONSTANTS
   getDetailedInfoAboutGame(id): Observable<any> {
     return this.http.post<object>('http://localhost:8080/games/detailedgamedata', {
       id
     });
   }
-
 
   getGlobalRatingInfo(id: string): Observable<any> {
     return this.http.get<GameModel>('http://localhost:8080/ratingInfo/' + id);

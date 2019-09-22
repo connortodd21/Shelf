@@ -43,6 +43,21 @@ router.get("/allgames", authenticate, async (req, res) => {
 })
 
 /*
+ * Get games from search query from the search page
+ */
+router.post("/searchedgames", authenticate, async (req, res) => {
+    const body = `fields id,name,cover.image_id; where  limit 20; search "${req.body.search};"`;
+    const url = 'https://api-v3.igdb.com/games';
+
+    const result = await axiosPost(url, body);
+    if (result.data) {
+        res.status(200).send(result.data);
+    } else {
+        res.status(400).send({ message: "There was an error retrieving game data" })
+    }
+})
+
+/*
  * Get detailed game data 
  */
 router.post("/detailedgamedata", authenticate, async (req, res) => {
