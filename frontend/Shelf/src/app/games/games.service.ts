@@ -25,6 +25,14 @@ export class GamesService {
     });
   }
 
+  getOverviewInfoAboutGames(games): Observable<any> {
+    let gameIds = games.map(a => a.game_id);
+    console.log('In the game service!');
+    return this.http.post<object>('http://localhost:8080/games/multiplegameoverviews', {
+      gameIds
+    });
+  }
+
 
   getRatingInfo(id: string): Observable<any> {
     return this.http.get<GameModel>('http://localhost:8080/ratingInfo/' + id);

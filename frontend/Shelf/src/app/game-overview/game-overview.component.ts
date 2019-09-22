@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { COVER_BIG } from '../constants/constants.images';
-import {GamesService} from "../games/games.service";
+import { GamesService } from "../games/games.service";
 
 @Component({
   selector: 'app-game-overview',

@@ -6,6 +6,7 @@ import { ProfileModel } from '../../models/profile.model';
 import { Message } from '../../models/message.model';
 import { InboxService } from '../../inbox/inbox/inbox.service';
 import { SEND_MESSAGE_NOTIFICATION, NEW_FOLLOWER_NOTIFICATION } from '../../constants/constants.messages';
+import { GamesService } from 'src/app/games/games.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,9 +21,10 @@ export class ProfileComponent implements OnInit {
   following: string[];
   messages: Message[];
   messageID: string;
+  ratedGames;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private router: Router) {
+  constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {
     this.messages = [];
   }
 
@@ -32,6 +34,10 @@ export class ProfileComponent implements OnInit {
       this.user = res;
       this.followers = res.followers;
       this.following = res.following;
+      this.gamesService.getOverviewInfoAboutGames(this.user.games_rated).subscribe((gamesInfo) => {
+        this.ratedGames = gamesInfo;
+        console.log(this.ratedGames);
+      });
       this.profileService.getAllUsers().then(users => {
         let i: number;
         const response = [];

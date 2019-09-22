@@ -15,10 +15,10 @@ import { UsernameFilter } from '../username.pipe';
 @NgModule({
   declarations: [
     ProfileComponent,
-    UsernameFilter,
+    UsernameFilter
   ],
   imports: [
-  CommonModule,
+    CommonModule,
     ButtonModule,
     InputMaskModule,
     MatCardModule,
