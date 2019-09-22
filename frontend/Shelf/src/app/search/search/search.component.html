@@ -1,0 +1,33 @@
+<!-- This div contains all of the actual content, such as the search bar and game list -->
+<div id="content-container">
+
+        <!-- Search bar and profile information located at the top of the page -->
+        <div id="content-bar">
+            <div class="search-wrapper">
+                <input class="search-bar" placeholder="Search for games" type="text" value="" name="search" id="home-page-search"/>
+                <img class="search-pic"src="../../../assets/Nav/Search.svg"/>
+            </div>
+    
+            <div class="profile-link">
+              <div class="profile-photo">
+    
+              </div>
+              <a class="profile-name" (click)="goToProfile()">{{user.username}}</a>
+            </div>
+        </div>
+    
+        <!-- This div contains a sneak peak of the list of games a user has saved -->
+        <div id="home-my-games">
+          <a class="header-link"><h1>My Games</h1><img class="header-link-arrow" src="../../../assets/Arrow.svg"></a>
+        </div>
+    
+        <!-- This div contains critically acclaimed games -->
+        <div id="home-critically-acclaimed">
+          <a class="header-link"><h1>Critically Acclaimed Games</h1><img class="header-link-arrow" src="../../../assets/Arrow.svg"></a>
+          <span *ngFor="let item of dashboardGames; let i = index">
+              <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [name]=item.name [id]=item.id
+                                 [image_id]=item.cover.image_id></app-game-overview>
+              <app-game-overview *ngIf="!item.cover" [name]=item.name [id]=item.id image_id=""></app-game-overview>
+            </span>
+        </div>
+      </div>

@@ -14,11 +14,13 @@ import { ToastModule } from 'primeng/toast';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileModule } from './profile/profile.module';
 import { InboxModule } from './inbox/inbox.module';
+import { SearchComponent } from './search/search/search.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
