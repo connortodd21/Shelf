@@ -16,17 +16,28 @@ export class DetailedGameComponent implements OnInit {
   screenshotPath;
   artworkUrls;
   globalRating: number;
+  userRating: number;
 
   constructor(private route: ActivatedRoute, private gamesService: GamesService) {
     this.route.params.subscribe( params => this.id = params.id );
   }
   ngOnInit() {
-    this.getDetailedGameData();
+    //if we navigated from home page, then we can save tons of time and use these
+
+    if (history.state.userRating !== undefined && history.state.globalRating !== undefined) {
+      this.globalRating = history.state.globalRating;
+      this.userRating = history.state.userRating;
+      this.getDetailedGameData(false);
+    }
+    else {
+      this.getDetailedGameData(true);
+    }
+
     this.coverPath = COVER_BIG;
     this.screenshotPath = SCREENSHOT_BIG;
   }
 
-  getDetailedGameData() {
+  getDetailedGameData(shouldFetchRatings: boolean) {
     this.gamesService.getDetailedInfoAboutGame(this.id).subscribe(
       (response) => {
         this.game = response.shift();
@@ -35,9 +46,17 @@ export class DetailedGameComponent implements OnInit {
         this.game.artworks.forEach(artwork => {
           this.artworkUrls.push(`${SCREENSHOT_BIG}${artwork.image_id}.jpg`);
         });
-        this.gamesService.getRatingInfo(this.id).subscribe(
+
+        if (shouldFetchRatings) {
+          this.gamesService.getGlobalRatingInfo(this.id).subscribe(
+            response => {
+              this.globalRating = response.total_rating_value / response.number_of_ratings;
+            }
+          )
+        }
+        this.gamesService.fetchUserRating(this.id).subscribe(
           response => {
-            this.globalRating = response.total_rating_value / response.number_of_ratings;
+            this.userRating = response.rating;
           }
         )
       }
@@ -62,14 +81,28 @@ export class DetailedGameComponent implements OnInit {
 
 
   handleRate(event) {
-    console.log(event);
-    // this.gamesService.submitRating(event.value, this.id).subscribe(
-    //   (res) => {
-    //     console.log("submitted rating");
-    //     console.log(res);
-    //   }
-    // );
+    this.gamesService.submitRatingToUser(event.value, this.userRating, this.id).subscribe(
+      () => {
 
+        this.gamesService.submitRatingToGame(event.value, this.userRating, this.id).subscribe(
+          () => {
+
+            this.gamesService.getGlobalRatingInfo(this.id).subscribe(
+              response => {
+                this.globalRating = response.total_rating_value / response.number_of_ratings;
+
+                if (event.value === this.userRating) {
+                  this.userRating = 0;
+                }
+                else {
+                  this.userRating = event.value;
+                }
+              }
+            )
+          }
+        )
+      }
+    );
   }
 
 }

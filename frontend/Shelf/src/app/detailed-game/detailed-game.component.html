@@ -7,7 +7,10 @@
         <p class="detailed-game-description">{{game.storyline}}</p>
     </span>
     <p class="detailed-game-heading">Rate this game!</p>
-    <p-rating stars="5" (onRate)="handleRate($event)" [(ngModel)]="globalRating"></p-rating>
+    <p>
+    <p-rating stars="5" [cancel]="false" readonly="true" disabled="true" [(ngModel)]="globalRating"></p-rating>
+    <p-rating stars="5" [cancel]="false" (onRate)="handleRate($event)" [ngModel]="userRating"></p-rating>
+    </p>
     <span *ngIf="game.genres">
         <p class="detailed-game-heading">Genre</p>
         <span *ngFor="let genre of game.genres; let i = index" class="detailed-game-badge">

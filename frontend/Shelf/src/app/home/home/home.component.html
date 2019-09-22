@@ -1,5 +1,5 @@
 
-<div id="full-container">
+<div *ngIf=user id="full-container">
   <nav id="nav-container">
     <div class="flex-item-grow">
         <img src="../../../assets/Nav/Logo.png" id="nav-logo">
@@ -44,7 +44,8 @@
     <div id="home-critically-acclaimed">
       <a class="header-link"><h1>Critically Acclaimed Games</h1><img class="header-link-arrow" src="../../../assets/Arrow.svg"></a>
       <span *ngFor="let item of dashboardGames; let i = index">
-          <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [name]=item.name [id]=item.id
+          <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating"
+                             [name]=item.name [id]=item.id
                              [image_id]=item.cover.image_id></app-game-overview>
           <app-game-overview *ngIf="!item.cover" [name]=item.name [id]=item.id image_id=""></app-game-overview>
         </span>

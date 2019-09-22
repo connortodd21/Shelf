@@ -1,4 +1,5 @@
 const express = require('express')
+var compression = require('compression')
 let cookieParser = require('cookie-parser');
 var cors = require('cors');
 require('dotenv').config();
@@ -10,8 +11,13 @@ let Message = require('./routes/message.js')
 let RatingInfo = require('./routes/ratingInfo');
 let Inbox = require('./routes/inbox')
 
-const app = express(cors());
 
+var app = express(cors());
+
+app.use(compression({
+    filter: function () { return true; },
+    threshold: 1000
+}));
 /* Parsers */
 app.use(cookieParser());
 app.use(express.json());
