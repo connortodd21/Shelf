@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit {
       console.log(this.user.gamesRated);
       this.gamesService.getOverviewInfoAboutGames(this.user.gamesRated).subscribe((gamesInfo) => {
         if (gamesInfo != null || gamesInfo != undefined) {
-          console.log("before")
+          console.log("before");
           this.ratedGames = gamesInfo;
           this.addUserRating();
           this.addGlobalRating();
