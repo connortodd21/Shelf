@@ -25,16 +25,14 @@ router.get("/", function (req, res) {
     res.send('This route is for all games and API related tasks');
 });
 
-// BEN TODO: MAKE THIS METHOD NOT CALLED ALL GAMES, CALL IT SOMETHING ELSE
 // AND MAKE THE URLS IN A CONSTANTS FOLDER
 /*
  * Get all games
  */
-router.get("/allgames", authenticate, async (req, res) => {
+router.get("/criticallyacclaimedgames", authenticate, async (req, res) => {
     const body = 'fields id,name,cover.image_id; where aggregated_rating > 95; limit 20; sort popularity desc;';
-    const url = 'https://api-v3.igdb.com/games';
 
-    const result = await axiosPost(url, body);
+    const result = await axiosPost('https://api-v3.igdb.com/games', body);
     if (result.data) {
         res.status(200).send(result.data);
     } else {
@@ -61,12 +59,31 @@ router.post("/searchedgames", authenticate, async (req, res) => {
  * Get detailed game data 
  */
 router.post("/detailedgamedata", authenticate, async (req, res) => {
+    
     if (!req.body.id) {
         res.status(400).send({ message: "Bad Request: ID for game was not provided" });
         return;
     }
 
     const body = `fields name,url,artworks.image_id,cover.image_id,first_release_date,genres.name,platforms.name,storyline; where id = ${req.body.id};`;
+    const url = 'https://api-v3.igdb.com/games';
+
+    const result = await axiosPost(url, body);
+    if (result.data) {
+        res.status(200).send(result.data);
+    } else {
+        res.status(400).send({ message: "There was an error retrieving detailed game data" })
+    }
+
+})
+
+router.post("/multiplegameoverviews", authenticate, async (req, res) => {
+    if (!req.body.gameIds) {
+        res.status(400).send({ message: "Bad Request: IDs for games were not provided" });
+        return;
+    }
+
+    const body = buildRequestBodyForMultipleGameOverviews(req.body.gameIds);
     const url = 'https://api-v3.igdb.com/games';
 
     const result = await axiosPost(url, body);
@@ -89,6 +106,19 @@ axiosPost = async (url, body) => {
         console.error('There was an error in the axiosPost method');
         return null;
     }
+}
+
+buildRequestBodyForMultipleGameOverviews = (gameIds) => {
+    let body = `fields id,name,cover.image_id; where `;
+    gameIds.forEach((id, i) => {
+        if (i != 0) {
+            body += ' | ';
+        }
+        body += `id = ${id}`;
+    });
+    body += ';';
+    console.log(body);
+    return body;
 }
 
 module.exports = router;

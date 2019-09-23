@@ -9,16 +9,18 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ToastModule } from 'primeng/toast';
 import { ProfileComponent } from './profile/profile.component';
 import { UsernameFilter } from '../username.pipe';
+import { GameOverviewModule } from "../game-overview/game-overview.module";
+import { NavModule } from '../nav/nav.module';
 
 
 
 @NgModule({
   declarations: [
     ProfileComponent,
-    UsernameFilter,
+    UsernameFilter
   ],
   imports: [
-  CommonModule,
+    CommonModule,
     ButtonModule,
     InputMaskModule,
     MatCardModule,
@@ -26,7 +28,9 @@ import { UsernameFilter } from '../username.pipe';
     PasswordModule,
     FormsModule,
     ToastModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    GameOverviewModule,
+    NavModule
   ]
 })
 export class ProfileModule { }

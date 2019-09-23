@@ -6,6 +6,7 @@ import { ProfileModel } from '../../models/profile.model';
 import { Message } from '../../models/message.model';
 import { InboxService } from '../../inbox/inbox/inbox.service';
 import { SEND_MESSAGE_NOTIFICATION, NEW_FOLLOWER_NOTIFICATION } from '../../constants/constants.messages';
+import { GamesService } from 'src/app/games/games.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,24 +15,32 @@ import { SEND_MESSAGE_NOTIFICATION, NEW_FOLLOWER_NOTIFICATION } from '../../cons
 })
 export class ProfileComponent implements OnInit {
 
-  user: UserModel;
+  user: ProfileModel;
   allUsers: ProfileModel[];
   followers: string[];
   following: string[];
   messages: Message[];
   messageID: string;
+  ratedGames;
+  globalRating: number;
+  userRating: number;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private router: Router) {
+  constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {
     this.messages = [];
   }
 
   ngOnInit() {
     const username = this.route.snapshot.params.username;
     this.profileService.getUserData(username).then(res => {
-      this.user = res;
+      this.user = new ProfileModel(res);
+      console.log(this.user);
       this.followers = res.followers;
       this.following = res.following;
+      this.gamesService.getOverviewInfoAboutGames(this.user.gamesRated).subscribe((gamesInfo) => {
+        if (gamesInfo != null || gamesInfo != undefined)
+          this.ratedGames = gamesInfo;
+      });
       this.profileService.getAllUsers().then(users => {
         let i: number;
         const response = [];
@@ -46,6 +55,8 @@ export class ProfileComponent implements OnInit {
         }
       });
     });
+
+
   }
 
   public goToProfile(username) {
