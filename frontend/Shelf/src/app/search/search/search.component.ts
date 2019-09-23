@@ -22,7 +22,6 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
   }
 
-
   private getSearchedGames() {
 
     console.log('searching');
