@@ -6,7 +6,10 @@ export class ProfileModel {
     following: string[];
     dateCreated: Date;
     gamesPlayed: string[];
-    gamesRated: string[];
+    gamesRated: [{
+      game_id: string,
+      rating: number,
+    }]
     inbox: string[];
     wishList: string[];
 
@@ -16,7 +19,7 @@ export class ProfileModel {
         this.birthday = response.birthday;
         this.dateCreated = response.date_created;
         this.gamesPlayed = response.games_played;
-        this.gamesRated = response.games_rated;
+        this.gamesRated =  response.games_rated;
         this.inbox = response.inbox;
         this.wishList = response.wish_list;
         this.followers = response.followers;

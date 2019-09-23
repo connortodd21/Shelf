@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from './profile.service';
-import { UserModel } from '../../models/user.model';
 import { ProfileModel } from '../../models/profile.model';
 import { Message } from '../../models/message.model';
 import { InboxService } from '../../inbox/inbox/inbox.service';
@@ -22,8 +21,6 @@ export class ProfileComponent implements OnInit {
   messages: Message[];
   messageID: string;
   ratedGames;
-  globalRating: number;
-  userRating: number;
 
   // tslint:disable-next-line: max-line-length
   constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {
@@ -37,9 +34,16 @@ export class ProfileComponent implements OnInit {
       console.log(this.user);
       this.followers = res.followers;
       this.following = res.following;
+      console.log(this.user.gamesRated);
       this.gamesService.getOverviewInfoAboutGames(this.user.gamesRated).subscribe((gamesInfo) => {
-        if (gamesInfo != null || gamesInfo != undefined)
+        if (gamesInfo != null || gamesInfo != undefined) {
+          console.log("before")
           this.ratedGames = gamesInfo;
+          this.addUserRating();
+         // this.addGlobalRating();
+          console.log(gamesInfo);
+        }
+        console.log(this.ratedGames)
       });
       this.profileService.getAllUsers().then(users => {
         let i: number;
@@ -115,4 +119,20 @@ export class ProfileComponent implements OnInit {
     this.profileService.newConversation(localStorage.getItem('user'), this.user.username);
   }
 
+  private addUserRating() {
+    console.log("begin")
+    let map = new Map();
+    for (let i = 0; i < this.user.gamesRated.length; i++) {
+      map.set(this.user.gamesRated[i].game_id, this.user.gamesRated[i].rating);
+    }
+
+    for (let i = 0; i < this.ratedGames.length; i++) {
+      console.log(map);
+      console.log(this.ratedGames[0]);
+      if (map.has(this.ratedGames[i].id.toString())) {
+
+        this.ratedGames[i].userRating = map.get(this.ratedGames[i].id.toString());
+      }
+    }
+  }
 }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserModel } from '../../models/user.model';
 // tslint:disable-next-line: max-line-length
 import { USER_DATA_URL, ALL_USERS_URL, SEND_MESSAGE_URL, NEW_MESSAGE_URL, GET_ALL_MESSAGES_URL, FOLLOW_URL } from '../../constants/constants.urls';
+import {ProfileModel} from "../../models/profile.model";
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -17,7 +18,7 @@ export class ProfileService {
     constructor(private http: HttpClient, private router: Router) { }
 
     getUserData(username: string) {
-        return this.http.post<UserModel>(USER_DATA_URL, {username} ).toPromise();
+        return this.http.post<ProfileModel>(USER_DATA_URL, {username} ).toPromise();
     }
 
     getAllUsers() {
