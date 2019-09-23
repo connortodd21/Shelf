@@ -14,11 +14,15 @@ import { ToastModule } from 'primeng/toast';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileModule } from './profile/profile.module';
 import { InboxModule } from './inbox/inbox.module';
+import { SearchComponent } from './search/search/search.component';
+import { NavModule } from './nav/nav.module';
+import { GameOverviewModule } from './game-overview/game-overview.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -30,11 +34,13 @@ import { InboxModule } from './inbox/inbox.module';
     AppRoutingModule,
     LoginModule,
     HomeModule,
+    NavModule,
     ToastModule,
     FormsModule,
     ReactiveFormsModule,
     ProfileModule,
     InboxModule,
+    GameOverviewModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

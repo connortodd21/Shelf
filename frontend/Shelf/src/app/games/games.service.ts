@@ -17,6 +17,12 @@ export class GamesService {
     return this.http.get('http://localhost:8080/games/criticallyacclaimedgames');
   }
 
+  getSearchedGames(search): Observable<any> {
+    return this.http.post<object>('http://localhost:8080/games/searchedgames', {
+      search
+    });
+  }
+
   // BEN TODO: MAKE THESE URLS CONSTANTS
   getDetailedInfoAboutGame(id): Observable<any> {
     return this.http.post<object>('http://localhost:8080/games/detailedgamedata', {

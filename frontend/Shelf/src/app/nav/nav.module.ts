@@ -3,7 +3,7 @@ import { AppRoutingModule } from "../app-routing.module";
 import { CommonModule } from "@angular/common";
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from "@angular/forms";
-import { NavComponent } from "../nav/nav.component";
+import { NavComponent } from '../nav/nav.component';
 
 @NgModule({
   declarations: [
