@@ -4,6 +4,7 @@ let mongoose = require('mongoose');
 var hash = require('../middleware/hash')
 var bcrypt = require('bcrypt')
 var authenticate = require('../middleware/authenticate')
+var mailer = require('../middleware/mailer')
 
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useNewUrlParser', true);
@@ -41,6 +42,21 @@ router.get("/all-users", authenticate, (req, res) => {
 
 })
 
+router.get("/:username/games-rated/:gameId", authenticate, (req, res) => {
+
+    User.findOne({ username: req.params.username }, { games_rated: { $elemMatch: { game_id: req.params.gameId } } }).then(user => {
+        if (!user.games_rated.length) {
+            res.status(200).send({ rating: '0' });
+            return
+        }
+        res.status(200).send({ rating: user.games_rated[0].rating });
+        return
+    }).catch((err) => {
+        res.status(500).send(err)
+        return
+    })
+});
+
 /*
  * Register new user 
  */
@@ -56,6 +72,7 @@ router.post("/register", (req, res) => {
 
         var inbox = new Inbox()
         inbox.save();
+        var verificationNum = crypto.randomBytes(64).toString('hex');
 
         // User Data
         var newUser = new User({
@@ -63,12 +80,20 @@ router.post("/register", (req, res) => {
             email: req.body.email,
             password: password,
             birthday: req.body.birthday,
-            inboxID: inbox._id
+            inboxID: inbox._id,
+            verificationNum: verificationNum,
         });
+
+
+        const body = "Dear " + req.body.username +
+            ",\n\nThank you for registering for our service. Please verify your email using the following code:\n" +
+            verificationNum + "\n\Best, \nThe Shelf Team";
+        const subject = "Welcome to Shelf!"
 
         // Add to database with auth
         newUser.save().then(() => {
             return newUser.generateAuth().then((token) => {
+                mailer(req.body.email, subject, body);
                 res.status(200).send(newUser);
                 return
             });
@@ -103,6 +128,11 @@ router.post('/login', (req, res) => {
 
         if (!user) {
             res.status(404).send({ message: "Not Found: User does not exist" })
+            return;
+        }
+
+        if (!user.verified) {
+            res.status(401).send({ message: "Please verify your email before logging in" })
             return;
         }
 
@@ -259,9 +289,9 @@ router.post("/data", authenticate, (req, res) => {
 
 router.post("/:username/games-rated", authenticate, (req, res) => {
     //no previous rating
-    if (req.body.oldRating === 0 || req.body.oldRating === '0' ) {
+    if (req.body.oldRating === 0 || req.body.oldRating === '0') {
 
-        User.findOneAndUpdate({username: req.params.username}, {
+        User.findOneAndUpdate({ username: req.params.username }, {
             $push: {
                 games_rated: {
                     game_id: req.body.gameId,
@@ -280,7 +310,7 @@ router.post("/:username/games-rated", authenticate, (req, res) => {
     }
     //user asking to delete rating
     else if (req.body.oldRating === req.body.newRating) {
-        User.findOneAndUpdate({username: req.params.username}, {
+        User.findOneAndUpdate({ username: req.params.username }, {
             $pull: {
                 games_rated: {
                     game_id: req.body.gameId,
@@ -297,8 +327,8 @@ router.post("/:username/games-rated", authenticate, (req, res) => {
     }
     else {
         //previous rating
-        User.findOneAndUpdate({username: req.params.username, "games_rated.game_id": req.body.gameId}, {
-            $set: { "games_rated.$.rating" : req.body.newRating}
+        User.findOneAndUpdate({ username: req.params.username, "games_rated.game_id": req.body.gameId }, {
+            $set: { "games_rated.$.rating": req.body.newRating }
         }).then(usr => {
             res.status(200).send({ message: req.body.gameId + " updated to new rating!" })
             return
@@ -309,20 +339,111 @@ router.post("/:username/games-rated", authenticate, (req, res) => {
     }
 });
 
+router.post('/change-password', authenticate, (req, res) => {
+    if (!req.body || !req.body.password) {
+        res.status(400).send({ message: "User information incomplete" })
+        return
+    }
 
-router.get("/:username/games-rated/:gameId", authenticate, (req, res) => {
-
-    User.findOne({username: req.params.username},{games_rated: {$elemMatch: {game_id:req.params.gameId}}}).then(user => {
-            if (!user.games_rated.length) {
-                res.status(200).send({rating: '0'});
-                return
+    hash(req.body.password).then(hashedPassword => {
+        // console.log("encrypt: " + encryptedPassword)
+        User.findOneAndUpdate({ username: req.user.username }, {
+            $set: {
+                password: hashedPassword
             }
-            res.status(200).send({rating: user.games_rated[0].rating});
+        }).then(() => {
+            // console.log("passwd set")
+            res.status(200).send({ message: "Password changed!" })
             return
+        }).catch( err => {
+            res.status(500).send(err);
+            return;
+        });
+    }).catch( err => {
+        res.status(500).send(err);
+        return;
+    });
+})
+
+router.post('/forgot-password', (req, res) => {
+    if (!req.body || !req.body.email) {
+        res.status(400).send({ message: "Forgot password is incomplete" });
+        return;
+    }
+
+    if (!validate_email(req.body.email)) {
+        res.status(401).send({ message: "Invalid email" });
+        return;
+    }
+    // Find user by email
+    if (req.body.email) {
+        User.findByEmail(req.body.email).then((user) => {
+            const tempPassword = crypto.randomBytes(64).toString('hex');
+            const email_subject = "Shelf Password Reset";
+            const email_body = "Dear " + user.email + ", \n\nOur records indicate that you have requested a password " +
+                "reset. Your new temporary password is:\n\n" +
+                tempPassword + "\n\nSincerely, \n\nThe Shelf Team";
+            hash(tempPassword).then(hashedPassword => {
+                User.findOneAndUpdate({ email: user.email }, {
+                    $set: {
+                        password: hashedPassword
+                    }
+                }).then(() => {
+                }).catch((err) => {
+                    res.status(500).send(err);
+                    return;
+                });
+            }).catch(err => {
+                res.status(500).send(err);
+                return;
+            });
+            // Send email to user
+            mailer(usr.email, email_subject, email_body);
+            res.status(200).send({ message: 'Password has successfully been reset.' });
+            return;
         }).catch((err) => {
+            if (err.code === 11000) {
+                res.status(404).send({ message: "Email does not exist in our records." });
+                return;
+            }
             res.status(500).send(err)
-            return
-        })
-});
+            return;
+        });
+    }
+})
+
+router.post("/verify-email", (req, res) => {
+    if (!req.body || !req.body.verificationNum || !req.body.email) {
+        res.status(400).send({ message: "User data is incomplete" });
+        return;
+    }
+
+    User.findVerificationNumByEmail(req.body.email).then((verificationNum) => {
+        if (verificationNum != req.body.verificationNum) {
+            res.status(401).send({ message: "Verification code does not match" });
+            return;
+        }
+        else {
+            User.findOneAndUpdate({ email: req.body.email }, {
+                $set: {
+                    verified: true
+                }
+            }).then(() => {
+                res.status(200).send({ message: "User has been succesfully verified" });
+                return;
+            }).catch((err) => {
+                res.status(500).send(err);
+                return;
+            });
+        }
+    }).catch((err) => {
+        if (err.code === 11000) {
+            res.status(404).send({ message: "Email does not exist in our records." });
+            return;
+        }
+        res.status(500).send(err)
+        return;
+    });
+})
 
 module.exports = router;

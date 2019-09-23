@@ -16,11 +16,11 @@ let userSchema = new mongoose.Schema({
   },
   birthday: { type: Date },
   games_played: { type: [String] },
-    games_rated: [{
-        game_id: { type: String },
-        rating: { type: Number },
-    }],
-  favorites: { type: [String] }, 
+  games_rated: [{
+    game_id: { type: String },
+    rating: { type: Number },
+  }],
+  favorites: { type: [String] },
   followers: { type: [String] },
   following: { type: [String] },
   inbox: { type: [String] },
@@ -41,38 +41,51 @@ let userSchema = new mongoose.Schema({
 
 /* Generate authentication token for user */
 userSchema.methods.generateAuth = function () {
-    var user = this
-    var access = 'auth'
+  var user = this
+  var access = 'auth'
 
-    var token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET, { expiresIn: "10h" }).toString()
-    user.tokens = user.tokens.concat([{ access, token }]);
+  var token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET, { expiresIn: "10h" }).toString()
+  user.tokens = user.tokens.concat([{ access, token }]);
 
-    return user.save().then(() => {
-      return token
-    })
+  return user.save().then(() => {
+    return token
+  })
 }
 
 /* Find a user bu their authentication token */
 userSchema.statics.findByToken = function (token) {
-    var User = this
-    var decodedTokenObj;
-  
-    try {
-      decodedTokenObj = jwt.verify(token, process.env.JWT_SECRET);
-    } catch (err) {
+  var User = this
+  var decodedTokenObj;
+
+  try {
+    decodedTokenObj = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    return Promise.reject();
+  }
+
+  return User.findOne({
+    _id: decodedTokenObj._id,
+    'tokens.token': token,
+    'tokens.access': 'auth'
+  });
+}
+
+userSchema.statics.findVerificationNumByEmail = function (email) {
+  var User = this;
+
+  return User.findOne({ email }).then((user) => {
+    if (!user.verificationNum) {
       return Promise.reject();
     }
-  
-    return User.findOne({
-      _id: decodedTokenObj._id,
-      'tokens.token': token,
-      'tokens.access': 'auth'
-    });
-  }
+    else {
+      return Promise.resolve(user.verificationNum);
+    }
+  });
+};
 
 /* Function to prevent too much information from being returned on request when the response is the object */
 userSchema.methods.toJSON = function () {
-  return ld.pick(this.toObject(), ['_id', 'username', 'email', 'birthday', 'games_played', 'games_rated', 'favorites', 'followers', 'following' , 'inbox', 'wish_list', 'date_created', 'inboxID'])
+  return ld.pick(this.toObject(), ['_id', 'username', 'email', 'birthday', 'games_played', 'games_rated', 'favorites', 'followers', 'following', 'inbox', 'wish_list', 'date_created', 'inboxID'])
 }
 
 /* Creating the user model from the schema and giving it to Mongoose */
