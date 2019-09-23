@@ -44,7 +44,7 @@ router.get("/criticallyacclaimedgames", authenticate, async (req, res) => {
  * Get games from search query from the search page
  */
 router.post("/searchedgames", authenticate, async (req, res) => {
-    const body = `fields id,name,cover.image_id; where  limit 20; search "${req.body.search};"`;
+    const body = `fields id,name,cover.image_id; limit 20; search \"${req.body.search}\";`;
     const url = 'https://api-v3.igdb.com/games';
 
     const result = await axiosPost(url, body);

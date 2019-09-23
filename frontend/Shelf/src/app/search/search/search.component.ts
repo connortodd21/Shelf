@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { UserService } from '../../user/user.service';
 import { GamesService } from '../../games/games.service';
 import { ActivatedRoute } from '@angular/router';
@@ -28,7 +28,7 @@ export class SearchComponent implements OnInit {
 
     this.gamesService.getSearchedGames(this.queryString).subscribe(
       (response) => {
-
+        console.log('games found!');
         this.searchedGames = response;
 
         this.setupGlobalRatingInfo();
