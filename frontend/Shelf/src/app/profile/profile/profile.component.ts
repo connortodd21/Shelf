@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit {
           console.log("before")
           this.ratedGames = gamesInfo;
           this.addUserRating();
-         // this.addGlobalRating();
+          this.addGlobalRating();
           console.log(gamesInfo);
         }
         console.log(this.ratedGames)
@@ -134,5 +134,43 @@ export class ProfileComponent implements OnInit {
         this.ratedGames[i].userRating = map.get(this.ratedGames[i].id.toString());
       }
     }
+  }
+
+  private addGlobalRating() {
+    this.gamesService.getAllGlobalRatingInfo().subscribe(
+      ratingInfo => {
+
+        let map = new Map();
+        for (let i = 0; i < ratingInfo.length; i++) {
+          map.set(ratingInfo[i].game_id, ratingInfo[i]);
+        }
+
+
+        for (let i = 0; i < this.ratedGames.length; i++) {
+
+          let key = this.ratedGames[i].id.toString();
+
+          if (map.has(key)) {
+            let ratingInfo = map.get(key);
+            this.ratedGames[i].number_of_players = ratingInfo.number_of_players;
+            this.ratedGames[i].number_of_ratings = ratingInfo.number_of_ratings;
+            this.ratedGames[i].total_rating_value = ratingInfo.total_rating_value;
+            if (ratingInfo.number_of_ratings == 0) {
+              this.ratedGames[i].globalRating = 0;
+            }
+            else {
+              this.ratedGames[i].globalRating = ratingInfo.total_rating_value / ratingInfo.number_of_ratings;
+            }
+
+          }
+          else {
+            this.ratedGames[i].number_of_players = 0;
+            this.ratedGames[i].number_of_ratings = 0;
+            this.ratedGames[i].total_rating_value = 0;
+            this.ratedGames[i].globalRating = 0;
+          }
+        }
+      }
+    )
   }
 }
