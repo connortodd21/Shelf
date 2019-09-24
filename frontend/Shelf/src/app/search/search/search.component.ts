@@ -28,6 +28,7 @@ export class SearchComponent implements OnInit {
   private gotoSearchWithQuery() {
     this.router.navigate([`/search/${this.queryString}`]);
     this.getSearchedGames();
+    this.queryString = undefined;
   }
 
   private getSearchedGames() {
