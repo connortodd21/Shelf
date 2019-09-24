@@ -7,7 +7,7 @@
             <div class="search-wrapper">
                 <input class="search-bar" [(ngModel)]="queryString" placeholder="Search for games" 
                 type="text" name="search" id="search-page-search"/>
-                <input type="image" class="search-pic" src="../../../assets/Nav/Search.svg" (click)="getSearchedGames()"/>
+                <input type="image" class="search-pic" src="../../../assets/Nav/Search.svg" (click)="gotoSearchWithQuery()"/>
             </div>
         </div>
         <div id="search-results">

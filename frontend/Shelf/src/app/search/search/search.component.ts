@@ -17,9 +17,17 @@ export class SearchComponent implements OnInit {
   constructor(private router: Router, private gamesService: GamesService,
               private userService: UserService, private route: ActivatedRoute) {
     this.route.params.subscribe( params => this.queryString = params.search );
+    if (this.queryString !== undefined) {
+      this.gotoSearchWithQuery();
+    }
   }
 
   ngOnInit() {
+  }
+
+  private gotoSearchWithQuery() {
+    this.router.navigate([`/search/${this.queryString}`]);
+    this.getSearchedGames();
   }
 
   private getSearchedGames() {
