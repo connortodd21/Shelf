@@ -5,6 +5,7 @@ var hash = require('../middleware/hash')
 var bcrypt = require('bcrypt')
 var authenticate = require('../middleware/authenticate')
 var mailer = require('../middleware/mailer')
+var crypto = require('crypto')
 
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useNewUrlParser', true);
@@ -106,11 +107,14 @@ router.post("/register", (req, res) => {
                 res.status(409).send({ message: "Conflict: User already exists" })
                 return
             }
+            console.log(err)
             res.status(500).send(err)
             return;
         })
     }).catch(err => {
+        console.log(err)
         res.status(500).send(err)
+        return;
     })
 });
 
@@ -355,11 +359,11 @@ router.post('/change-password', authenticate, (req, res) => {
             // console.log("passwd set")
             res.status(200).send({ message: "Password changed!" })
             return
-        }).catch( err => {
+        }).catch(err => {
             res.status(500).send(err);
             return;
         });
-    }).catch( err => {
+    }).catch(err => {
         res.status(500).send(err);
         return;
     });
@@ -371,14 +375,10 @@ router.post('/forgot-password', (req, res) => {
         return;
     }
 
-    if (!validate_email(req.body.email)) {
-        res.status(401).send({ message: "Invalid email" });
-        return;
-    }
     // Find user by email
     if (req.body.email) {
         User.findByEmail(req.body.email).then((user) => {
-            const tempPassword = crypto.randomBytes(64).toString('hex');
+            const tempPassword = crypto.randomBytes(5).toString('hex');
             const email_subject = "Shelf Password Reset";
             const email_body = "Dear " + user.email + ", \n\nOur records indicate that you have requested a password " +
                 "reset. Your new temporary password is:\n\n" +
@@ -389,21 +389,15 @@ router.post('/forgot-password', (req, res) => {
                         password: hashedPassword
                     }
                 }).then(() => {
-                }).catch((err) => {
-                    res.status(500).send(err);
+                    // Send email to user
+                    mailer(user.email, email_subject, email_body);
+                    res.status(200).send({ message: 'Password has been reset.' });
                     return;
-                });
-            }).catch(err => {
-                res.status(500).send(err);
-                return;
-            });
-            // Send email to user
-            mailer(usr.email, email_subject, email_body);
-            res.status(200).send({ message: 'Password has successfully been reset.' });
-            return;
+                })
+            })
         }).catch((err) => {
-            if (err.code === 11000) {
-                res.status(404).send({ message: "Email does not exist in our records." });
+            if (err === undefined) {
+                res.status(404).send({message: 'Email does not exist.'})
                 return;
             }
             res.status(500).send(err)

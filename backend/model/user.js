@@ -83,6 +83,19 @@ userSchema.statics.findVerificationNumByEmail = function (email) {
   });
 };
 
+userSchema.statics.findByEmail = function(email) {
+  var User = this;
+
+  return User.findOne({email}).then((user) => {
+    if (user == null || !user.email) {
+      return Promise.reject();
+    }
+    else {
+      return Promise.resolve(user);
+    }
+  });
+};
+
 /* Function to prevent too much information from being returned on request when the response is the object */
 userSchema.methods.toJSON = function () {
   return ld.pick(this.toObject(), ['_id', 'username', 'email', 'birthday', 'games_played', 'games_rated', 'favorites', 'followers', 'following', 'inbox', 'wish_list', 'date_created', 'inboxID'])

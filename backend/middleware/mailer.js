@@ -1,6 +1,6 @@
 var nodemailer = require('nodemailer');
 
-var email_address = "ultimateshelf01@gmail.com"
+var email_address = process.env.EMAIL
 
 function mailer(to, subject, body) {
     var transporter = nodemailer.createTransport({
