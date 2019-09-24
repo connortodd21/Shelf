@@ -9,7 +9,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ToastModule } from 'primeng/toast';
 import { ProfileComponent } from './profile/profile.component';
 import { UsernameFilter } from '../username.pipe';
-import { GameOverviewModule } from "../game-overview/game-overview.module";
+import { GameOverviewModule } from '../game-overview/game-overview.module';
 import { NavModule } from '../nav/nav.module';
 
 

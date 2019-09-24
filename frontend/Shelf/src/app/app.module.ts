@@ -17,15 +17,16 @@ import { InboxModule } from './inbox/inbox.module';
 import { SearchComponent } from './search/search/search.component';
 import { NavModule } from './nav/nav.module';
 import { GameOverviewModule } from './game-overview/game-overview.module';
+import { SettingsModule } from './settings/settings.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    SearchComponent
+    SearchComponent,
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
@@ -41,6 +42,7 @@ import { GameOverviewModule } from './game-overview/game-overview.module';
     ProfileModule,
     InboxModule,
     GameOverviewModule,
+    SettingsModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

@@ -5,6 +5,7 @@ import { AuthData } from '../../models/auth.data.model';
 import { MessageService } from 'primeng/api';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ngx-custom-validators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
@@ -25,10 +26,11 @@ export class LoginComponent implements OnInit {
   registerForm: FormGroup;
   registerSubmit = false;
   error = 'NULL';
-
+  forgotPasswordForm: FormGroup;
+  forgotPasswordSubmit = false;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private router: Router, public loginService: LoginService, private messageService: MessageService, private formBuilder: FormBuilder) {
+  constructor(private router: Router, public loginService: LoginService, private messageService: MessageService, private formBuilder: FormBuilder, private modalService: NgbModal) {
     if (this.loginService.getAuthToken()) {
       this.router.navigate(['/home']);
     }
@@ -48,6 +50,9 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       birthday: ['', [Validators.required, CustomValidators.date]]
     }, { validator: this.checkPasswords });
+    this.forgotPasswordForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
   }
 
   setIsRegistering(value: boolean) {
@@ -125,10 +130,38 @@ export class LoginComponent implements OnInit {
     this.messageService.add({ severity: 'success', summary: 'Success!', detail: successMessage });
   }
 
-  private checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+  private checkPasswords(group: FormGroup) {
     const pass = group.controls.password.value;
     const confirmPass = group.controls.confirmPassword.value;
 
     return pass === confirmPass ? null : { notSame: true };
+  }
+
+  openModal(content) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+      console.log(result);
+    }).catch(err => {
+
+    });
+  }
+
+  forgotPassword(form: NgForm) {
+    this.forgotPasswordSubmit = true;
+    if (this.forgotPasswordForm.invalid) {
+      return;
+    }
+    this.loginService.forgotPassword(form.value.email).then(
+      response => {
+      }).catch(
+        error => {
+          this.error = error.error.message;
+          if (error.error.message === 'Email does not exist.') {
+            this.error = 'emailNotFound';
+          }
+          else {
+            this.error = 'fatalModal';
+          }
+        });
+    window.location.replace('/login');
   }
 }
