@@ -40,12 +40,12 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: SEARCH_PAGE,
+    path: SEARCH_PAGE + '/:search',
     component: SearchComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: SEARCH_PAGE + '/:search',
+    path: SEARCH_PAGE,
     component: SearchComponent,
     canActivate: [AuthGuard]
   },
