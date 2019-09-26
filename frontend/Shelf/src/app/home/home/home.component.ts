@@ -3,6 +3,14 @@ import {Router} from '@angular/router';
 import {UserModel} from '../../models/user.model';
 import {UserService} from '../../user/user.service';
 import {GamesService} from '../../games/games.service';
+import {SelectItem} from "primeng/api";
+import {
+  GLOBAL_RATING_ASC,
+  GLOBAL_RATING_DESC,
+  RANDOM_SORTING,
+  USER_RATING_ASC,
+  USER_RATING_DESC
+} from "./home.constants";
 
 @Component({
   selector: 'app-home',
@@ -13,11 +21,16 @@ export class HomeComponent implements OnInit {
 
   user: UserModel;
   dashboardGames;
+  filterText: string;
+  sortOptions: SelectItem[];
+  selectedOption = RANDOM_SORTING;
 
   constructor(private router: Router, private userService: UserService, private gamesService: GamesService) { }
-    ngOnInit() {
+
+  ngOnInit() {
     this.setupUser();
     this.getDashboardGames();
+    this.setSortOptions();
   }
 
 
@@ -47,6 +60,7 @@ export class HomeComponent implements OnInit {
 
         this.setupGlobalRatingInfo();
         this.setupUserRatingInfo();
+        this.shuffle(response);
 
       }
     );
@@ -119,5 +133,23 @@ export class HomeComponent implements OnInit {
         console.log(this.dashboardGames)
       }
     )
+  }
+
+  private setSortOptions() {
+    this.sortOptions = [
+      {label:'Random', value: RANDOM_SORTING},
+      {label:'Global Rating: Asc', value: GLOBAL_RATING_ASC},
+      {label:'Global Rating: Desc', value: GLOBAL_RATING_DESC},
+      {label:'User Rating: Asc', value: USER_RATING_ASC},
+      {label:'User Rating: Desc', value: USER_RATING_DESC},
+    ];
+  }
+
+  private shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+
+      [array[i], array[j]] = [array[j], array[i]];
+    }
   }
 }
