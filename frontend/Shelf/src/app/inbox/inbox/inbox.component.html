@@ -1,8 +1,14 @@
-<div *ngIf="hasNotifications">
-    <li *ngFor="let i of inbox">
-        <p>{{i.message}}</p>
-        <p>{{i.sender}}</p>
-        <p>{{i.timeStamp}}</p>
-        <p>{{i.hasBeenRead}}</p>
-    </li>
+<div id="full-container">
+
+  <app-nav></app-nav>
+
+  <div *ngIf="hasNotifications">
+      <li *ngFor="let i of inbox">
+          <p>{{i.message}}</p>
+          <p>{{i.sender}}</p>
+          <p>{{i.timeStamp}}</p>
+          <p>{{i.hasBeenRead}}</p>
+     </li>
+  </div>
+
 </div>
