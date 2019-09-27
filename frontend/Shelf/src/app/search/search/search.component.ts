@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {ResolveEnd, Router} from '@angular/router';
 import { UserService } from '../../user/user.service';
 import { GamesService } from '../../games/games.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -15,14 +14,20 @@ export class SearchComponent implements OnInit {
   queryString = '';
 
   constructor(private router: Router, private gamesService: GamesService,
-              private userService: UserService, private route: ActivatedRoute) {
-    this.route.params.subscribe( params => this.queryString = params.search );
-    if (this.queryString !== undefined) {
-      this.gotoSearchWithQuery();
-    }
+              private userService: UserService) {
+
   }
 
   ngOnInit() {
+
+      this.router.events.subscribe((evt) => {
+
+        if (evt instanceof ResolveEnd && evt.url.split('/')[1] === 'search') {
+          this.queryString = evt.url.split('/')[2];
+          this.getSearchedGames();
+        }
+      });
+
   }
 
   private gotoSearchWithQuery() {
@@ -33,15 +38,15 @@ export class SearchComponent implements OnInit {
 
   private getSearchedGames() {
 
-    console.log('searching');
 
     this.gamesService.getSearchedGames(this.queryString).subscribe(
       (response) => {
-        console.log('games found!');
         this.searchedGames = response;
 
         this.setupGlobalRatingInfo();
         this.setupUserRatingInfo();
+
+        this.router.navigate(['/search/' + this.queryString]);
 
       }
     );
@@ -89,7 +94,7 @@ export class SearchComponent implements OnInit {
   private setupUserRatingInfo() {
     this.userService.fetchUser(localStorage.getItem('user')).subscribe(
       user => {
-        console.log(user.games_rated);
+        
         let map = new Map();
         for (let i = 0; i < user.games_rated.length; i++) {
           map.set(user.games_rated[i].game_id, user.games_rated[i].rating);
