@@ -4,8 +4,9 @@ import { CommonModule } from "@angular/common";
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from "@angular/forms";
 import { NavModule } from '../nav/nav.module';
-import {FindUsersComponent} from "./find-users/find-users.component";
-import {UserSearchPipe} from "./find-users/user-search.pipe";
+import { FindUsersComponent } from "./find-users/find-users.component";
+import { UserSearchPipe } from "./find-users/user-search.pipe";
+import { UserOverviewModule } from '../user-overview/user-overview.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {UserSearchPipe} from "./find-users/user-search.pipe";
     FormsModule,
     BrowserModule,
     NavModule,
+    UserOverviewModule
   ]
 })
 export class FindUsersModule { }
