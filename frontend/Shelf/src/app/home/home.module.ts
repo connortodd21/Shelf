@@ -10,14 +10,13 @@ import { GameOverviewModule } from "../game-overview/game-overview.module";
 import { NavModule } from '../nav/nav.module';
 import { SearchPipe } from "./home/search.pipe";
 import { DropdownModule } from 'primeng/dropdown';
-import { UserOverviewComponent } from '../user-overview/user-overview.component';
+import { UserOverviewModule } from '../user-overview/user-overview.module';
 
 @NgModule({
   declarations: [
     HomeComponent,
     DetailedGameComponent,
-    SearchPipe,
-    UserOverviewComponent
+    SearchPipe
   ],
   imports: [
     AppRoutingModule,
@@ -27,7 +26,8 @@ import { UserOverviewComponent } from '../user-overview/user-overview.component'
     RatingModule,
     GameOverviewModule,
     NavModule,
-    DropdownModule
+    DropdownModule,
+    UserOverviewModule
   ]
 })
 export class HomeModule { }
