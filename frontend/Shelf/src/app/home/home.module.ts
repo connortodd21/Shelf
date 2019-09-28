@@ -8,14 +8,16 @@ import { RatingModule } from 'primeng/rating';
 import { FormsModule } from "@angular/forms";
 import { GameOverviewModule } from "../game-overview/game-overview.module";
 import { NavModule } from '../nav/nav.module';
-import {SearchPipe} from "./home/search.pipe";
-import {DropdownModule} from 'primeng/dropdown';
+import { SearchPipe } from "./home/search.pipe";
+import { DropdownModule } from 'primeng/dropdown';
+import { UserOverviewComponent } from '../user-overview/user-overview.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     DetailedGameComponent,
-    SearchPipe
+    SearchPipe,
+    UserOverviewComponent
   ],
   imports: [
     AppRoutingModule,

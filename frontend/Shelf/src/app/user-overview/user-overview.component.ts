@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-user-overview',
@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserOverviewComponent implements OnInit {
 
+  @Input() username: string;
+
   constructor() { }
 
   ngOnInit() {
+
+  }
+
+  goToProfile = () => {
+    console.log('Going to the profile!');
   }
 
 }
