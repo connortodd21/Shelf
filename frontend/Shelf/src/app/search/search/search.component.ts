@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ResolveEnd, Router} from '@angular/router';
+import { ResolveEnd, Router } from '@angular/router';
 import { UserService } from '../../user/user.service';
 import { GamesService } from '../../games/games.service';
+import { SelectItem}  from "primeng/api";
+import { NO_SORT, POPULARITY_SORT, RATING_SORT } from './search.constants';
 
 @Component({
   selector: 'app-search',
@@ -12,6 +14,8 @@ export class SearchComponent implements OnInit {
 
   searchedGames;
   queryString = '';
+  sortingOptions: SelectItem[];
+  selectedSortingOption = NO_SORT;
 
   constructor(private router: Router, private gamesService: GamesService,
               private userService: UserService) {
@@ -19,9 +23,9 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setSortingOptions();
 
       this.router.events.subscribe((evt) => {
-
         if (evt instanceof ResolveEnd && evt.url.split('/')[1] === 'search') {
           this.queryString = evt.url.split('/')[2];
           this.getSearchedGames();
@@ -104,9 +108,16 @@ export class SearchComponent implements OnInit {
             this.searchedGames[i].userRating = 0;
           }
         }
-        console.log(this.searchedGames)
       }
     )
+  }
+
+  private setSortingOptions() {
+    this.sortingOptions = [
+      { label: 'None', value: NO_SORT },
+      { label: 'Most popular', value: POPULARITY_SORT },
+      { label: 'Critic acclaim', value: RATING_SORT }
+    ];
   }
 
 }
