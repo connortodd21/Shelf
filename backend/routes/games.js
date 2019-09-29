@@ -47,6 +47,8 @@ router.post("/searchedgames", authenticate, async (req, res) => {
     const body = `fields id,name,cover.image_id; limit 20; search \"${req.body.search}\";`;
     const url = 'https://api-v3.igdb.com/games';
 
+    console.log(req.body);
+
     const result = await axiosPost(url, body);
     if (result.data) {
         res.status(200).send(result.data);

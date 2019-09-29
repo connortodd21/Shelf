@@ -3,7 +3,7 @@ import { ResolveEnd, Router } from '@angular/router';
 import { UserService } from '../../user/user.service';
 import { GamesService } from '../../games/games.service';
 import { SelectItem}  from "primeng/api";
-import { NO_SORT, POPULARITY_SORT, RATING_SORT } from './search.constants';
+import { NO_SORT, POPULARITY_SORT, RATING_SORT, STAR_SORT } from './search.constants';
 
 @Component({
   selector: 'app-search',
@@ -37,7 +37,7 @@ export class SearchComponent implements OnInit {
   private getSearchedGames() {
 
 
-    this.gamesService.getSearchedGames(this.queryString).subscribe(
+    this.gamesService.getSearchedGames(this.queryString, this.selectedSortingOption).subscribe(
       (response) => {
         this.searchedGames = response;
 
@@ -92,7 +92,6 @@ export class SearchComponent implements OnInit {
   private setupUserRatingInfo() {
     this.userService.fetchUser(localStorage.getItem('user')).subscribe(
       user => {
-        
         let map = new Map();
         for (let i = 0; i < user.games_rated.length; i++) {
           map.set(user.games_rated[i].game_id, user.games_rated[i].rating);
@@ -116,7 +115,8 @@ export class SearchComponent implements OnInit {
     this.sortingOptions = [
       { label: 'None', value: NO_SORT },
       { label: 'Most popular', value: POPULARITY_SORT },
-      { label: 'Critic acclaim', value: RATING_SORT }
+      { label: 'Critic acclaim', value: RATING_SORT },
+      { label: 'Shelf star rating', value: STAR_SORT }
     ];
   }
 

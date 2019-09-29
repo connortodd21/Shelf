@@ -129,8 +129,6 @@ export class HomeComponent implements OnInit {
             this.dashboardGames[i].userRating = 0;
           }
         }
-
-        console.log(this.dashboardGames)
       }
     )
   }
