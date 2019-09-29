@@ -14,12 +14,7 @@
           <p-dropdown [options]="sortOptions" [(ngModel)]="selectedOption"></p-dropdown>
         </div>
 
-        <div class="profile-link">
-          <div class="profile-photo">
-
-          </div>
-          <a class="profile-name" (click)="goToProfile()">{{user.username}}</a>
-        </div>
+        <app-user-overview username="Benkahlert"></app-user-overview>
     </div>
 
     <!-- This div contains a sneak peak of the list of games a user has saved -->

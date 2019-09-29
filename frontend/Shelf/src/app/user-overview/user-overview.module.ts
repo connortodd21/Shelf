@@ -2,25 +2,23 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from "../app-routing.module";
 import { CommonModule } from "@angular/common";
 import { BrowserModule } from '@angular/platform-browser';
+import { RatingModule } from 'primeng/rating';
 import { FormsModule } from "@angular/forms";
-import { NavModule } from '../nav/nav.module';
-import { FindUsersComponent } from "./find-users/find-users.component";
-import { UserSearchPipe } from "./find-users/user-search.pipe";
-import { UserOverviewModule } from '../user-overview/user-overview.module';
-
+import { UserOverviewComponent } from "../user-overview/user-overview.component";
 
 @NgModule({
   declarations: [
-    FindUsersComponent,
-    UserSearchPipe
+    UserOverviewComponent
+  ],
+  exports: [
+    UserOverviewComponent
   ],
   imports: [
     AppRoutingModule,
     CommonModule,
     FormsModule,
     BrowserModule,
-    NavModule,
-    UserOverviewModule
+    RatingModule
   ]
 })
-export class FindUsersModule { }
+export class UserOverviewModule { }

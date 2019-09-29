@@ -12,18 +12,14 @@
         <div>
             <div *ngIf="user != null">
                 Followers
-                <li *ngFor="let f of followers" (click)="goToProfile(f)">
-                    <p> {{f}} </p>
-                </li>
+                <app-user-overview *ngFor="let f of followers" [username]="f"></app-user-overview>
             </div>
         </div>
 
         <div>
             <div *ngIf="user != null">
                 Following
-                <li *ngFor="let f of following" (click)="goToProfile(f)">
-                    <p> {{f}} </p>
-                </li>
+                <app-user-overview *ngFor="let f of following" [username]="f"></app-user-overview>
             </div>
         </div>
 

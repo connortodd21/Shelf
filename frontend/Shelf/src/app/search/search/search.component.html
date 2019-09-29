@@ -9,6 +9,7 @@
                 type="text" name="search" id="search-page-search"/>
                 <input type="image" class="search-pic" src="../../../assets/Nav/Search.svg" (click)="gotoSearchWithQuery()"/>
             </div>
+            <p-dropdown [options]="sortingOptions" [(ngModel)]="selectedSortingOption"></p-dropdown>
         </div>
         <div id="search-results">
             <span *ngFor="let item of searchedGames; let i = index">

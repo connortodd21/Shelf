@@ -12,10 +12,7 @@
       <br>
       <br>
 
-      <span *ngFor="let user of users | userSearchPipe : filterText">
-        <li>{{user.username}}</li>
-
-        </span>
+      <app-user-overview *ngFor="let user of users | userSearchPipe : filterText" [username]="user.username"></app-user-overview>
 
   </div>
 </div>
