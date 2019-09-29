@@ -113,7 +113,6 @@ export class HomeComponent implements OnInit {
   private setupUserRatingInfo() {
     this.userService.fetchUser(localStorage.getItem('user')).subscribe(
       user => {
-        console.log(user.games_rated);
         let map = new Map();
         for (let i = 0; i < user.games_rated.length; i++) {
           map.set(user.games_rated[i].game_id, user.games_rated[i].rating);

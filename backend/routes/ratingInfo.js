@@ -65,27 +65,20 @@ router.post("/:gameId", authenticate, async (req, res) => {
 
             // Add to database with auth
             newRatingInfo.save().then(resp => {
-                console.log("OLD RATE: " + req.body.oldRating);
                 if (req.body.oldRating === 0 || req.body.oldRating === '0') {
-                    console.log("TRYING LOOP");
-
                     RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
                         $inc: {
                             number_of_ratings: 1,
                             total_rating_value: req.body.newRating
                         }
-
-
                     }).exec().then(usr => {
                         res.status(200).send({ message: req.body.gameId + " added to ratingInfo list for first" +
                                 " time!1" })
                         return
                     }).catch((err) => {
-                        console.log(err)
                         res.status(500).send(err);
                         return
                     })
-
                 }
                 //user asking to delete rating
                 else if (req.body.oldRating === req.body.newRating) {
@@ -121,15 +114,11 @@ router.post("/:gameId", authenticate, async (req, res) => {
         }
         else {
             if (req.body.oldRating === '0' || req.body.oldRating === 0) {
-                console.log("TRYING LOOP");
-
                 RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
                     $inc: {
                         number_of_ratings: 1,
                         total_rating_value: req.body.newRating
                     }
-
-
                 }).exec().then(usr => {
                     res.status(200).send({ message: req.body.gameId + " added to rating info for first time2!" })
                     return
@@ -137,7 +126,6 @@ router.post("/:gameId", authenticate, async (req, res) => {
                     res.status(500).send(err);
                     return
                 })
-
             }
             //user asking to delete rating
             else if (req.body.oldRating === req.body.newRating) {

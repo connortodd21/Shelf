@@ -62,10 +62,6 @@ export class GamesService {
   }
 
   submitRatingToGame(newRating: string, oldRating: number, gameId: string): Observable<any> {
-    console.log("submitting rating to game");
-    console.log(newRating);
-    console.log("oldRating");
-
     return this.http.post<object>('http://localhost:8080/ratingInfo/' + gameId, {
       gameId,
       newRating,
