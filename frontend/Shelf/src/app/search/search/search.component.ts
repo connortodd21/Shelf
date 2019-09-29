@@ -3,7 +3,7 @@ import { ResolveEnd, Router } from '@angular/router';
 import { UserService } from '../../user/user.service';
 import { GamesService } from '../../games/games.service';
 import { SelectItem}  from "primeng/api";
-import { NO_SORT, POPULARITY_SORT, RATING_SORT, STAR_SORT } from './search.constants';
+import { NO_SORT, STAR_SORT_ASC, STAR_SORT_DESC } from './search.constants';
 
 @Component({
   selector: 'app-search',
@@ -114,9 +114,8 @@ export class SearchComponent implements OnInit {
   private setSortingOptions() {
     this.sortingOptions = [
       { label: 'None', value: NO_SORT },
-      { label: 'Most popular', value: POPULARITY_SORT },
-      { label: 'Critic acclaim', value: RATING_SORT },
-      { label: 'Shelf star rating', value: STAR_SORT }
+      { label: 'Highest Shelf star rating', value: STAR_SORT_DESC },
+      { label: 'Lowest Shelf star rating', value: STAR_SORT_ASC }
     ];
   }
 
