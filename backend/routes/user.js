@@ -47,7 +47,6 @@ router.get("/all-users", authenticate, (req, res) => {
 router.post("/register", (req, res) => {
 
     if (!req.body.email || !req.body.password || !req.body.username || !req.body.birthday) {
-        console.log(req.body)
         res.status(400).send({ message: "Bad Request: Register user data is incomplete" });
         return;
     }

@@ -35,7 +35,6 @@ router.get('/all', authenticate, (req, res) => {
             { $and: [{ firstUser: req.user.username }, { secondUser: req.headers.receiver }] },
             { $and: [{ firstUser: req.headers.receiver }, { secondUser: req.user.username }] }]
     }).then(msg => {
-        // console.log(msg)
         res.status(200).send(msg)
         return;
     }).catch(err => {

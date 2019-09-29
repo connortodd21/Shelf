@@ -31,19 +31,15 @@ export class ProfileComponent implements OnInit {
     const username = this.route.snapshot.params.username;
     this.profileService.getUserData(username).then(res => {
       this.user = new ProfileModel(res);
-      console.log(this.user);
       this.followers = res.followers;
       this.following = res.following;
-      console.log(this.user.gamesRated);
       this.gamesService.getOverviewInfoAboutGames(this.user.gamesRated).subscribe((gamesInfo) => {
         if (gamesInfo != null || gamesInfo != undefined) {
-          console.log("before");
           this.ratedGames = gamesInfo;
           this.addUserRating();
           this.addGlobalRating();
-          console.log(gamesInfo);
         }
-        console.log(this.ratedGames)
+      this.printUsefulInfo();
       });
       this.profileService.getAllUsers().then(users => {
         let i: number;
@@ -59,8 +55,6 @@ export class ProfileComponent implements OnInit {
         }
       });
     });
-
-
   }
 
   public goToProfile(username) {
@@ -120,17 +114,13 @@ export class ProfileComponent implements OnInit {
   }
 
   private addUserRating() {
-    console.log("begin")
     let map = new Map();
     for (let i = 0; i < this.user.gamesRated.length; i++) {
       map.set(this.user.gamesRated[i].game_id, this.user.gamesRated[i].rating);
     }
 
     for (let i = 0; i < this.ratedGames.length; i++) {
-      console.log(map);
-      console.log(this.ratedGames[0]);
       if (map.has(this.ratedGames[i].id.toString())) {
-
         this.ratedGames[i].userRating = map.get(this.ratedGames[i].id.toString());
       }
     }
@@ -172,5 +162,10 @@ export class ProfileComponent implements OnInit {
         }
       }
     )
+  }
+
+  private printUsefulInfo() {
+    console.log('User');
+    console.log(this.user);
   }
 }
