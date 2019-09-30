@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ResolveEnd, Router } from '@angular/router';
 import { UserService } from '../../user/user.service';
 import { GamesService } from '../../games/games.service';
-import { ActivatedRoute } from '@angular/router';
+import { SelectItem}  from "primeng/api";
+import { NO_SORT, STAR_SORT_ASC, STAR_SORT_DESC } from './search.constants';
 
 @Component({
   selector: 'app-search',
@@ -13,26 +14,37 @@ export class SearchComponent implements OnInit {
 
   searchedGames;
   queryString = '';
+  sortingOptions: SelectItem[];
+  selectedSortingOption = NO_SORT;
 
   constructor(private router: Router, private gamesService: GamesService,
-              private userService: UserService, private route: ActivatedRoute) {
-    this.route.params.subscribe( params => this.queryString = params.search );
+              private userService: UserService) {
+
   }
 
   ngOnInit() {
+    this.setSortingOptions();
+
+      this.router.events.subscribe((evt) => {
+        if (evt instanceof ResolveEnd && evt.url.split('/')[1] === 'search') {
+          this.queryString = evt.url.split('/')[2];
+          this.getSearchedGames();
+        }
+      });
+
   }
 
   private getSearchedGames() {
 
-    console.log('searching');
 
-    this.gamesService.getSearchedGames(this.queryString).subscribe(
+    this.gamesService.getSearchedGames(this.queryString, this.selectedSortingOption).subscribe(
       (response) => {
-        console.log('games found!');
         this.searchedGames = response;
 
         this.setupGlobalRatingInfo();
         this.setupUserRatingInfo();
+
+        this.router.navigate(['/search/' + this.queryString]);
 
       }
     );
@@ -80,7 +92,6 @@ export class SearchComponent implements OnInit {
   private setupUserRatingInfo() {
     this.userService.fetchUser(localStorage.getItem('user')).subscribe(
       user => {
-        console.log(user.games_rated);
         let map = new Map();
         for (let i = 0; i < user.games_rated.length; i++) {
           map.set(user.games_rated[i].game_id, user.games_rated[i].rating);
@@ -96,9 +107,16 @@ export class SearchComponent implements OnInit {
             this.searchedGames[i].userRating = 0;
           }
         }
-        console.log(this.searchedGames)
       }
     )
+  }
+
+  private setSortingOptions() {
+    this.sortingOptions = [
+      { label: 'None', value: NO_SORT },
+      { label: 'Highest Shelf star rating', value: STAR_SORT_DESC },
+      { label: 'Lowest Shelf star rating', value: STAR_SORT_ASC }
+    ];
   }
 
 }

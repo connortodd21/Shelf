@@ -44,8 +44,10 @@ router.get("/criticallyacclaimedgames", authenticate, async (req, res) => {
  * Get games from search query from the search page
  */
 router.post("/searchedgames", authenticate, async (req, res) => {
-    const body = `fields id,name,cover.image_id; limit 20; search \"${req.body.search}\";`;
+    const body = `fields id,name,cover.image_id; limit 50; search \"${req.body.search}\";`;
     const url = 'https://api-v3.igdb.com/games';
+
+    // TODO MORGAN: SORT THE GAMES BY THEIR SHELF STAR RATING
 
     const result = await axiosPost(url, body);
     if (result.data) {
@@ -117,7 +119,6 @@ buildRequestBodyForMultipleGameOverviews = (gameIds) => {
         body += `id = ${id}`;
     });
     body += ';';
-    console.log(body);
     return body;
 }
 

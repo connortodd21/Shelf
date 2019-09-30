@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, AfterViewChecked} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { COVER_BIG } from '../constants/constants.images';
 import { GamesService } from "../games/games.service";

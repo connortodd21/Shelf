@@ -32,7 +32,7 @@ export class LoginService {
         const userInfo: AuthData = { username, password, email: '', birthday: '' };
         return this.http.post<object>(LOGIN_URL, userInfo, httpOptions).pipe(
             map(response => {
-                console.log(response)
+                // console.log(response)
                 const token = response.headers.get('token');
                 this.token = token;
                 if (token) {
@@ -94,7 +94,6 @@ export class LoginService {
     }
 
     private setAuthTimer(duration: number) {
-        // console.log('Setting timer: ' + duration);
         this.tokenTimer = setTimeout(() => {
             this.logout();
         }, duration * 1000);

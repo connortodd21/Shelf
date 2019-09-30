@@ -17,9 +17,10 @@ export class GamesService {
     return this.http.get('http://localhost:8080/games/criticallyacclaimedgames');
   }
 
-  getSearchedGames(search): Observable<any> {
+  getSearchedGames(search, sortingOption): Observable<any> {
     return this.http.post<object>('http://localhost:8080/games/searchedgames', {
-      search
+      search,
+      sortingOption
     });
   }
 
@@ -61,10 +62,6 @@ export class GamesService {
   }
 
   submitRatingToGame(newRating: string, oldRating: number, gameId: string): Observable<any> {
-    console.log("submitting rating to game");
-    console.log(newRating);
-    console.log("oldRating");
-
     return this.http.post<object>('http://localhost:8080/ratingInfo/' + gameId, {
       gameId,
       newRating,

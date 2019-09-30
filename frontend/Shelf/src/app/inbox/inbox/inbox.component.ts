@@ -22,7 +22,6 @@ export class InboxComponent implements OnInit {
       const inbox = res['notification'];
       if (inbox) {
         this.hasNotifications = true;
-        console.log(res);
         let i = 0;
         for (i = 0; i < inbox.length; i++) {
           this.inbox[i] = new Inbox(inbox[i]);

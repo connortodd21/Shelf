@@ -8,9 +8,13 @@ import {UserService} from "../user/user.service";
 })
 export class NavComponent implements OnInit {
 
+  username: string;
+
   constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.username = localStorage.getItem("user");
+
   }
 
   logout() {

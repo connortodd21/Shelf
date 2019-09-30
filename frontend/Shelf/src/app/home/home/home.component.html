@@ -8,16 +8,13 @@
     <!-- Search bar and profile information located at the top of the page -->
     <div id="content-bar">
         <div class="search-wrapper">
-            <input class="search-bar" placeholder="Search for games" type="text" value="" name="search" id="home-page-search"/>
+            <input class="search-bar" [(ngModel)]="filterText" placeholder="Search for games" id="home-page-search"/>
             <img class="search-pic"src="../../../assets/Nav/Search.svg"/>
+          <br>
+          <p-dropdown [options]="sortOptions" [(ngModel)]="selectedOption"></p-dropdown>
         </div>
 
-        <div class="profile-link">
-          <div class="profile-photo">
-
-          </div>
-          <a class="profile-name" (click)="goToProfile()">{{user.username}}</a>
-        </div>
+        <app-user-overview username="Benkahlert"></app-user-overview>
     </div>
 
     <!-- This div contains a sneak peak of the list of games a user has saved -->
@@ -28,7 +25,7 @@
     <!-- This div contains critically acclaimed games -->
     <div id="home-critically-acclaimed">
       <a class="header-link"><h1>Critically Acclaimed Games</h1><img class="header-link-arrow" src="../../../assets/Arrow.svg"></a>
-      <span *ngFor="let item of dashboardGames; let i = index">
+      <span *ngFor="let item of dashboardGames | searchPipe : filterText : selectedOption">
           <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating"
                              [name]=item.name [id]=item.id
                              [image_id]=item.cover.image_id></app-game-overview>
@@ -37,36 +34,3 @@
     </div>
   </div>
 </div>
-
-
-<!--
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item"><a class="nav-link" routerLink="/home">Home</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="TODO">Friend Feed</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="TODO">My Shelf</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="TODO">Game Reviews</a></li>
-      <li class="nav-item"><a class="nav-link" (click)="logout()">Logout</a></li>
-    </ul>
-  </div>
-  <div class="mx-auto order-0">
-    <a class="navbar-brand mx-auto" href="#">Maybe a logo here??</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  </div>
-  <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-    <ul class="navbar-nav ml-auto">
-      <li *ngIf="user" class="nav-item"><a class="nav-link" (click)="goToProfile()">Welcome, {{user.username}}!</a></li>
-    </ul>
-  </div>
-</nav>
-<p class="game-section-header">Highest rated critically acclaimed games of all time:</p>
-
-<span *ngFor="let item of dashboardGames; let i = index">
-  <app-game-overview *ngIf="item.cover" [name]=item.name [globalRating]="item.globalRating" [id]=item.id
-                     [image_id]=item.cover.image_id></app-game-overview>
-  <app-game-overview *ngIf="!item.cover" [name]=item.name [id]=item.id image_id=""></app-game-overview>
-</span>
--->

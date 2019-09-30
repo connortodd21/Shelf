@@ -6,3 +6,4 @@ export const PROFILE_PAGE = 'profile';
 export const INBOX_PAGE = 'inbox';
 export const SEARCH_PAGE = 'search';
 export const SETTINGS_PAGE = 'settings';
+export const FIND_USERS_PAGE = 'find-users';

@@ -11,6 +11,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { UsernameFilter } from '../username.pipe';
 import { GameOverviewModule } from '../game-overview/game-overview.module';
 import { NavModule } from '../nav/nav.module';
+import { UserOverviewModule } from '../user-overview/user-overview.module';
 
 
 
@@ -30,7 +31,8 @@ import { NavModule } from '../nav/nav.module';
     ToastModule,
     ReactiveFormsModule,
     GameOverviewModule,
-    NavModule
+    NavModule,
+    UserOverviewModule
   ]
 })
 export class ProfileModule { }

@@ -7,6 +7,7 @@ import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { GameOverviewModule } from '../game-overview/game-overview.module';
 import { NavModule } from '../nav/nav.module';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { NavModule } from '../nav/nav.module';
     BrowserModule,
     RatingModule,
     GameOverviewModule,
-    NavModule
+    NavModule,
+    DropdownModule
   ]
 })
 export class SearchModule { }

@@ -1,0 +1,19 @@
+<div id="full-container">
+
+  <app-nav></app-nav>
+
+  <div id="content-container">
+    <div id="content-bar">
+      <div class="search-wrapper">
+        <input class="search-bar" [(ngModel)]="filterText" placeholder="Search for users"/>
+        <img class="search-pic"src="../../../assets/Nav/Search.svg"/>
+        <br>
+      </div>
+      <br>
+      <br>
+
+      <app-user-overview *ngFor="let user of users | userSearchPipe : filterText" [username]="user.username"></app-user-overview>
+
+  </div>
+</div>
+</div>
