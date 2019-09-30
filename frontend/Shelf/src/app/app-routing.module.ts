@@ -57,7 +57,8 @@ const routes: Routes = [
   },
   {
     path: SETTINGS_PAGE,
-    component: SettingsComponent
+    component: SettingsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: FIND_USERS_PAGE,

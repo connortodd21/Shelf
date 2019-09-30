@@ -351,13 +351,11 @@ router.post('/change-password', authenticate, (req, res) => {
     }
 
     hash(req.body.password).then(hashedPassword => {
-        // console.log("encrypt: " + encryptedPassword)
         User.findOneAndUpdate({ username: req.user.username }, {
             $set: {
                 password: hashedPassword
             }
         }).then(() => {
-            // console.log("passwd set")
             res.status(200).send({ message: "Password changed!" })
             return
         }).catch(err => {
@@ -368,6 +366,30 @@ router.post('/change-password', authenticate, (req, res) => {
         res.status(500).send(err);
         return;
     });
+})
+
+router.post('/change-email', authenticate, (req, res) => {
+    if (!req.body || !req.body.email) {
+        res.status(400).send({ message: "User information incomplete" })
+        return
+    }
+    User.findByEmail(req.body.email).then(usr => {
+        res.status(409).send({ message: "Email is already taken" })
+        return
+    }).catch(err => {
+        User.findOneAndUpdate({ username: req.user.username }, {
+            $set: {
+                email: req.body.email
+            }
+        }).then(() => {
+            res.status(200).send({ message: "Email changed!" })
+            return
+        }).catch(err => {
+            res.status(500).send(err);
+            return;
+        });
+    })
+
 })
 
 router.post('/forgot-password', (req, res) => {
@@ -398,7 +420,7 @@ router.post('/forgot-password', (req, res) => {
             })
         }).catch((err) => {
             if (err === undefined) {
-                res.status(404).send({message: 'Email does not exist.'})
+                res.status(404).send({ message: 'Email does not exist.' })
                 return;
             }
             res.status(500).send(err)
@@ -414,7 +436,7 @@ router.post("/verify-email", (req, res) => {
     }
 
     User.findVerificationNumByEmail(req.body.email).then((verificationNum) => {
-        if(!verificationNum) {
+        if (!verificationNum) {
             res.status(401).send({ message: "This error probably means that this email does not exist in the databse" });
             return;
         }
@@ -437,7 +459,7 @@ router.post("/verify-email", (req, res) => {
         }
     }).catch((err) => {
         if (err === undefined) {
-            res.status(404).send({message: 'Email does not exist.'})
+            res.status(404).send({ message: 'Email does not exist.' })
             return;
         }
         console.log(err)

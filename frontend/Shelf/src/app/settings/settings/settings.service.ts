@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 // tslint:disable-next-line: max-line-length
-import { FORGOT_PASSWORD_URL, CHANGE_PASSWORD_URL, VERIFY_EMAIL_URL } from '../../constants/constants.urls';
+import { CHANGE_PASSWORD_URL, CHANGE_EMAIL_URL } from '../../constants/constants.urls';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -15,12 +15,11 @@ export class SettingsService {
 
     constructor(private http: HttpClient, private router: Router) { }
 
-
-    verifyEmail() {
-
+    changeEmail(email: string) {
+        return this.http.post(CHANGE_EMAIL_URL, {email}).toPromise();
     }
 
-    changePassword() {
-
+    changePassword(password: string) {
+        return this.http.post(CHANGE_PASSWORD_URL, {password}).toPromise();
     }
 }

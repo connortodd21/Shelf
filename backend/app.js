@@ -13,6 +13,7 @@ let Inbox = require('./routes/inbox')
 
 
 var app = express(cors());
+process.on('warning', e => console.warn(e.stack));
 
 app.use(compression({
     filter: function () { return true; },
