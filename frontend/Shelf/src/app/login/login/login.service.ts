@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { Subject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { LOGIN_URL, LOGOUT_URL, REGISTER_URL, FORGOT_PASSWORD_URL } from '../../constants/constants.urls';
+import { LOGIN_URL, LOGOUT_URL, REGISTER_URL, FORGOT_PASSWORD_URL, VERIFY_EMAIL_URL } from '../../constants/constants.urls';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -32,6 +32,7 @@ export class LoginService {
         const userInfo: AuthData = { username, password, email: '', birthday: '' };
         return this.http.post<object>(LOGIN_URL, userInfo, httpOptions).pipe(
             map(response => {
+                console.log(response)
                 const token = response.headers.get('token');
                 this.token = token;
                 if (token) {
@@ -112,5 +113,9 @@ export class LoginService {
 
     forgotPassword(email: string) {
         return this.http.post(FORGOT_PASSWORD_URL, {email}).toPromise();
+    }
+
+    verifyEmail(email: string, verificationNum: string) {
+        return this.http.post(VERIFY_EMAIL_URL, {email, verificationNum}).toPromise();
     }
 }

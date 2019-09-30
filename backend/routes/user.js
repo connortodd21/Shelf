@@ -73,7 +73,7 @@ router.post("/register", (req, res) => {
 
         var inbox = new Inbox()
         inbox.save();
-        var verificationNum = crypto.randomBytes(64).toString('hex');
+        var verificationNum = crypto.randomBytes(2).toString('hex');
 
         // User Data
         var newUser = new User({
@@ -141,6 +141,8 @@ router.post('/login', (req, res) => {
         }
 
         bcrypt.compare(req.body.password, user.password, (err, comp) => {
+            console.log(req.body)
+            console.log(comp)
             if (comp == false) {
                 res.status(401).send({ message: "Unauthorized: Password is incorrect" })
                 return
@@ -413,6 +415,10 @@ router.post("/verify-email", (req, res) => {
     }
 
     User.findVerificationNumByEmail(req.body.email).then((verificationNum) => {
+        if(!verificationNum) {
+            res.status(401).send({ message: "This error probably means that this email does not exist in the databse" });
+            return;
+        }
         if (verificationNum != req.body.verificationNum) {
             res.status(401).send({ message: "Verification code does not match" });
             return;
@@ -431,10 +437,11 @@ router.post("/verify-email", (req, res) => {
             });
         }
     }).catch((err) => {
-        if (err.code === 11000) {
-            res.status(404).send({ message: "Email does not exist in our records." });
+        if (err === undefined) {
+            res.status(404).send({message: 'Email does not exist.'})
             return;
         }
+        console.log(err)
         res.status(500).send(err)
         return;
     });

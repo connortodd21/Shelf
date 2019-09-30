@@ -36,7 +36,9 @@ let userSchema = new mongoose.Schema({
       require: true
     }]
   }],
-  inboxID: { type: String }
+  inboxID: { type: String },
+  verificationNum: { type: String},
+  verified: { type: Boolean, default: false }
 })
 
 /* Generate authentication token for user */
@@ -74,7 +76,7 @@ userSchema.statics.findVerificationNumByEmail = function (email) {
   var User = this;
 
   return User.findOne({ email }).then((user) => {
-    if (!user.verificationNum) {
+    if (!user || !user.verificationNum) {
       return Promise.reject();
     }
     else {
@@ -98,7 +100,7 @@ userSchema.statics.findByEmail = function(email) {
 
 /* Function to prevent too much information from being returned on request when the response is the object */
 userSchema.methods.toJSON = function () {
-  return ld.pick(this.toObject(), ['_id', 'username', 'email', 'birthday', 'games_played', 'games_rated', 'favorites', 'followers', 'following', 'inbox', 'wish_list', 'date_created', 'inboxID'])
+  return ld.pick(this.toObject(), ['_id', 'username', 'email', 'birthday', 'games_played', 'games_rated', 'favorites', 'followers', 'following', 'inbox', 'wish_list', 'date_created', 'inboxID', 'verificationNum'])
 }
 
 /* Creating the user model from the schema and giving it to Mongoose */

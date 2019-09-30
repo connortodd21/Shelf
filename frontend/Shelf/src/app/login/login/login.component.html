@@ -6,6 +6,73 @@
                 <p class="subtitle" id="white">To start tracking and sharing your games, create a Shelf account.</p>
                 <p-button label="Sign Up" (onClick)="setIsRegistering(true)"
                     styleClass="ui-button-raised ui-button-secondary" class="secondary_button"></p-button>
+                <div *ngIf="!isRegistering">
+                    <br>
+                    <p-button label="Verify Email" type="submit" styleClass="ui-button-raised ui-button-secondary"
+                        class="secondary_button" (click)="openModal(content)">
+                    </p-button>
+                    <ng-template #content let-modal>
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal-basic-title">Verify Email</h4>
+                            <button type="button" class="close" aria-label="Close"
+                                (click)="modal.dismiss('Cross click')">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Please enter your email and the verification number sent to your email address
+                            </p>
+                            <form (submit)="verifyEmail(f)" #f="ngForm" [formGroup]="verifyEmailForm">
+                                <div class="form-group">
+                                    <p class="input_title">Email Address</p>
+                                    <input type="email" autocomplete="email" class="form-control" size="30" id="email"
+                                        ng-required pInputText formControlName="email"
+                                        [ngClass]="{ 'is-invalid': verifyEmailSubmit && verifyEmailForm.controls.email.errors }">
+                                    <div *ngIf="verifyEmailSubmit && verifyEmailForm.controls.email.errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="verifyEmailForm.controls.email.errors.required">Please enter your
+                                            email address
+                                        </div>
+                                        <div *ngIf="verifyEmailForm.controls.email.errors.email">Please enter a valid
+                                            email
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                        <p class="input_title">Verification Number</p>
+                                        <input type="text" autocomplete="num" class="form-control" size="30" id="verificationNum"
+                                            ng-required pInputText formControlName="verificationNum"
+                                            [ngClass]="{ 'is-invalid': verifyEmailSubmit && verifyEmailForm.controls.verificationNum.errors }">
+                                        <div *ngIf="verifyEmailSubmit && verifyEmailForm.controls.verificationNum.errors"
+                                            class="invalid-feedback">
+                                            <div *ngIf="verifyEmailForm.controls.verificationNum.errors.required">Please enter a verification number</div>
+                                        </div>
+                                    </div>
+                                <button type="submt" class="btn btn-outline-dark">Save</button>
+                                <br>
+                                <div *ngIf="error === 'emailNotFound'" class="alert alert-danger" role="alert">
+                                    Email does not exist
+                                </div>
+                                <br>
+                                <div *ngIf="error === 'wrongVerificationNum'" class="alert alert-danger" role="alert">
+                                    The verification number associated with this email does not match.
+                                </div>
+                                <br>
+                                <div *ngIf="error === 'probablyWrongEmail'" class="alert alert-danger" role="alert">
+                                    An unknown error occurred. This probably means your email does not exist in our system.
+                                </div>
+                                <br>
+                                <div *ngIf="error === 'fatalVerifyModal'" class="alert alert-danger" role="alert">
+                                    A Fatal Error Has Occoured. PLease Try Again Later.
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </ng-template>
+                </div>
             </div>
             <div *ngIf="isRegistering">
                 <p class="title" id="white" style="margin-bottom: 8px">Sign In</p>

@@ -28,6 +28,8 @@ export class LoginComponent implements OnInit {
   error = 'NULL';
   forgotPasswordForm: FormGroup;
   forgotPasswordSubmit = false;
+  verifyEmailForm: FormGroup;
+  verifyEmailSubmit = false;
 
   // tslint:disable-next-line: max-line-length
   constructor(private router: Router, public loginService: LoginService, private messageService: MessageService, private formBuilder: FormBuilder, private modalService: NgbModal) {
@@ -53,6 +55,10 @@ export class LoginComponent implements OnInit {
     this.forgotPasswordForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
     });
+    this.verifyEmailForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      verificationNum: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4)]],
+    });
   }
 
   setIsRegistering(value: boolean) {
@@ -70,7 +76,8 @@ export class LoginComponent implements OnInit {
     const authData: AuthData = { username: form.value.username, password: form.value.password, email: form.value.email, birthday: form.value.birthday };
     if (this.isRegistering) {
       this.loginService.registerUser(authData).subscribe(
-        () => {
+        (res) => {
+          console.log(res);
           this.showRegistrationSuccess();
           this.loginUser(form);
         },
@@ -100,6 +107,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+    console.log(form.value);
     if (!this.isRegistering) {
       this.loginService.loginUser(form.value.username, form.value.password).subscribe(
         response => {
@@ -163,5 +171,30 @@ export class LoginComponent implements OnInit {
           }
         });
     window.location.replace('/login');
+  }
+
+  verifyEmail(form: NgForm) {
+    console.log(form);
+    this.verifyEmailSubmit = true;
+    if (this.verifyEmailForm.invalid) {
+      return;
+    }
+    this.loginService.verifyEmail(form.value.email, form.value.verificationNum).then(res => {
+      window.location.replace('/login');
+    }).catch(error => {
+      this.error = error.error.message;
+      if (error.error.message === 'Email does not exist.') {
+        this.error = 'emailNotFound';
+      }
+      else if (error.error.message === 'Verification code does not match') {
+        this.error = 'wrongVerificationNum';
+      }
+      else if (error.error.message === 'his error probably means that this email does not exist in the databse') {
+        this.error = 'probablyWrongEmail';
+      }
+      else {
+        this.error = 'fatalVerifyModal';
+      }
+    });
   }
 }
