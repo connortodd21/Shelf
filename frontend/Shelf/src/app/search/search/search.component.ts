@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ResolveEnd, Router } from '@angular/router';
 import { UserService } from '../../user/user.service';
 import { GamesService } from '../../games/games.service';
-import { SelectItem}  from "primeng/api";
+import { SelectItem} from "primeng/api";
 import { NO_SORT, STAR_SORT_ASC, STAR_SORT_DESC } from './search.constants';
 
 @Component({
@@ -25,7 +25,7 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.setSortingOptions();
 
-      this.router.events.subscribe((evt) => {
+    this.router.events.subscribe((evt) => {
         if (evt instanceof ResolveEnd && evt.url.split('/')[1] === 'search') {
           this.queryString = evt.url.split('/')[2];
           this.getSearchedGames();
@@ -49,6 +49,10 @@ export class SearchComponent implements OnInit {
 
         this.setupGlobalRatingInfo();
         this.setupUserRatingInfo();
+
+        console.log(this.searchedGames[0]);
+        const test = this.searchedGames[0].globalRating;
+        console.log('test ' + test);
 
         this.router.navigate(['/search/' + this.queryString]);
 

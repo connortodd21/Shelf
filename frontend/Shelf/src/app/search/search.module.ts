@@ -9,9 +9,10 @@ import { GameOverviewModule } from '../game-overview/game-overview.module';
 import { NavModule } from '../nav/nav.module';
 import { DropdownModule } from 'primeng/dropdown';
 
+
 @NgModule({
   declarations: [
-    SearchComponent
+    SearchComponent,
   ],
   imports: [
     AppRoutingModule,
