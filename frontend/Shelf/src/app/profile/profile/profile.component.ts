@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   messages: Message[];
   messageID: string;
   ratedGames;
+  isOwner = false;
 
   // tslint:disable-next-line: max-line-length
   constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {
@@ -29,6 +30,15 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     const username = this.route.snapshot.params.username;
+    console.log(username)
+    console.log(username === localStorage.getItem('user'))
+    if (username === localStorage.getItem('user')) {
+      console.log("setting true");
+      this.isOwner = true;
+    }
+    else {
+      this.isOwner = false;
+    }
     this.profileService.getUserData(username).then(res => {
       this.user = new ProfileModel(res);
       this.followers = res.followers;

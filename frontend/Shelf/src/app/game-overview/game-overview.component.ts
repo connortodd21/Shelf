@@ -17,6 +17,7 @@ export class GameOverviewComponent {
   @Input() id: string;
   @Input() globalRating: number;
   @Input() userRating: number;
+  @Input() shouldDisable: boolean;
 
   gotoDetailedGameView() {
     this.router.navigate([`/detailed-game/${this.id}`], {state: {globalRating: this.globalRating, userRating: this.userRating }});

@@ -27,9 +27,11 @@
         <span *ngIf="user != null && user.gamesRated != null">
             <p>Games Rated: </p>
             <span *ngFor="let item of ratedGames; let i = index">
-                <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating" [name]=item.name [id]=item.id
+                <app-game-overview *ngIf="item.cover" [shouldDisable]="!isOwner" [globalRating]="item.globalRating"
+                                   [userRating]="item.userRating" [name]=item.name [id]=item.id
                                    [image_id]=item.cover.image_id></app-game-overview>
-                <app-game-overview *ngIf="!item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating" [name]=item.name [id]=item.id image_id=""></app-game-overview>
+                <app-game-overview *ngIf="!item.cover" [shouldDisable]="!isOwner" [globalRating]="item.globalRating"
+                                   [userRating]="item.userRating" [name]=item.name [id]=item.id image_id=""></app-game-overview>
             </span>
         </span>
         <p *ngIf="user != null"> Wish List {{user.wishList}} </p>
