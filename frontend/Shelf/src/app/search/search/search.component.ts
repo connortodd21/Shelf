@@ -44,15 +44,14 @@ export class SearchComponent implements OnInit {
 
 
     this.gamesService.getSearchedGames(this.queryString, this.selectedSortingOption).subscribe(
-      (response) => {
+      async (response) => {
         this.searchedGames = response;
 
         this.setupGlobalRatingInfo();
         this.setupUserRatingInfo();
 
         console.log(this.searchedGames[0]);
-        const test = this.searchedGames[0].globalRating;
-        console.log('test ' + test);
+        await console.log(this.searchedGames[0].globalRating);
 
         this.router.navigate(['/search/' + this.queryString]);
 
@@ -60,9 +59,9 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  private setupGlobalRatingInfo() {
+  private async setupGlobalRatingInfo() {
     this.gamesService.getAllGlobalRatingInfo().subscribe(
-      ratingInfo => {
+       async ratingInfo => {
 
         let map = new Map();
         for (let i = 0; i < ratingInfo.length; i++) {
