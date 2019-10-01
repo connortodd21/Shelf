@@ -65,6 +65,10 @@
             </div>
 
             <div *ngIf="isRegistering">
+                <div *ngIf="isRegistering">
+                    <p class="title" id="red">We're Excited You're Here</p>
+                    <p class="subtitle">Fill in these details to get started with Shelf.</p>
+                </div>
                 <form (submit)="registerUser(f)" #f="ngForm" [formGroup]="registerForm">
 
                     <div class="form-group">
@@ -142,11 +146,6 @@
                         A Fatal Error Has Occoured. PLease Try Again Later.
                     </div>
                 </form>
-            </div>
-
-            <div *ngIf="isRegistering">
-                <p class="title" id="red">We're Excited You're Here</p>
-                <p class="subtitle">Fill in these details to get started with Shelf.</p>
             </div>
 
         </div>
