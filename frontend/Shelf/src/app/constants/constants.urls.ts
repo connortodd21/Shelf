@@ -12,3 +12,7 @@ export const GET_INBOX_URL = 'http://localhost:8080/inbox/all-notifications';
 export const ADD_NOTIFICATION_URL = 'http://localhost:8080/inbox/add-notification';
 export const DELETE_NOTIFICATION_URL = 'http://localhost:8080/inbox/delete-notification';
 export const MARK_AS_READ_URL = 'http://localhost:8080/inbox/mark-as-read';
+export const VERIFY_EMAIL_URL = 'http://localhost:8080/user/verify-email';
+export const FORGOT_PASSWORD_URL = 'http://localhost:8080/user/forgot-password';
+export const CHANGE_PASSWORD_URL = 'http://localhost:8080/user/change-password';
+export const CHANGE_EMAIL_URL = 'http://localhost:8080/user/change-email';
