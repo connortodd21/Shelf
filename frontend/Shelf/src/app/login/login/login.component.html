@@ -113,13 +113,15 @@
 
                     <div class="form-group">
                         <p class="input_title">Birthday</p>
-                        <input type="date" class="form-control" size="30" id="birthday" ng-required pInputText
-                            formControlName="birthday"
-                            [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.birthday.errors }">
-                        <div *ngIf="registerSubmit && registerForm.controls.birthday.errors" class="invalid-feedback">
-                            <div *ngIf="registerForm.controls.birthday.errors.required">Please enter your birthday</div>
-                            <div *ngIf="registerForm.controls.birthday.errors.date">Please use a valid date</div>
-                        </div>
+                      <p-calendar [style]="{'width':'100%', 'height':'100%', 'margin': '0px', 'padding-top': '0px'}"
+                                  [inputStyle]="{'width':'100%',
+                      'height':'100%', 'padding': '0px 0px', 'padding-bottom': '0px'}"
+                                  formControlName="birthday" size="500" class="form-control"  id="birthday"
+                                  [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.birthday.errors }"></p-calendar>
+                      <div *ngIf="registerSubmit && registerForm.controls.birthday.errors" class="invalid-feedback">
+                        <div *ngIf="registerForm.controls.birthday.errors.required">Please enter your birthday</div>
+                        <div *ngIf="registerForm.controls.birthday.errors.date">Please use a valid date</div>
+                      </div>
                     </div>
 
                     <div *ngIf="isRegistering">

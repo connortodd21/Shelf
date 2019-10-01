@@ -8,7 +8,7 @@ import { PasswordModule } from 'primeng/password';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ToastModule } from 'primeng/toast';
-
+import {CalendarModule} from 'primeng/calendar';
 
 
 @NgModule({
@@ -24,7 +24,8 @@ import { ToastModule } from 'primeng/toast';
     PasswordModule,
     FormsModule,
     ToastModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CalendarModule
   ]
 })
 export class LoginModule { }
