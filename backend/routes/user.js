@@ -215,7 +215,7 @@ router.post('/unfollow', authenticate, (req, res) => {
                 following: req.body.user
             }
         }).then(usr => {
-            User.findByIdAndUpdate({ username: req.body.user }, {
+            User.findOneAndUpdate({ username: req.body.user }, {
                 $pull: {
                     followers: req.user.username
                 }

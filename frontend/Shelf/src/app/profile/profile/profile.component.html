@@ -5,6 +5,8 @@
     <app-nav></app-nav>
 
     <div id="content-container">
+      <button *ngIf="!isOwner" class="messagesButton" mdbBtn type="button" color="info"
+              (click)="toggleFollow()">{{followButtonText}}</button>
         <p *ngIf="user != null"> username {{user.username}} </p>
         <p *ngIf="user != null"> birthday {{user.birthday}} </p>
         <p *ngIf="user != null"> email {{user.email}} </p>
