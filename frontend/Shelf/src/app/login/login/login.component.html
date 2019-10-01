@@ -126,6 +126,10 @@
                         User does not exist
                     </div>
 
+                    <div *ngIf="error === 'notVerified'" class="alert alert-danger" role="alert">
+                            Please verify your email before logging in.
+                        </div>
+
                     <div *ngIf="error === 'fatal'" class="alert alert-danger" role="alert">
                         A Fatal Error Has Occoured. PLease Try Again Later.
                     </div>

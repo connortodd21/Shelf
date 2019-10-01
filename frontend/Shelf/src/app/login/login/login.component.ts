@@ -120,6 +120,9 @@ export class LoginComponent implements OnInit {
           else if (error.error.message === 'Not Found: User does not exist') {
             this.error = 'userNotFound';
           }
+          else if (error.error.message === 'lease verify your email before logging in') {
+            this.error = 'notVerified';
+          }
           else {
             this.error = 'fatal';
           }

@@ -377,11 +377,19 @@ router.post('/change-email', authenticate, (req, res) => {
         res.status(409).send({ message: "Email is already taken" })
         return
     }).catch(err => {
+        var verificationNum = crypto.randomBytes(2).toString('hex');
         User.findOneAndUpdate({ username: req.user.username }, {
             $set: {
-                email: req.body.email
+                email: req.body.email,
+                verified: false,
+                verificationNum: verificationNum
             }
         }).then(() => {
+            const body = "Dear " + req.body.username +
+                ",\n\nWe noticed you have requested an email change. Please verify your new email using the following code:\n" +
+                verificationNum + "\n\Best, \nThe Shelf Team";
+            const subject = "Email Change Detected"
+            mailer(req.body.email, subject, body);
             res.status(200).send({ message: "Email changed!" })
             return
         }).catch(err => {
