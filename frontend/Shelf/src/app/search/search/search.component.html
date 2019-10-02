@@ -7,12 +7,17 @@
             <div class="search-wrapper">
                 <input class="search-bar" [(ngModel)]="queryString" placeholder="Search for games" 
                 type="text" name="search" id="search-page-search"/>
-                <input type="image" class="search-pic" src="../../../assets/Nav/Search.svg" (click)="getSearchedGames()"/>
+                <img src="../../../assets/Nav/Search.svg"/>
+                <input type="image" class="search-button" src="../../../assets/Arrow.svg" (click)="getSearchedGames()"/>
             </div>
             <p-dropdown [options]="sortingOptions" [(ngModel)]="selectedSortingOption"></p-dropdown>
         </div>
+
+        <div *ngIf="searchedGames" class="header-link"><h1>Search Results for '{{queryString}}'</h1></div>
         <div id="search-results">
+                
             <span *ngFor="let item of searchedGames; let i = index">
+                    
                 <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating"
                                     [name]=item.name [id]=item.id
                                     [image_id]=item.cover.image_id></app-game-overview>

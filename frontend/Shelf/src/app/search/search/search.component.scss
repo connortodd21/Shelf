@@ -70,6 +70,16 @@ a:hover {
     left: 16px;
 }
 
+.search-button {
+    position: absolute;
+    left: 65%;
+    top: 19px;
+}
+
+.search-button:hover {
+    left: 65.1%;
+}
+
 .profile-link {
     flex-grow: 0;
     flex-shrink: 1;
@@ -107,6 +117,7 @@ h1 {
 .header-link {
     display: flex;
     flex-direction: row;
+    margin-top: 48px;
 }
 
 #home-my-games, #home-critically-acclaimed {
