@@ -19,6 +19,7 @@
 
             <div *ngIf="!isRegistering">
                 <p class="title" id="red">Welcome Back!</p>
+                <p class="subtitle">Fill in these details to get started with Shelf.</p>
 
                 <form (submit)="loginUser(f)" #f="ngForm" [formGroup]="loginForm">
 
