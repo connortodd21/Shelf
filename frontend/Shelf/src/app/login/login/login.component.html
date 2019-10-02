@@ -10,7 +10,7 @@
                     styleClass="ui-button-raised ui-button-secondary" class="secondary_button"></p-button>
                 <div *ngIf="!isRegistering">
                     <br>
-                    <p-button label="Verify Email" type="submit" styleClass="ui-button-raised ui-button-secondary"
+                    <p-button label="Verify Email" styleClass="ui-button-raised ui-button-secondary"
                         class="secondary_button" (click)="openModal(content)">
                     </p-button>
                     <ng-template #content let-modal>
@@ -114,7 +114,7 @@
                     </div>
 
                     <div *ngIf="!isRegistering">
-                        <p-button label="Login" type="submit" styleClass="ui-button-raised ui-button-secondary"
+                        <p-button label="Login" styleClass="ui-button-raised ui-button-secondary"
                             class="secondary_button">
                         </p-button>
                     </div>
@@ -140,7 +140,7 @@
             </div>
 
             <div *ngIf="!isRegistering">
-                <p-button label="Forgot Password" type="submit" styleClass="ui-button-raised ui-button-secondary"
+                <p-button label="Forgot Password" styleClass="ui-button-raised ui-button-secondary"
                     class="secondary_button" (click)="openModal(content)">
                 </p-button>
                 <ng-template #content let-modal>
@@ -245,7 +245,7 @@
                     </div>
 
                     <div *ngIf="isRegistering">
-                        <p-button label="Sign Up" type="submit" styleClass="ui-button-raised ui-button-secondary"
+                        <p-button label="Sign Up" styleClass="ui-button-raised ui-button-secondary"
                             class="secondary_button"></p-button>
                     </div>
 
