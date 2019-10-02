@@ -6,13 +6,14 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { HomeComponent } from './home/home/home.component';
 import {
   HOME_PAGE, LOGIN_PAGE, NOTFOUND_PAGE,
-  DETAILED_GAME_PAGE, PROFILE_PAGE, INBOX_PAGE, SEARCH_PAGE, FIND_USERS_PAGE
+  DETAILED_GAME_PAGE, PROFILE_PAGE, INBOX_PAGE, SEARCH_PAGE, FIND_USERS_PAGE, SETTINGS_PAGE
 } from './constants/constants.pages';
 import { DetailedGameComponent } from './detailed-game/detailed-game.component';
 import { ProfileComponent } from './profile/profile/profile.component';
 import { InboxComponent } from './inbox/inbox/inbox.component';
 import { SearchComponent } from './search/search/search.component';
-import {FindUsersComponent} from "./find-users/find-users/find-users.component";
+import { SettingsComponent } from './settings/settings/settings.component';
+import { FindUsersComponent } from './find-users/find-users/find-users.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,11 @@ const routes: Routes = [
   {
     path: INBOX_PAGE,
     component: InboxComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: SETTINGS_PAGE,
+    component: SettingsComponent,
     canActivate: [AuthGuard]
   },
   {

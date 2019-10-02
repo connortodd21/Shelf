@@ -21,6 +21,9 @@ export class ProfileComponent implements OnInit {
   messages: Message[];
   messageID: string;
   ratedGames;
+  isOwner = false;
+  followButtonText: string;
+  followStatus: boolean;
 
   // tslint:disable-next-line: max-line-length
   constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {
@@ -29,17 +32,20 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     const username = this.route.snapshot.params.username;
+
+    this.isOwner = this.determineIfOwner(username);
+
     this.profileService.getUserData(username).then(res => {
       this.user = new ProfileModel(res);
       this.followers = res.followers;
       this.following = res.following;
       this.gamesService.getOverviewInfoAboutGames(this.user.gamesRated).subscribe((gamesInfo) => {
-        if (gamesInfo != null || gamesInfo != undefined) {
+        if (gamesInfo !== null || gamesInfo !== undefined) {
           this.ratedGames = gamesInfo;
           this.addUserRating();
           this.addGlobalRating();
         }
-      this.printUsefulInfo();
+        this.printUsefulInfo();
       });
       this.profileService.getAllUsers().then(users => {
         let i: number;
@@ -51,6 +57,9 @@ export class ProfileComponent implements OnInit {
 
         for (i = 0; i < response[0].length; i++) {
           const user = new ProfileModel(response[0][i]);
+
+          this.setFollowStatus(user);
+
           this.allUsers[i] = user;
         }
       });
@@ -62,12 +71,18 @@ export class ProfileComponent implements OnInit {
   }
 
   public followUser(user) {
-    const confirm = window.confirm('Are you sure you want to follow ' + user.username );
+    const confirm = window.confirm('Are you sure you want to follow ' + user.username);
     if (confirm === false) {
       return;
     }
+
+    this.followStatus = !this.followStatus;
+    this.followButtonText = "Unfollow";
     const receiver = user.username;
     const sender = localStorage.getItem('user');
+
+    this.followers.push(sender);
+
     this.profileService.followUser(receiver).then(() => {
       this.inboxService.sendNotification(NEW_FOLLOWER_NOTIFICATION(sender, receiver), receiver).then((resp) => {
         window.location.reload();
@@ -114,7 +129,8 @@ export class ProfileComponent implements OnInit {
   }
 
   private addUserRating() {
-    let map = new Map();
+    const map = new Map();
+    // tslint:disable: prefer-for-of
     for (let i = 0; i < this.user.gamesRated.length; i++) {
       map.set(this.user.gamesRated[i].game_id, this.user.gamesRated[i].rating);
     }
@@ -130,7 +146,7 @@ export class ProfileComponent implements OnInit {
     this.gamesService.getAllGlobalRatingInfo().subscribe(
       ratingInfo => {
 
-        let map = new Map();
+        const map = new Map();
         for (let i = 0; i < ratingInfo.length; i++) {
           map.set(ratingInfo[i].game_id, ratingInfo[i]);
         }
@@ -138,22 +154,21 @@ export class ProfileComponent implements OnInit {
 
         for (let i = 0; i < this.ratedGames.length; i++) {
 
-          let key = this.ratedGames[i].id.toString();
+          const key = this.ratedGames[i].id.toString();
 
           if (map.has(key)) {
-            let ratingInfo = map.get(key);
+            // tslint:disable: no-shadowed-variable
+            const ratingInfo = map.get(key);
             this.ratedGames[i].number_of_players = ratingInfo.number_of_players;
             this.ratedGames[i].number_of_ratings = ratingInfo.number_of_ratings;
             this.ratedGames[i].total_rating_value = ratingInfo.total_rating_value;
-            if (ratingInfo.number_of_ratings == 0) {
+            if (ratingInfo.number_of_ratings === 0) {
               this.ratedGames[i].globalRating = 0;
-            }
-            else {
+            } else {
               this.ratedGames[i].globalRating = ratingInfo.total_rating_value / ratingInfo.number_of_ratings;
             }
 
-          }
-          else {
+          } else {
             this.ratedGames[i].number_of_players = 0;
             this.ratedGames[i].number_of_ratings = 0;
             this.ratedGames[i].total_rating_value = 0;
@@ -161,11 +176,71 @@ export class ProfileComponent implements OnInit {
           }
         }
       }
-    )
+    );
   }
 
   private printUsefulInfo() {
     console.log('User');
     console.log(this.user);
+  }
+
+  toggleFollow() {
+    console.log("begin");
+    console.log(this.followStatus);
+
+    if (this.followStatus == true) {
+      this.unfollowUser(this.user);
+    }
+    else {
+      this.followUser(this.user);
+    }
+
+    console.log("end")
+    console.log(this.followStatus)
+
+  }
+
+  private determineIfOwner(username: string): boolean {
+    const realUser = localStorage.getItem('user');
+    if (username === realUser) {
+      console.log("setting true");
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  public unfollowUser(user) {
+    const confirm = window.confirm('Are you sure you want to unfollow ' + user.username );
+    if (confirm === false) {
+      return;
+    }
+
+    let realUser = localStorage.getItem('user');
+
+    this.followers.splice(this.followers.indexOf(realUser),1);
+
+    this.followStatus = !this.followStatus;
+    this.followButtonText = "Follow";
+    this.profileService.unfollowUser(user.username);
+  }
+
+  private setFollowStatus(user: ProfileModel) {
+    if (user.username === localStorage.getItem('user')) {
+      //check to see if this person is in the followers section
+      for (let i = 0; i < user.following.length; i++) {
+        if (user.following[i] === this.user.username) {
+          this.followButtonText = "Unfollow";
+          this.followStatus = true;
+          break;
+        }
+        else {
+          this.followButtonText = "Follow";
+          this.followStatus = false;
+        }
+      }
+    }
+
   }
 }

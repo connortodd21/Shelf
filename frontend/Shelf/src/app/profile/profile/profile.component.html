@@ -5,6 +5,8 @@
     <app-nav></app-nav>
 
     <div id="content-container">
+      <button *ngIf="!isOwner" class="messagesButton" mdbBtn type="button" color="info"
+              (click)="toggleFollow()">{{followButtonText}}</button>
         <p *ngIf="user != null"> username {{user.username}} </p>
         <p *ngIf="user != null"> birthday {{user.birthday}} </p>
         <p *ngIf="user != null"> email {{user.email}} </p>
@@ -27,9 +29,11 @@
         <span *ngIf="user != null && user.gamesRated != null">
             <p>Games Rated: </p>
             <span *ngFor="let item of ratedGames; let i = index">
-                <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating" [name]=item.name [id]=item.id
+                <app-game-overview *ngIf="item.cover" [shouldDisable]="!isOwner" [globalRating]="item.globalRating"
+                                   [userRating]="item.userRating" [name]=item.name [id]=item.id
                                    [image_id]=item.cover.image_id></app-game-overview>
-                <app-game-overview *ngIf="!item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating" [name]=item.name [id]=item.id image_id=""></app-game-overview>
+                <app-game-overview *ngIf="!item.cover" [shouldDisable]="!isOwner" [globalRating]="item.globalRating"
+                                   [userRating]="item.userRating" [name]=item.name [id]=item.id image_id=""></app-game-overview>
             </span>
         </span>
         <p *ngIf="user != null"> Wish List {{user.wishList}} </p>

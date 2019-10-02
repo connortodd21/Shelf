@@ -9,7 +9,7 @@ export class ProfileModel {
     gamesRated: [{
       game_id: string,
       rating: number,
-    }]
+    }];
     inbox: string[];
     wishList: string[];
 

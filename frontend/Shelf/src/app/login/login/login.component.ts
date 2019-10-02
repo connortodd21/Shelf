@@ -5,6 +5,7 @@ import { AuthData } from '../../models/auth.data.model';
 import { MessageService } from 'primeng/api';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ngx-custom-validators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
@@ -25,10 +26,13 @@ export class LoginComponent implements OnInit {
   registerForm: FormGroup;
   registerSubmit = false;
   error = 'NULL';
-
+  forgotPasswordForm: FormGroup;
+  forgotPasswordSubmit = false;
+  verifyEmailForm: FormGroup;
+  verifyEmailSubmit = false;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private router: Router, public loginService: LoginService, private messageService: MessageService, private formBuilder: FormBuilder) {
+  constructor(private router: Router, public loginService: LoginService, private messageService: MessageService, private formBuilder: FormBuilder, private modalService: NgbModal) {
     if (this.loginService.getAuthToken()) {
       this.router.navigate(['/home']);
     }
@@ -48,6 +52,13 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       birthday: ['', [Validators.required, CustomValidators.date]]
     }, { validator: this.checkPasswords });
+    this.forgotPasswordForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
+    this.verifyEmailForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      verificationNum: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4)]],
+    });
   }
 
   setIsRegistering(value: boolean) {
@@ -65,9 +76,11 @@ export class LoginComponent implements OnInit {
     const authData: AuthData = { username: form.value.username, password: form.value.password, email: form.value.email, birthday: form.value.birthday };
     if (this.isRegistering) {
       this.loginService.registerUser(authData).subscribe(
-        () => {
+        (res) => {
+          console.log(res);
           this.showRegistrationSuccess();
-          this.loginUser(form);
+          //this.loginUser(form);
+          window.location.replace('/login');
         },
         error => {
           this.showError(error.error.message);
@@ -85,7 +98,6 @@ export class LoginComponent implements OnInit {
     } else {
       this.isRegistering = !this.isRegistering;
     }
-    window.location.replace('/login');
   }
 
 
@@ -95,9 +107,10 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+    console.log(form.value);
     if (!this.isRegistering) {
       this.loginService.loginUser(form.value.username, form.value.password).subscribe(
-        response => {
+        () => {
         },
         error => {
           this.error = error.error.message;
@@ -106,6 +119,9 @@ export class LoginComponent implements OnInit {
           }
           else if (error.error.message === 'Not Found: User does not exist') {
             this.error = 'userNotFound';
+          }
+          else if (error.error.message === 'lease verify your email before logging in') {
+            this.error = 'notVerified';
           }
           else {
             this.error = 'fatal';
@@ -125,10 +141,63 @@ export class LoginComponent implements OnInit {
     this.messageService.add({ severity: 'success', summary: 'Success!', detail: successMessage });
   }
 
-  private checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+  private checkPasswords(group: FormGroup) {
     const pass = group.controls.password.value;
     const confirmPass = group.controls.confirmPassword.value;
 
     return pass === confirmPass ? null : { notSame: true };
+  }
+
+  openModal(content) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+      console.log(result);
+    }).catch(err => {
+
+    });
+  }
+
+  forgotPassword(form: NgForm) {
+    this.forgotPasswordSubmit = true;
+    if (this.forgotPasswordForm.invalid) {
+      return;
+    }
+    this.loginService.forgotPassword(form.value.email).then(
+      response => {
+      }).catch(
+        error => {
+          this.error = error.error.message;
+          if (error.error.message === 'Email does not exist.') {
+            this.error = 'emailNotFound';
+          }
+          else {
+            this.error = 'fatalModal';
+          }
+        });
+    window.location.replace('/login');
+  }
+
+  verifyEmail(form: NgForm) {
+    console.log(form);
+    this.verifyEmailSubmit = true;
+    if (this.verifyEmailForm.invalid) {
+      return;
+    }
+    this.loginService.verifyEmail(form.value.email, form.value.verificationNum).then(res => {
+      window.location.replace('/login');
+    }).catch(error => {
+      this.error = error.error.message;
+      if (error.error.message === 'Email does not exist.') {
+        this.error = 'emailNotFound';
+      }
+      else if (error.error.message === 'Verification code does not match') {
+        this.error = 'wrongVerificationNum';
+      }
+      else if (error.error.message === 'his error probably means that this email does not exist in the databse') {
+        this.error = 'probablyWrongEmail';
+      }
+      else {
+        this.error = 'fatalVerifyModal';
+      }
+    });
   }
 }
