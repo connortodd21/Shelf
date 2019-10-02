@@ -16,8 +16,9 @@ import { ProfileModule } from './profile/profile.module';
 import { InboxModule } from './inbox/inbox.module';
 import { NavModule } from './nav/nav.module';
 import { GameOverviewModule } from './game-overview/game-overview.module';
-import { SearchModule } from "./search/search.module";
-import { FindUsersModule } from "./find-users/find-users.module";
+import { SettingsModule } from './settings/settings.module';
+import { SearchModule } from './search/search.module';
+import { FindUsersModule } from './find-users/find-users.module';
 import { UserOverviewModule } from './user-overview/user-overview.module';
 
 @NgModule({
@@ -42,6 +43,7 @@ import { UserOverviewModule } from './user-overview/user-overview.module';
     ProfileModule,
     InboxModule,
     GameOverviewModule,
+    SettingsModule,
     SearchModule,
     FindUsersModule,
     UserOverviewModule

@@ -40,12 +40,12 @@ export class ProfileComponent implements OnInit {
       this.followers = res.followers;
       this.following = res.following;
       this.gamesService.getOverviewInfoAboutGames(this.user.gamesRated).subscribe((gamesInfo) => {
-        if (gamesInfo != null || gamesInfo != undefined) {
+        if (gamesInfo !== null || gamesInfo !== undefined) {
           this.ratedGames = gamesInfo;
           this.addUserRating();
           this.addGlobalRating();
         }
-      this.printUsefulInfo();
+        this.printUsefulInfo();
       });
       this.profileService.getAllUsers().then(users => {
         let i: number;
@@ -71,7 +71,7 @@ export class ProfileComponent implements OnInit {
   }
 
   public followUser(user) {
-    const confirm = window.confirm('Are you sure you want to follow ' + user.username );
+    const confirm = window.confirm('Are you sure you want to follow ' + user.username);
     if (confirm === false) {
       return;
     }
@@ -129,7 +129,8 @@ export class ProfileComponent implements OnInit {
   }
 
   private addUserRating() {
-    let map = new Map();
+    const map = new Map();
+    // tslint:disable: prefer-for-of
     for (let i = 0; i < this.user.gamesRated.length; i++) {
       map.set(this.user.gamesRated[i].game_id, this.user.gamesRated[i].rating);
     }
@@ -145,7 +146,7 @@ export class ProfileComponent implements OnInit {
     this.gamesService.getAllGlobalRatingInfo().subscribe(
       ratingInfo => {
 
-        let map = new Map();
+        const map = new Map();
         for (let i = 0; i < ratingInfo.length; i++) {
           map.set(ratingInfo[i].game_id, ratingInfo[i]);
         }
@@ -153,22 +154,21 @@ export class ProfileComponent implements OnInit {
 
         for (let i = 0; i < this.ratedGames.length; i++) {
 
-          let key = this.ratedGames[i].id.toString();
+          const key = this.ratedGames[i].id.toString();
 
           if (map.has(key)) {
-            let ratingInfo = map.get(key);
+            // tslint:disable: no-shadowed-variable
+            const ratingInfo = map.get(key);
             this.ratedGames[i].number_of_players = ratingInfo.number_of_players;
             this.ratedGames[i].number_of_ratings = ratingInfo.number_of_ratings;
             this.ratedGames[i].total_rating_value = ratingInfo.total_rating_value;
-            if (ratingInfo.number_of_ratings == 0) {
+            if (ratingInfo.number_of_ratings === 0) {
               this.ratedGames[i].globalRating = 0;
-            }
-            else {
+            } else {
               this.ratedGames[i].globalRating = ratingInfo.total_rating_value / ratingInfo.number_of_ratings;
             }
 
-          }
-          else {
+          } else {
             this.ratedGames[i].number_of_players = 0;
             this.ratedGames[i].number_of_ratings = 0;
             this.ratedGames[i].total_rating_value = 0;
@@ -176,7 +176,7 @@ export class ProfileComponent implements OnInit {
           }
         }
       }
-    )
+    );
   }
 
   private printUsefulInfo() {
