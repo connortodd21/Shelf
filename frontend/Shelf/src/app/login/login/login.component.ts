@@ -67,7 +67,8 @@ export class LoginComponent implements OnInit {
       this.loginService.registerUser(authData).subscribe(
         () => {
           this.showRegistrationSuccess();
-          this.loginUser(form);
+          //this.loginUser(form);
+          window.location.replace('/login');
         },
         error => {
           this.showError(error.error.message);
@@ -85,7 +86,6 @@ export class LoginComponent implements OnInit {
     } else {
       this.isRegistering = !this.isRegistering;
     }
-    window.location.replace('/login');
   }
 
 
@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
     }
     if (!this.isRegistering) {
       this.loginService.loginUser(form.value.username, form.value.password).subscribe(
-        response => {
+        () => {
         },
         error => {
           this.error = error.error.message;
