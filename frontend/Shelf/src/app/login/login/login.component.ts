@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     this.isRegistering = value;
   }
 
-  registerUser(form: NgForm) {
+  registerUser(form) {
 
     this.subtitle = 'Sign up!';
     this.registerSubmit = true;
@@ -101,7 +101,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  loginUser(form: NgForm) {
+  loginUser(form) {
     this.loginSubmit = true;
     this.subtitle = 'Login!';
     if (this.loginForm.invalid) {
@@ -156,7 +156,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  forgotPassword(form: NgForm) {
+  forgotPassword(form) {
     this.forgotPasswordSubmit = true;
     if (this.forgotPasswordForm.invalid) {
       return;
@@ -176,7 +176,7 @@ export class LoginComponent implements OnInit {
     window.location.replace('/login');
   }
 
-  verifyEmail(form: NgForm) {
+  verifyEmail(form) {
     console.log(form);
     this.verifyEmailSubmit = true;
     if (this.verifyEmailForm.invalid) {

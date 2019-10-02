@@ -24,7 +24,7 @@
                         <div class="modal-body">
                             <p>Please enter your email and the verification number sent to your email address
                             </p>
-                            <form (submit)="verifyEmail(f)" #f="ngForm" [formGroup]="verifyEmailForm">
+                            <form (submit)="verifyEmail(verifyEmailForm)" [formGroup]="verifyEmailForm">
                                 <div class="form-group">
                                     <p class="input_title">Email Address</p>
                                     <input type="email" autocomplete="email" class="form-control" size="30" id="email"
@@ -91,7 +91,7 @@
             <div *ngIf="!isRegistering">
                 <p class="title" id="red">Welcome Back!</p>
 
-                <form (submit)="loginUser(f)" #f="ngForm" [formGroup]="loginForm">
+                <form (submit)="loginUser(loginForm)" [formGroup]="loginForm">
 
                     <div class="form-group">
                         <p class="input_title">Username</p>
@@ -152,7 +152,7 @@
                     </div>
                     <div class="modal-body">
                         <p>We will send a recovery password to the email below that you can use to sign in again.</p>
-                        <form (submit)="forgotPassword(f)" #f="ngForm" [formGroup]="forgotPasswordForm">
+                        <form (submit)="forgotPassword(forgotPasswordForm)" [formGroup]="forgotPasswordForm">
                             <div class="form-group">
                                 <p class="input_title">Email Address</p>
                                 <input type="email" autocomplete="email" class="form-control" size="30" id="email"
@@ -185,7 +185,7 @@
             </div>
 
             <div *ngIf="isRegistering">
-                <form (submit)="registerUser(f)" #f="ngForm" [formGroup]="registerForm">
+                <form (submit)="registerUser(registerForm)" [formGroup]="registerForm">
 
                     <div class="form-group">
                         <p class="input_title">Username</p>
