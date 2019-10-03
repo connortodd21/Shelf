@@ -12,7 +12,10 @@
     </div>
 
     <h1>Filtered Users List</h1>
-    <app-user-overview *ngFor="let user of users | userSearchPipe : filterText" [username]="user.username"></app-user-overview>
+    <div class="overflow-scroll">
+        <app-user-overview *ngFor="let user of users | userSearchPipe : filterText" [username]="user.username"></app-user-overview>
+    </div>
+    
     <!-- <div id="content-bar">
       <div class="search-wrapper">
         <input class="search-bar" [(ngModel)]="filterText" placeholder="Search for users"/>
