@@ -10,6 +10,11 @@
   flex-direction: row;
 }
 
+.overflow-scroll {
+  overflow: scroll;
+  height: 82%;
+}
+
 #content-container {
   width: 100%;
   padding: 48px;
