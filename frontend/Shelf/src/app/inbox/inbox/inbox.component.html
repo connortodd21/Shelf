@@ -17,19 +17,3 @@
   </div>
 
 </div>
-
-<div id="orange-profile-dot"></div>
-            <div id="profile-username">
-                <!-- Owner -->
-                <p class="profile-username-text" *ngIf="user != null && isOwner">Hey there, {{user.username}}!</p>
-                <!-- !Owner -->
-                <p class="profile-username-text" *ngIf="user != null && !isOwner">{{user.username}}</p>
-                <p class="profile-username-subtext" *ngIf="user != null">{{user.email}}</p>
-
-                <!-- Unfollow -->
-                <button *ngIf="!isOwner && followStatus" class="messagesButton-unfollow" mdbBtn type="button" color="info"
-              (click)="toggleFollow()">{{followButtonText}}</button>
-
-              <button *ngIf="!isOwner && !followStatus" class="messagesButton-follow" mdbBtn type="button" color="info"
-              (click)="toggleFollow()">{{followButtonText}}</button>
-            </div>
