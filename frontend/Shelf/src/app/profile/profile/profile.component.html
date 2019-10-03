@@ -105,19 +105,19 @@
             </div>
         </div> -->
 
-        <div class="grid-item" *ngIf="messages != null">
-            <button class="messagesButton" mdbBtn type="button" color="info" mdbWavesEffect (click)="show = !show"
-                (click)="getMessages()"> View Messages </button>
-            <div class="overflowTest" *ngIf="show">
+        <div class="messaging" *ngIf="messages != null">
+            <!-- <button class="messagesButton" mdbBtn type="button" color="info" mdbWavesEffect (click)="show = !show"
+                (click)="getMessages()"> View Messages </button> -->
+            <h1 id="messages-title">Messages</h1>
+            <div class="messages-list">
                 <div *ngFor="let m of messages">
                     <b>{{m.sender}}</b>:
                     {{m.message}}
                     {{m.timeStamp}}
                 </div>
             </div>
-            <br>
 
-            <div *ngIf="show"><input #box placeholder="Add message" class="messagesInput"
+            <div><input #box placeholder="Send message" class="send-message-bar"
                     (keyup.enter)="sendMessage(box.value);box.value=''"> <a class="iconSize"
                     (click)="sendMessage(box.value);box.value=''"><i class="fa fa-angle-double-right"></i></a></div>
         </div>
