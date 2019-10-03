@@ -1,24 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginComponent } from '../login/login/login.component';
-import {LoginModule} from "../login/login.module";
-import {RouterTestingModule} from "@angular/router/testing";
-import {ToastModule} from "primeng/toast";
-import {ButtonModule} from "primeng/button";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {CalendarModule} from "primeng/calendar";
-import {CommonModule} from "@angular/common";
-import {InputMaskModule} from "primeng/inputmask";
-import {MatCardModule} from "@angular/material/card";
-import {InputTextModule} from "primeng/inputtext";
-import {PasswordModule} from "primeng/password";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
-import {AuthData} from "../models/auth.data.model";
-import {LoginService} from "../login/login/login.service";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
-import {LOGIN_URL} from "../constants/constants.urls";
-import {HttpModule} from "@angular/http";
+import { LoginModule } from "../login/login.module";
+import { RouterTestingModule } from "@angular/router/testing";
+import { ToastModule } from "primeng/toast";
+import { ButtonModule } from "primeng/button";
+import { FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { CalendarModule } from "primeng/calendar";
+import { CommonModule } from "@angular/common";
+import { InputMaskModule } from "primeng/inputmask";
+import { MatCardModule } from "@angular/material/card";
+import { InputTextModule } from "primeng/inputtext";
+import { PasswordModule } from "primeng/password";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
+import { AuthData } from "../models/auth.data.model";
+import { LoginService } from "../login/login/login.service";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { LOGIN_URL } from "../constants/constants.urls";
+import { HttpModule } from "@angular/http";
 
 describe('LoginComponent', () => {
   let component: LoginComponent;

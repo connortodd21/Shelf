@@ -40,12 +40,8 @@ export class SearchComponent implements OnInit {
     this.gamesService.getSearchedGames(this.queryString, this.selectedSortingOption).subscribe(
       (response) => {
         this.searchedGames = response;
-
         this.setupGlobalRatingInfo();
         this.setupUserRatingInfo();
-
-        this.router.navigate(['/search/' + this.queryString]);
-
       }
     );
   }
