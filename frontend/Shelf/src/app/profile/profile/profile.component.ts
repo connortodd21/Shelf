@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
   // tslint:disable-next-line: max-line-length
   constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {
     this.messages = [];
+    this.getMessages();
   }
 
   ngOnInit() {
