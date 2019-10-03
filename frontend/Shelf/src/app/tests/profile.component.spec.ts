@@ -21,6 +21,15 @@ import { ProfileService } from '../profile/profile/profile.service';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {LOGIN_URL} from "../constants/constants.urls";
 import {HttpModule} from "@angular/http";
+import { HomeModule } from '../home/home.module';
+import { ProfileModule } from '../profile/profile.module';
+import { InboxModule } from '../inbox/inbox.module';
+import { NavModule } from '../nav/nav.module';
+import { GameOverviewModule } from '../game-overview/game-overview.module';
+import { SettingsModule } from '../settings/settings.module';
+import { SearchModule } from '../search/search.module';
+import { FindUsersModule } from '../find-users/find-users.module';
+import { UserOverviewModule } from '../user-overview/user-overview.module';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -31,7 +40,25 @@ describe('ProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileComponent ]
+      declarations: [ ProfileComponent ],
+      imports: [
+        UserOverviewModule,
+        HomeModule,
+        LoginModule,
+        SearchModule,
+        InboxModule,
+        HttpClientModule,
+        NavModule,
+        ToastModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ProfileModule,
+        GameOverviewModule,
+        SettingsModule,
+        SearchModule,
+        FindUsersModule,
+        UserOverviewModule
+      ]
     })
     .compileComponents();
   }));
@@ -65,7 +92,5 @@ describe('ProfileComponent', () => {
           console.log(err);
         }
     );
-
-
   });
 });
