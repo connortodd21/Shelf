@@ -20,7 +20,9 @@ export class ProfileComponent implements OnInit {
   following: string[];
   messages: Message[];
   messageID: string;
+  queryString: string;
   ratedGames;
+  show: boolean;
   isOwner = false;
   followButtonText: string;
   followStatus: boolean;

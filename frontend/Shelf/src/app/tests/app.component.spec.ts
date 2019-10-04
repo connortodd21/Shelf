@@ -3,6 +3,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from '../app.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {LoginService} from "../login/login/login.service";
+import { NavModule } from '../nav/nav.module';
+import { UserOverviewModule } from '../user-overview/user-overview.module';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
