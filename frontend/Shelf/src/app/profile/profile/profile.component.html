@@ -38,24 +38,6 @@
         </span>
         <p *ngIf="user != null"> Wish List {{user.wishList}} </p>
 
-        <div *ngIf="isMyProfile()">
-            <input type="text" [(ngModel)]="queryString" id="search" class="form-control" placeholder="Search for users"
-                title="friendSearch">
-
-            <!-- Whoever wants to make this look good, maybe add a button to add friend?  -->
-            <!-- maybe add some modal popup thingy idk, just make it more intuitive -->
-            <!-- Right now, to add a friend you just need to search then click their name -->
-            <div class="table">
-                <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">
-                    <tbody>
-                        <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString">
-                            <td (click)="followUser(user)">{{user.username}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
         <div class="grid-item" *ngIf="messages != null">
             <button class="messagesButton" mdbBtn type="button" color="info" mdbWavesEffect (click)="show = !show"
                 (click)="getMessages()"> View Messages </button>
