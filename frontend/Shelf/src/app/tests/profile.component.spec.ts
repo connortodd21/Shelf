@@ -37,7 +37,7 @@ describe('ProfileComponent', () => {
   let loginService: LoginService;
   let profileService: ProfileService;
   let httpMock: HttpTestingController;
-  const userInfo: AuthData = { username: 'morgankaehr', password: 'morgankaehr', email: 'morgankaehr@gmail.com', birthday: '01/01/2000' };
+  const userInfo: AuthData = { username: 'morgankaehr', password: 'password', email: 'ahardewi@purdue.edu', birthday: '01/01/2000' };
   const secondUserInfo: AuthData = { username: 'dummyguy', password: 'dummyguy', email: '', birthday: '' };
 
   beforeEach(() => {
@@ -85,27 +85,37 @@ describe('ProfileComponent', () => {
     expect(1).toEqual(1);
   });
 
-  // it('Can visit other users page', () => {
-  //   loginService.loginUser(userInfo.username, userInfo.password).subscribe(
-  //     res => {
-  //       console.log(res);
-  //       expect(1).toEqual(1);
-  //     },
-  //     err => {
-  //       console.log(err);
-  //     }
-  //   );
+  it('Can visit other users page', () => {
+    // loginService.loginUser(userInfo.username, userInfo.password).subscribe(
+    //   res => {
+    //     console.log(res);
+    //     expect(1).toEqual(1);
+    //     expect(res).toBeTruthy();
+    //     done();
+    //   },
+    //   err => {
+    //     console.log(err);
+    //   }
+    // );
+    const retData = {username: 'alex', 'email': 'alex@gmail.com'};
 
-  //   profileService.getUserData('alex123').then(
-  //       res => {
-  //         expect(res.username).toEqual('alex');
-  //         expect(res.email).toEqual('alex@gmail.com');
-  //       },
-  //       err => {
-  //         console.log(err);
-  //       }
-  //   );
-  // });
+    profileService.getUserData('alex123').then(
+        res => {
+          expect(res.username).toEqual('alex');
+          expect(res.email).toEqual('alex@gmail.com');
+
+        },
+        err => {
+         fail("should have passed")
+        }
+    );
+
+    const req = httpMock.expectOne('http://localhost:8080/user/data');
+    expect(req.request.method).toEqual('POST');
+    req.flush(retData);
+
+
+  });
 
   it('Can view games on profile page', (done) => {
 
