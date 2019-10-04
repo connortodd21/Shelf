@@ -34,9 +34,9 @@ import { PageNotFoundComponent } from '../page-not-found/page-not-found.componen
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
-  // let loginService: LoginService;
-  // let ProfileService: ProfileService;
-  // const userInfo: AuthData = { username: 'morgankaehr', password: 'morgankaehr', email: 'morgankaehr@gmail.com', birthday: '01/01/2000' };
+  let loginService: LoginService;
+  let profileService: ProfileService;
+  const userInfo: AuthData = { username: 'morgankaehr', password: 'morgankaehr', email: 'morgankaehr@gmail.com', birthday: '01/01/2000' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,6 +66,8 @@ describe('ProfileComponent', () => {
       ]
     });
     fixture = TestBed.createComponent(ProfileComponent);
+    loginService = TestBed.get(LoginService);
+    profileService = TestBed.get(ProfileService);
     component = fixture.componentInstance;
 
     fixture.detectChanges();
@@ -75,28 +77,25 @@ describe('ProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Profile component should successfully render', () => {
-    expect(false).toBeFalsy();
+  it('Can visit other users page', () => {
+    loginService.loginUser(userInfo.username, userInfo.password).subscribe(
+      res => {
+        console.log(res);
+        expect(1).toEqual(1);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+
+    profileService.getUserData('alex123').then(
+        res => {
+          expect(res.username).toEqual('alex');
+          expect(res.email).toEqual('alex@gmail.com');
+        },
+        err => {
+          console.log(err);
+        }
+    );
   });
-
-  // it('Can visit other users page', () => {
-  //   loginService.loginUser(userInfo.username, userInfo.password).subscribe(
-  //     res => {
-  //       console.log(res);
-  //       expect(1).toEqual(1);
-  //     },
-  //     err => {
-  //       console.log(err);
-  //     }
-  //   );
-
-  //   ProfileService.getUserData('alex123').then(
-  //       res => {
-  //         console.log(res);
-  //       },
-  //       err => {
-  //         console.log(err);
-  //       }
-  //   );
-  // });
 });
