@@ -90,6 +90,7 @@
 
             <div *ngIf="!isRegistering">
                 <p class="title" id="red">Welcome Back!</p>
+                <p class="subtitle">Fill in these details to get started with Shelf.</p>
 
                 <form (submit)="loginUser(loginForm)" [formGroup]="loginForm">
 
@@ -185,6 +186,10 @@
             </div>
 
             <div *ngIf="isRegistering">
+                <div *ngIf="isRegistering">
+                    <p class="title" id="red">We're Excited You're Here</p>
+                    <p class="subtitle">Fill in these details to get started with Shelf.</p>
+                </div>
                 <form (submit)="registerUser(registerForm)" [formGroup]="registerForm">
 
                     <div class="form-group">
@@ -262,11 +267,6 @@
                         A fatal error has occurred. PLease Try Again Later.
                     </div>
                 </form>
-            </div>
-
-            <div *ngIf="isRegistering">
-                <p class="title" id="red">We're Excited You're Here</p>
-                <p class="subtitle">Fill in these details to get started with Shelf.</p>
             </div>
 
         </div>

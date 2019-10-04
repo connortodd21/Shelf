@@ -1,15 +1,18 @@
 <div id="full-container">
 
-  <!-- <app-nav></app-nav> -->
+  <app-nav></app-nav>
 
   <div id="content-container">
-    <div *ngIf="hasNotifications">
-       <li *ngFor="let i of inbox">
+
+    
+      <h1 *ngIf="hasNotifications">Notifications:</h1>
+      <h1 *ngIf="!hasNotifications">Whoops, looks like you don't have any notifications!</h1>
+    <!-- Display notifications -->
+    <div class="overflow-scroll" *ngIf="hasNotifications">
+       <div *ngFor="let i of inbox">
+         <p class="notification-title">📣 From {{i.sender}} on {{i.timeStamp | date:'yyyy-MM-dd'}}</p>
          <p>{{i.message}}</p>
-         <p>{{i.sender}}</p>
-         <p>{{i.timeStamp}}</p>
-         <p>{{i.hasBeenRead}}</p>
-      </li>
+       </div>
     </div>
   </div>
 

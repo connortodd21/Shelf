@@ -64,7 +64,7 @@ a:hover {
     flex-shrink: 0;
 }
 
-.search-wrapper img {
+.search-wrapper img, .search-pic {
     position: absolute;
     top:19px;
     left: 16px;
@@ -79,17 +79,22 @@ h1 {
 .header-link {
     display: flex;
     flex-direction: row;
+    
 }
 
-#home-my-games, #home-critically-acclaimed {
+#home-my-games, .header-link {
     padding-top: 48px;
 }
 
 #home-critically-acclaimed {
     overflow: scroll;
-    height: 80%;
+    height: 89%;
 }
     
 .header-link-arrow {
+    padding-left: 16px;
+}
+
+.zach-dropdown {
     padding-left: 16px;
 }

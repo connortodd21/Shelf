@@ -1,6 +1,7 @@
 #content-container {
     width: 100%;
     padding: 48px;
+    overflow: scroll;
 }
 
 #full-container {
@@ -14,3 +15,153 @@
     display: flex;
     flex-direction: row;
 }
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+   
+}
+
+#content-bar {
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    align-items: center;
+
+   
+}
+
+.margin-48 {
+    margin-top: 40px;
+}
+
+.search-bar {
+    border: 0px;
+    background-color: #CCCEE0;
+    border-radius: 7px;
+    padding: 16px;
+    padding-left: 44px;
+    color: black;
+    width: 70%;
+    flex-grow: initial;
+    font-weight: 400;
+}
+
+.send-message-bar {
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: #FAA61A;
+    padding: 8px;
+    margin-top: 16px;
+    width: 60%;
+}
+
+.search-wrapper {
+    position: relative;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.search-wrapper img, .search-pic {
+    position: absolute;
+    top:19px;
+    left: 16px;
+}
+
+#orange-profile-dot {
+    background-color: #FAA61A;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    overflow: hidden;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+#profile-username {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.profile-username-text {
+    font-weight: 700;
+    margin: 0px;
+    margin-left: 8px;
+    font-size: 20px;
+}
+
+.profile-username-subtext{
+    margin: 0px;
+    margin-left: 8px;
+}
+
+h1 {
+    font-weight: 800;
+    font-size: 20pt;
+    margin: 0px;
+}
+
+#profile-rated-games {
+    overflow: scroll;
+    height: 500px;
+}
+
+h3 {
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0px;
+}
+
+.profile-list-users {
+    padding-top: 3px;
+    margin-left: 32px;
+}
+
+.messagesButton-unfollow {
+    margin-left: 8px;
+    margin-top: 8px;
+
+    border-width: 1px;
+    border-color: #FAA61A;
+    border-radius: 4px;
+
+    padding: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+
+    background-color: transparent;
+}
+
+.messagesButton-follow {
+    margin-left: 8px;
+    margin-top: 8px;
+
+    border-width: 0px;
+    border-radius: 4px;
+
+    padding: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+
+    background-color: #FAA61A;
+    font-weight: 700;
+}
+
+.header-link {
+    margin-top: 48px;
+}
+
+.messages-list {
+    overflow: scroll;
+    height: 150px;
+    margin-top: 32px;
+  }
+
+  #messages-title {
+      margin-top: 32px;
+  }
+
+  .overflow-scroll-full {
+      overflow: scroll;
+      height: 50%;
+  }

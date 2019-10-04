@@ -46,11 +46,16 @@ router.get("/criticallyacclaimedgames", authenticate, async (req, res) => {
 router.post("/searchedgames", authenticate, async (req, res) => {
     const body = `fields id,name,cover.image_id; limit 50; search \"${req.body.search}\";`;
     const url = 'https://api-v3.igdb.com/games';
+    const sortOption = req.body.sortingOption;
 
     // TODO MORGAN: SORT THE GAMES BY THEIR SHELF STAR RATING
-
     const result = await axiosPost(url, body);
     if (result.data) {
+        if (sortOption == 1) { // asc
+            result.data.sort(function(a, b){return a-b});
+        } else if (sortOption == 2) { // dec
+            result.data.sort(function(a, b){return b-a});
+        }
         res.status(200).send(result.data);
     } else {
         res.status(400).send({ message: "There was an error retrieving game data" })
