@@ -56,10 +56,7 @@ describe('LoginComponent', () => {
     component = fixture.componentInstance;
     loginService = TestBed.get(LoginService);
     //httpTestingController = TestBed.get(HttpTestingController);
-
     fixture.detectChanges();
-
-
   });
 
 
@@ -98,7 +95,6 @@ describe('LoginComponent', () => {
 
     loginService.registerUser(userInfo).subscribe(
       res => {
-
         fail("Should have detected conflicting accounts during registration")
       },
       error => {
