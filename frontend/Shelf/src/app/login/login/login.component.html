@@ -1,5 +1,5 @@
 <div class="hero-image">
-  <p-toast [style]="{marginTop: '80px'}"></p-toast>
+<!--  <p-toast [style]="{marginTop: '80px'}"></p-toast>-->
 
     <div id="login-card">
         <div id="red-login-area">
@@ -241,6 +241,7 @@
                       <p-calendar [style]="{'width':'100%', 'height':'100%', 'margin': '0px', 'padding-top': '0px'}"
                                   [inputStyle]="{'width':'100%',
                       'height':'100%', 'padding': '0px 0px', 'padding-bottom': '0px'}"
+                                  [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2019"
                                   formControlName="birthday" size="500" class="form-control"  id="birthday"
                                   [ngClass]="{ 'is-invalid': registerSubmit && registerForm.controls.birthday.errors }"></p-calendar>
                       <div *ngIf="registerSubmit && registerForm.controls.birthday.errors" class="invalid-feedback">
@@ -264,7 +265,7 @@
                     </div>
 
                     <div *ngIf="error === 'fatal'" class="alert alert-danger" role="alert">
-                        A fatal error has occurred. PLease Try Again Later.
+                        A fatal error has occurred. Please try again later!
                     </div>
                 </form>
             </div>

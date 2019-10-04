@@ -7,23 +7,23 @@
     <div id="content-container">
 
         <!-- Search bar and profile information located at the top of the page -->
-        <div id="content-bar">
-            <div class="search-wrapper">
-                <input class="search-bar" [(ngModel)]="queryString" placeholder="Search for friends" id="search" title="friendSearch"/>
-                <div class="table">
-                        <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">
-                            <tbody>
-                                <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString">
-                                    <td (click)="goToProfile(user.username)">{{user.username}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                <img class="search-pic"src="../../../assets/Nav/Search.svg"/>
+<!--        <div id="content-bar">-->
+<!--            <div class="search-wrapper">-->
+<!--                <input class="search-bar" [(ngModel)]="queryString" placeholder="Search for friends" id="search" title="friendSearch"/>-->
+<!--                <div class="table">-->
+<!--                        <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">-->
+<!--                            <tbody>-->
+<!--                                <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString">-->
+<!--                                    <td (click)="goToProfile(user.username)">{{user.username}}</td>-->
+<!--                                </tr>-->
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
+<!--                <img class="search-pic"src="../../../assets/Nav/Search.svg"/>-->
 
-            </div>
+<!--            </div>-->
 
-        </div>
+<!--        </div>-->
         <!-- Personal Information -->
         <div class="flex-row margin-48" style="align-items: flex-start">
             <div id="orange-profile-dot"></div>
@@ -32,6 +32,7 @@
                 <p class="profile-username-text" *ngIf="user != null && isOwner">Hey there, {{user.username}}!</p>
                 <!-- !Owner -->
                 <p class="profile-username-text" *ngIf="user != null && !isOwner">{{user.username}}</p>
+<!--              <p class="profile-username-text" *ngIf="user != null">{{user.birthday}}</p>-->
                 <p class="profile-username-subtext" *ngIf="user != null">{{user.email}}</p>
 
                 <!-- Unfollow -->

@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
   // tslint:disable-next-line: max-line-length
   constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {
     this.messages = [];
-    this.getMessages();
+    // this.getMessages();
   }
 
   ngOnInit() {
@@ -40,16 +40,24 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.getUserData(username).then(res => {
       this.user = new ProfileModel(res);
+      this.getMessages();
       this.followers = res.followers;
       this.following = res.following;
-      this.gamesService.getOverviewInfoAboutGames(this.user.gamesRated).subscribe((gamesInfo) => {
-        if (gamesInfo !== null || gamesInfo !== undefined) {
-          this.ratedGames = gamesInfo;
-          this.addUserRating();
-          this.addGlobalRating();
-        }
-        this.printUsefulInfo();
-      });
+      console.log(this.user);
+      if (this.user.gamesRated.length > 0) {
+        this.gamesService.getOverviewInfoAboutGames(this.user.gamesRated).subscribe((gamesInfo) => {
+          if (gamesInfo !== null || gamesInfo !== undefined) {
+            this.ratedGames = gamesInfo;
+            this.addUserRating();
+            this.addGlobalRating();
+          }
+          this.printUsefulInfo();
+        });
+      }
+
+
+
+      console.log("prof service")
       this.profileService.getAllUsers().then(users => {
         let i: number;
         const response = [];
@@ -117,10 +125,10 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  public sendMessage(message: string, receiver: string) {
+  public sendMessage(message: string) {
     this.profileService.sendMessage(message, this.messageID).then(res => {
       const sender = localStorage.getItem('user');
-      receiver = this.route.snapshot.params.username;
+      const receiver = this.route.snapshot.params.username;
       this.inboxService.sendNotification(SEND_MESSAGE_NOTIFICATION(sender, receiver), receiver).then((resp) => {
         window.location.reload();
       });
@@ -232,15 +240,14 @@ export class ProfileComponent implements OnInit {
   private setFollowStatus(user: ProfileModel) {
     if (user.username === localStorage.getItem('user')) {
       //check to see if this person is in the followers section
+      console.log("checking follow status");
+      this.followButtonText = "Follow";
+      this.followStatus = false;
       for (let i = 0; i < user.following.length; i++) {
         if (user.following[i] === this.user.username) {
           this.followButtonText = "Unfollow";
           this.followStatus = true;
           break;
-        }
-        else {
-          this.followButtonText = "Follow";
-          this.followStatus = false;
         }
       }
     }
