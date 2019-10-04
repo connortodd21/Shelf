@@ -86,6 +86,7 @@ export class LoginComponent implements OnInit {
           window.location.replace('/login');
         },
         error => {
+          console.log(error);
           this.showError(error.error.message);
           if (error.error.message === 'Conflict: Email already exists') {
             this.error = 'emailExists';

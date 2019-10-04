@@ -140,8 +140,6 @@ router.post('/login', (req, res) => {
         }
 
         bcrypt.compare(req.body.password, user.password, (err, comp) => {
-            console.log(req.body)
-            console.log(comp)
             if (comp == false) {
                 res.status(401).send({ message: "Unauthorized: Password is incorrect" })
                 return

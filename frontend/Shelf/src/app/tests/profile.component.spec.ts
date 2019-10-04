@@ -132,7 +132,7 @@ describe('ProfileComponent', () => {
           rating: 5
         }
       ]
-    }
+    };
 
     profileService.getUserData(secondUserInfo.username).then((data) => {
       expect(data.gamesRated[0].game_id).toEqual('26758');
