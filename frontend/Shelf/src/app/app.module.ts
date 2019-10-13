@@ -20,6 +20,7 @@ import { SettingsModule } from './settings/settings.module';
 import { SearchModule } from './search/search.module';
 import { FindUsersModule } from './find-users/find-users.module';
 import { UserOverviewModule } from './user-overview/user-overview.module';
+import { LeaderboardModule } from './leaderboard/leaderboard.module';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { UserOverviewModule } from './user-overview/user-overview.module';
     SettingsModule,
     SearchModule,
     FindUsersModule,
-    UserOverviewModule
+    UserOverviewModule,
+    LeaderboardModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
