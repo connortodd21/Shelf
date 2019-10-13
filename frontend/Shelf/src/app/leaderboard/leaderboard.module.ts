@@ -5,11 +5,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from "@angular/forms";
 import { NavModule } from '../nav/nav.module';
 import { LeaderboardComponent } from './leaderboard.component';
+import { LeaderboardEntryComponent } from './leaderboard-entry/leaderboard-entry.component';
 
 
 @NgModule({
   declarations: [
-    LeaderboardComponent
+    LeaderboardComponent,
+    LeaderboardEntryComponent
   ],
   imports: [
     AppRoutingModule,
