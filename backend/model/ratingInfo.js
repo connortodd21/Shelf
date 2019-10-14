@@ -1,11 +1,16 @@
 const mongoose = require('mongoose');
 
 let ratingSchema = new mongoose.Schema({
-    game_id: {type: String, required: true, unique: true},
-    total_rating_value: {type: Number, required: true},
-    number_of_players: {type: Number, required: true},
-    number_of_ratings: {type: Number, required: true},
-
+    game_id: {type: String, unique: true},
+    total_rating_value: {type: Number},
+    number_of_players: {type: Number},
+    number_of_ratings: {type: Number},
+    comments: [{
+        comment: { type: String },
+        username: { type: String },
+        time_stamp: { type: Date, default: Date.now() },
+        score: { type: Number, default: 0 }
+      }]
 });
 
 /* Creating the user model from the schema and giving it to Mongoose */

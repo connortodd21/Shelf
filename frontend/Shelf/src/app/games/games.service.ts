@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import {Observable} from 'rxjs';
 import {HOME_PAGE} from '../constants/constants.pages';
 import {GameModel} from './game.model';
-import {RatingModel} from "../models/rating.model";
+import {RatingModel} from '../models/rating.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,7 @@ export class GamesService {
 
   getOverviewInfoAboutGames(games): Observable<any> {
     if (games.length == 0) return null;
-    let gameIds = games.map(a => a.game_id);
+    const gameIds = games.map(a => a.game_id);
     return this.http.post<object>('http://localhost:8080/games/multiplegameoverviews', {
       gameIds
     });
@@ -48,13 +48,14 @@ export class GamesService {
   }
 
   getAllUserRatingInfo(): Observable<any> {
-    let username = localStorage.getItem('user');
+    const username = localStorage.getItem('user');
     return this.http.get<GameModel>('http://localhost:8080/user/' + username + '/games-rated');
   }
 
   submitRatingToUser(newRating: number, oldRating: number, gameId: string): Observable<any> {
-    let username = localStorage.getItem('user');
-    return this.http.post<object>('http://localhost:8080/user/' + username + "/games-rated", {
+    const username = localStorage.getItem('user');
+    console.log(gameId);
+    return this.http.post<object>('http://localhost:8080/user/' + username + '/games-rated', {
       gameId,
       newRating,
       oldRating
@@ -70,8 +71,8 @@ export class GamesService {
   }
 
   fetchUserRating(id: string) {
-    let username = localStorage.getItem('user');
-    return this.http.get<RatingModel>('http://localhost:8080/user/' + username  + "/games-rated/" + id);
+    const username = localStorage.getItem('user');
+    return this.http.get<RatingModel>('http://localhost:8080/user/' + username  + '/games-rated/' + id);
   }
-  
+
 }
