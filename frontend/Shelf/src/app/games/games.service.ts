@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {HOME_PAGE} from '../constants/constants.pages';
 import {GameModel} from './game.model';
 import {RatingModel} from '../models/rating.model';
+import {ADD_COMMENT_URL, DELETE_COMMENT_URL, UPVOTE_URL, DOWNVOTE_URL} from '../constants/constants.urls';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,8 @@ export class GamesService {
   }
 
   getOverviewInfoAboutGames(games): Observable<any> {
-    if (games.length == 0) return null;
+    // tslint:disable-next-line: curly
+    if (games.length === 0) return null;
     const gameIds = games.map(a => a.game_id);
     return this.http.post<object>('http://localhost:8080/games/multiplegameoverviews', {
       gameIds
@@ -75,4 +77,39 @@ export class GamesService {
     return this.http.get<RatingModel>('http://localhost:8080/user/' + username  + '/games-rated/' + id);
   }
 
+  addComment(comment: string, gameID: string) {
+    const data = {
+      comment,
+      gameID
+    };
+
+    return this.http.post(ADD_COMMENT_URL, data).toPromise();
+  }
+
+  deleteComment(commentID: string, gameID: string) {
+    const data = {
+      commentID,
+      gameID
+    };
+
+    return this.http.post(DELETE_COMMENT_URL, data).toPromise();
+  }
+
+  upvote(commentID: string, gameID: string) {
+    const data = {
+      commentID,
+      gameID
+    };
+
+    return this.http.post(UPVOTE_URL, data).toPromise();
+  }
+
+  downvote(commentID: string, gameID: string) {
+    const data = {
+      commentID,
+      gameID
+    };
+
+    return this.http.post(DOWNVOTE_URL, data).toPromise();
+  }
 }

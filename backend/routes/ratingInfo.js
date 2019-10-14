@@ -100,7 +100,6 @@ router.post("/upvote", authenticate, (req, res) => {
 
     RatingInfo.findOne({_id: req.body.gameID}).then((game) => {
         const tempCommemts = game.comments
-        console.log(tempCommemts.length)
         for(let i = 0; i < tempCommemts.length; i++) {
             if(tempCommemts[i]._id == req.body.commentID) {
                 tempCommemts[i].score++;
@@ -129,7 +128,6 @@ router.post("/downvote", authenticate, (req, res) => {
     
     RatingInfo.findOne({_id: req.body.gameID}).then((game) => {
         const tempCommemts = game.comments
-        console.log(tempCommemts.length)
         for(let i = 0; i < tempCommemts.length; i++) {
             if(tempCommemts[i]._id == req.body.commentID) {
                 tempCommemts[i].score--;

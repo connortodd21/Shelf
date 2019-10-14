@@ -16,3 +16,7 @@ export const VERIFY_EMAIL_URL = 'http://localhost:8080/user/verify-email';
 export const FORGOT_PASSWORD_URL = 'http://localhost:8080/user/forgot-password';
 export const CHANGE_PASSWORD_URL = 'http://localhost:8080/user/change-password';
 export const CHANGE_EMAIL_URL = 'http://localhost:8080/user/change-email';
+export const ADD_COMMENT_URL = 'http://localhost:8080/ratingInfo/add-comment';
+export const DELETE_COMMENT_URL = 'http://localhost:8080/ratingInfo/delete-comment';
+export const UPVOTE_URL = 'http://localhost:8080/ratingInfo/upvote';
+export const DOWNVOTE_URL = 'http://localhost:8080/ratingInfo/downvote';
