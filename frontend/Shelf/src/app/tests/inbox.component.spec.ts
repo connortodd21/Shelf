@@ -1,20 +1,20 @@
 // import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 //
-// import { HomeComponent } from '../home/home/home.component';
+// import { InboxComponent } from '../inbox/inbox/inbox.component';
 //
-// describe('HomeComponent', () => {
-//   let component: HomeComponent;
-//   let fixture: ComponentFixture<HomeComponent>;
+// describe('InboxComponent', () => {
+//   let component: InboxComponent;
+//   let fixture: ComponentFixture<InboxComponent>;
 //
 //   beforeEach(async(() => {
 //     TestBed.configureTestingModule({
-//       declarations: [ HomeComponent ]
+//       declarations: [ InboxComponent ]
 //     })
 //     .compileComponents();
 //   }));
 //
 //   beforeEach(() => {
-//     fixture = TestBed.createComponent(HomeComponent);
+//     fixture = TestBed.createComponent(InboxComponent);
 //     component = fixture.componentInstance;
 //     fixture.detectChanges();
 //   });

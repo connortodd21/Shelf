@@ -28,7 +28,7 @@ export class SettingsComponent implements OnInit {
     }, { validator: this.checkEmails });
   }
 
-  changePassword(form: NgForm) {
+  changePassword(form) {
     this.changePasswordSubmit = true;
     if (this.changePasswordForm.invalid) {
       return;
@@ -40,7 +40,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  changeEmail(form: NgForm) {
+  changeEmail(form) {
     this.changeEmailSubmit = true;
     if (this.changeEmailForm.invalid) {
       return;

@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
   forgotPasswordSubmit = false;
   verifyEmailForm: FormGroup;
   verifyEmailSubmit = false;
+  //maxDate;
 
   // tslint:disable-next-line: max-line-length
   constructor(private router: Router, public loginService: LoginService, private messageService: MessageService, private formBuilder: FormBuilder, private modalService: NgbModal) {
@@ -40,6 +41,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     // tslint:disable: one-line
+    // let date = new Date();
+    // this.maxDate = date.set;
     this.subtitle = 'Login!';
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -65,7 +68,7 @@ export class LoginComponent implements OnInit {
     this.isRegistering = value;
   }
 
-  registerUser(form: NgForm) {
+  registerUser(form) {
 
     this.subtitle = 'Sign up!';
     this.registerSubmit = true;
@@ -83,6 +86,7 @@ export class LoginComponent implements OnInit {
           window.location.replace('/login');
         },
         error => {
+          console.log(error);
           this.showError(error.error.message);
           if (error.error.message === 'Conflict: Email already exists') {
             this.error = 'emailExists';
@@ -101,7 +105,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  loginUser(form: NgForm) {
+  loginUser(form) {
     this.loginSubmit = true;
     this.subtitle = 'Login!';
     if (this.loginForm.invalid) {
@@ -113,6 +117,7 @@ export class LoginComponent implements OnInit {
         () => {
         },
         error => {
+          console.log(error);
           this.error = error.error.message;
           if (error.error.message === 'Unauthorized: Password is incorrect') {
             this.error = 'unauthorized';
@@ -120,7 +125,7 @@ export class LoginComponent implements OnInit {
           else if (error.error.message === 'Not Found: User does not exist') {
             this.error = 'userNotFound';
           }
-          else if (error.error.message === 'lease verify your email before logging in') {
+          else if (error.error.message === 'Please verify your email before logging in') {
             this.error = 'notVerified';
           }
           else {
@@ -156,7 +161,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  forgotPassword(form: NgForm) {
+  forgotPassword(form) {
     this.forgotPasswordSubmit = true;
     if (this.forgotPasswordForm.invalid) {
       return;
@@ -176,7 +181,7 @@ export class LoginComponent implements OnInit {
     window.location.replace('/login');
   }
 
-  verifyEmail(form: NgForm) {
+  verifyEmail(form) {
     console.log(form);
     this.verifyEmailSubmit = true;
     if (this.verifyEmailForm.invalid) {
@@ -185,6 +190,7 @@ export class LoginComponent implements OnInit {
     this.loginService.verifyEmail(form.value.email, form.value.verificationNum).then(res => {
       window.location.replace('/login');
     }).catch(error => {
+      console.log(this.error);
       this.error = error.error.message;
       if (error.error.message === 'Email does not exist.') {
         this.error = 'emailNotFound';
