@@ -17,18 +17,18 @@
 
                 <!-- Game info -->
                 <div id="game-info">
-                    <span *ngIf="game.genres">
+                    <span *ngIf="game.genres" class="detailed-game-badge-container">
                         <p class="detailed-game-heading">Genre</p>
                         <span *ngFor="let genre of game.genres; let i = index" class="detailed-game-badge">
                             {{genre.name}}
                         </span>
                     </span>
-                    <span *ngIf="game.platforms">
+                    <div *ngIf="game.platforms" class="detailed-game-badge-container">
                         <p class="detailed-game-heading top-margin-32">Platforms</p>
                         <span *ngFor="let platform of game.platforms; let i = index" class="detailed-game-badge">
                             {{platform.name}}
                         </span>
-                    </span>
+                    </div>
                     <p class="detailed-game-heading top-margin-32">Release date: {{game.release_date}}</p>
                     <p class="detailed-game-heading top-margin-32">Game Ratings</p>
                     <div class="flex-row">
