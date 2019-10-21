@@ -59,16 +59,21 @@
                 <img *ngFor="let art of game.artworks; let i = index" src="{{screenshotPath}}{{art.image_id}}.jpg"
                     class="detailed-game-art" />
             </span>
+
+            <span>
+                <!-- Ability to add comment -->
+                <div><input #box placeholder="Add Comment" class="send-message-bar"
+                    (keyup.enter)="addComment(box.value);box.value=''"></div>
+            </span>
+            <div *ngFor="let c of comments" (click)="upvote(c)">
+                {{c.comment}}
+                {{c.username}}
+                {{c.time_stamp}}
+                {{c.score}}
+                {{c.comment_id}}
+            </div>
         </div>
 
     </div>
 
-</div>
-
-<div *ngFor="let c of comments" (click)="upvote(c)">
-    {{c.comment}}
-    {{c.username}}
-    {{c.time_stamp}}
-    {{c.score}}
-    {{c.comment_id}}
 </div>
