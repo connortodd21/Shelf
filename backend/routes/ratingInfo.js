@@ -55,7 +55,9 @@ router.post("/add-comment", authenticate, (req, res) => {
         return;
     }
 
-    RatingInfo.findOneAndUpdate({_id: req.body.gameID}, {
+    console.log(req.body)
+    
+    RatingInfo.findOneAndUpdate({game_id: req.body.gameID}, {
         $push: {
             comments: {
                 comment: req.body.comment,
@@ -66,6 +68,7 @@ router.post("/add-comment", authenticate, (req, res) => {
         res.status(200).send({message: "comment successfully added!"})
         return;
     }).catch(err => {
+        cons
         res.status(500).send(err);
         return;
     })
@@ -77,7 +80,7 @@ router.post("/delete-comment", authenticate, (req, res) => {
         return;
     }
 
-    RatingInfo.findOneAndUpdate({_id: req.body.gameID}, {
+    RatingInfo.findOneAndUpdate({game_id: req.body.gameID}, {
         $pull: {
             comments: {
                 _id: req.body.commentID
@@ -98,7 +101,7 @@ router.post("/upvote", authenticate, (req, res) => {
         return;
     }
 
-    RatingInfo.findOne({_id: req.body.gameID}).then((game) => {
+    RatingInfo.findOne({game_id: req.body.gameID}).then((game) => {
         const tempCommemts = game.comments
         for(let i = 0; i < tempCommemts.length; i++) {
             if(tempCommemts[i]._id == req.body.commentID) {
@@ -126,7 +129,7 @@ router.post("/downvote", authenticate, (req, res) => {
         return;
     }
     
-    RatingInfo.findOne({_id: req.body.gameID}).then((game) => {
+    RatingInfo.findOne({game_id: req.body.gameID}).then((game) => {
         const tempCommemts = game.comments
         for(let i = 0; i < tempCommemts.length; i++) {
             if(tempCommemts[i]._id == req.body.commentID) {
