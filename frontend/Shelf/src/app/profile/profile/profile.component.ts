@@ -176,7 +176,7 @@ export class ProfileComponent implements OnInit {
             if (ratingInfo.number_of_ratings === 0) {
               this.ratedGames[i].globalRating = 0;
             } else {
-              this.ratedGames[i].globalRating = ratingInfo.total_rating_value / ratingInfo.number_of_ratings;
+              this.ratedGames[i].globalRating = Math.floor(ratingInfo.total_rating_value / ratingInfo.number_of_ratings);
             }
 
           } else {
