@@ -20,6 +20,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 /* Objects */
 var User = require('../model/user');
 var Inbox = require('../model/inbox')
+var Messsage = require('../model/message')
 
 /**
  * All user related routes
@@ -40,7 +41,37 @@ router.get("/all-users", authenticate, (req, res) => {
         res.status(500).send(err);
         return
     })
+})
 
+router.get("/all-messages", authenticate, (req, res) => {
+
+    const getDetailedMessage = id => {
+        return new Promise((resolve, reject) => {
+            Messsage.findOne({_id: id}).then( msg => {
+                resolve(msg)
+            })
+        })
+    }
+    
+    const getMessages = async (messages) => {
+        let arr = []
+        for (const element of messages) {
+            const msg = await getDetailedMessage(element)
+            arr.push(msg)
+        }
+        return arr
+    }
+
+    User.findOne({ username: req.user.username }).then((user) => {
+        getMessages(user.messages).then((messages) => {
+            res.status(200).send(messages)
+            return
+        })
+    }).catch((err) => {
+        console.log(err)
+        res.status(500).send(err);
+        return
+    })
 })
 
 router.get("/:username/games-rated/:gameId", authenticate, (req, res) => {
@@ -140,8 +171,6 @@ router.post('/login', (req, res) => {
         }
 
         bcrypt.compare(req.body.password, user.password, (err, comp) => {
-            console.log(req.body)
-            console.log(comp)
             if (comp == false) {
                 res.status(401).send({ message: "Unauthorized: Password is incorrect" })
                 return

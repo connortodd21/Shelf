@@ -7,23 +7,23 @@
     <div id="content-container">
 
         <!-- Search bar and profile information located at the top of the page -->
-        <div id="content-bar">
-            <div class="search-wrapper">
-                <input class="search-bar" [(ngModel)]="queryString" placeholder="Search for friends" id="search" title="friendSearch"/>
-                <div class="table">
-                        <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">
-                            <tbody>
-                                <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString">
-                                    <td (click)="goToProfile(user.username)">{{user.username}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                <img class="search-pic"src="../../../assets/Nav/Search.svg"/>
-                
-            </div>
-    
-        </div>
+<!--        <div id="content-bar">-->
+<!--            <div class="search-wrapper">-->
+<!--                <input class="search-bar" [(ngModel)]="queryString" placeholder="Search for friends" id="search" title="friendSearch"/>-->
+<!--                <div class="table">-->
+<!--                        <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">-->
+<!--                            <tbody>-->
+<!--                                <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString">-->
+<!--                                    <td (click)="goToProfile(user.username)">{{user.username}}</td>-->
+<!--                                </tr>-->
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
+<!--                <img class="search-pic"src="../../../assets/Nav/Search.svg"/>-->
+
+<!--            </div>-->
+
+<!--        </div>-->
         <!-- Personal Information -->
         <div class="flex-row margin-48" style="align-items: flex-start">
             <div id="orange-profile-dot"></div>
@@ -32,6 +32,7 @@
                 <p class="profile-username-text" *ngIf="user != null && isOwner">Hey there, {{user.username}}!</p>
                 <!-- !Owner -->
                 <p class="profile-username-text" *ngIf="user != null && !isOwner">{{user.username}}</p>
+<!--              <p class="profile-username-text" *ngIf="user != null">{{user.birthday}}</p>-->
                 <p class="profile-username-subtext" *ngIf="user != null">{{user.email}}</p>
 
                 <!-- Unfollow -->
@@ -44,11 +45,11 @@
             <div class="profile-list-users">
                 <h3>Followers</h3>
                 <div *ngIf="user != null">
-                    
+
                     <app-user-overview *ngFor="let f of followers" [username]="f"></app-user-overview>
                 </div>
             </div>
-        
+
             <div class="profile-list-users">
                 <h3>Following</h3>
                 <div *ngIf="user != null">
@@ -57,16 +58,7 @@
             </div>
         </div>
 
-        <!--
-        <p *ngIf="user != null"> username {{user.username}} </p>
-        <p *ngIf="user != null"> birthday {{user.birthday}} </p>
-        <p *ngIf="user != null"> email {{user.email}} </p>
-        <p *ngIf="user != null"> Date Created {{user.dateCreated}} </p>
-        -->
-
-        <!-- Commenting out games played until we have things for it -Zach 
-        <p *ngIf="user != null"> Games Played: {{user.gamesPlayed}} </p>
-        -->
+<!--        <p *ngIf="user != null"> Games Played: {{user.gamesPlayed}} </p>-->
 
         <!-- Rated Games Section -->
         <div class="header-link"><h1>Rated Games</h1></div>
@@ -80,42 +72,17 @@
             </span>
         </div>
 
-        <!-- <span *ngIf="user != null && user.gamesRated != null">
-            <p>Games Rated: </p>
-            
-        </span> -->
-
-        <!-- Gonna comment this out until we have things for it -Zach --> 
-        <!-- <p *ngIf="user != null"> Wish List {{user.wishList}} </p> -->
-
-        <!-- Changed the search to just take folks to a profile page rather than just using that to follow people -->
-        <!-- <div *ngIf="isMyProfile()">
-            <input type="text" [(ngModel)]="queryString" id="search" class="form-control" placeholder="Search for users"
-                title="friendSearch">
-
-            
-            <div class="table">
-                <table mdbTable class="table table-bordered table-striped table-wrapper-scroll-y">
-                    <tbody>
-                        <tr mdbTableCol *ngFor="let user of allUsers | UsernameFilter: queryString">
-                            <td (click)="followUser(user)">{{user.username}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div> -->
-
         <div class="messaging" *ngIf="messages != null">
-            <!-- <button class="messagesButton" mdbBtn type="button" color="info" mdbWavesEffect (click)="show = !show"
-                (click)="getMessages()"> View Messages </button> -->
-            <h1 id="messages-title">Messages</h1>
-            <div class="messages-list">
-                <div *ngFor="let m of messages">
-                    <b>{{m.sender}}</b>:
-                    {{m.message}}
-                    {{m.timeStamp}}
-                </div>
+<!--            <button class="messagesButton" mdbBtn type="button" color="info" mdbWavesEffect (click)="show = !show"-->
+<!--                (click)="getMessages()"> View Messages </button>-->
+          <h1 id="messages-title">Messages</h1>
+          <div class="messages-list">
+            <div *ngFor="let m of messages">
+              <b>{{m.sender}}</b>:
+              {{m.message}}
+              {{m.timeStamp}}
             </div>
+          </div>
 
             <div><input #box placeholder="Send message" class="send-message-bar"
                     (keyup.enter)="sendMessage(box.value);box.value=''"> <a class="iconSize"

@@ -1,5 +1,5 @@
 <h3>Change Password</h3>
-<form (submit)="changePassword(f)" #f="ngForm" [formGroup]="changePasswordForm">
+<form (submit)="changePassword(changePasswordForm)" [formGroup]="changePasswordForm">
     <div class="form-group">
         <p class="input_title">New Password</p>
         <input type="password" class="form-control" autocomplete="password" size="30" id="password" ng-required
@@ -34,7 +34,7 @@
 <br>
 <br>
 <h3>Change Email</h3>
-<form (submit)="changeEmail(e)" #e="ngForm" [formGroup]="changeEmailForm">
+<form (submit)="changeEmail(changeEmailForm)" [formGroup]="changeEmailForm">
     <div class="form-group">
         <p class="input_title">New Email</p>
         <input type="email" class="form-control" autocomplete="email" size="30" id="email" ng-required pInputText
@@ -61,7 +61,7 @@
 
     <br>
     <div *ngIf="status === 'emailError'" class="alert alert-danger" role="alert">
-        A Fatal Error Has Occoured. PLease Try Again Later.
+        A fatal error has occurred. Please try again later.
     </div>
     <br>
     <div *ngIf="status === 'emailTaken'" class="alert alert-danger" role="alert">

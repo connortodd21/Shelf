@@ -72,12 +72,29 @@ router.post('/new', authenticate, (req, res) => {
                         secondUser: req.body.secondUser
                     })
 
-                    newMessage.save().then(() => {
-                        res.status(200).send(newMessage);
-                        return;
+                    console.log(newMessage._id)
+
+                    User.findOneAndUpdate({ username: req.body.firstUser }, {
+                        $push: {
+                            messages: newMessage._id
+                        }
+                    }).then(() => {
+                        User.findOneAndUpdate({ username: req.body.secondUser }, {
+                            $push: {
+                                messages: newMessage._id
+                            }
+                        }).then(() => {
+                            newMessage.save().then(() => {
+                                res.status(200).send(newMessage);
+                                return;
+                            }).catch((err) => {
+                                res.status(500).send(err)
+                                return;
+                            })
+                        })
                     }).catch((err) => {
                         res.status(500).send(err)
-                        return;
+                        return
                     })
                 }
                 else {
@@ -111,7 +128,7 @@ router.post('/send', authenticate, (req, res) => {
                     }
                 }
             }).then(msg => {
-                res.status(200).send({ message: "Message " + req.body.message + " sent "})
+                res.status(200).send({ message: "Message " + req.body.message + " sent " })
                 return;
             }).catch(err => {
                 res.status(500).send(err)

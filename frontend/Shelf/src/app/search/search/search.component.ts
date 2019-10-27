@@ -39,7 +39,7 @@ export class SearchComponent implements OnInit {
     this.getSearchedGames();
   }
 
-  private getSearchedGames() {
+  public getSearchedGames() {
     this.gamesService.getSearchedGames(this.queryString, this.selectedSortingOption).subscribe(
       (response) => {
         this.searchedGames = response;
@@ -53,7 +53,7 @@ export class SearchComponent implements OnInit {
         });
         this.setupUserRatingInfo();
 
-        this.router.navigate(['/search/' + this.queryString]);
+        //this.router.navigate(['/search/' + this.queryString]);
       }
     );
   }

@@ -18,18 +18,21 @@ export class DetailedGameComponent implements OnInit {
   artworkUrls;
   globalRating: number;
   userRating: number;
+  comments;
 
   constructor(private route: ActivatedRoute, private gamesService: GamesService, private location: Location) {
-    this.route.params.subscribe( params => this.id = params.id );
+    this.route.params.subscribe(params => this.id = params.id);
+    this.comments = [];
   }
   ngOnInit() {
-    //if we navigated from home page, then we can save tons of time and use these
+    // if we navigated from home page, then we can save tons of time and use these
 
     if (history.state.userRating !== undefined && history.state.globalRating !== undefined) {
       this.globalRating = history.state.globalRating;
       this.userRating = history.state.userRating;
       this.getDetailedGameData(false);
     }
+    // tslint:disable: one-line
     else {
       this.getDetailedGameData(true);
     }
@@ -50,16 +53,23 @@ export class DetailedGameComponent implements OnInit {
 
         if (shouldFetchRatings) {
           this.gamesService.getGlobalRatingInfo(this.id).subscribe(
+            // tslint:disable: no-shadowed-variable
             response => {
               this.globalRating = response.total_rating_value / response.number_of_ratings;
+              let i = 0;
+              response.comments.forEach(element => {
+                this.comments[i] = element;
+                this.comments[i].comment_id = element._id;
+                i++;
+              });
             }
-          )
+          );
         }
         this.gamesService.fetchUserRating(this.id).subscribe(
           response => {
             this.userRating = response.rating;
           }
-        )
+        );
       }
     );
   }
@@ -98,11 +108,35 @@ export class DetailedGameComponent implements OnInit {
                   this.userRating = event.value;
                 }
               }
-            )
+            );
           }
-        )
+        );
       }
     );
+  }
+
+  upvote(comment) {
+    this.gamesService.upvote(comment.commend_id, this.id).then(res => {
+      // window.location.reload();
+    });
+  }
+
+  downvote(comment) {
+    this.gamesService.downvote(comment.commend_id, this.id).then(res => {
+      // window.location.reload();
+    });
+  }
+
+  addComment(comment) {
+    this.gamesService.addComment(comment, this.id).then(res => {
+      // window.location.reload();
+    });
+  }
+
+  deleteComment(comment) {
+    this.gamesService.deleteComment(comment.comment_id, this.id).then(res => {
+      // window.location.reload();
+    });
   }
 
 }

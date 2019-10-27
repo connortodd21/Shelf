@@ -25,9 +25,9 @@ import {CalendarModule} from 'primeng/calendar';
     PasswordModule,
     FormsModule,
     ToastModule,
-    ReactiveFormsModule,
     CalendarModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ]
 })
 export class LoginModule { }
