@@ -32,7 +32,7 @@ export class GameOverviewComponent {
 
             this.gameService.getGlobalRatingInfo(this.id).subscribe(
               response => {
-                this.globalRating = response.total_rating_value / response.number_of_ratings;
+                this.globalRating = Math.floor(response.total_rating_value / response.number_of_ratings);
 
                 if (event.value === this.userRating) {
                   this.userRating = 0;
