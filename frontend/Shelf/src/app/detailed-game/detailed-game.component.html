@@ -11,53 +11,64 @@
         <!-- Game Image and Information -->
         <div class="overflow-scroll">
             <div class="flex-row top-margin-32">
-                    <!-- Game image -->
-                    <img (click)="gotoGamePage()" *ngIf="game && game.cover" class="detailed-game-cover" src="{{coverPath}}{{game.cover.image_id}}.jpg" />
-                    
-                    <!-- Game info -->
-                    <div id="game-info">
-                        <span *ngIf="game.genres">
-                                <p class="detailed-game-heading">Genre</p>
-                                <span *ngFor="let genre of game.genres; let i = index" class="detailed-game-badge">
-                                    {{genre.name}}
-                                </span>
-                            </span>
-                        <span *ngIf="game.platforms">
-                            <p class="detailed-game-heading top-margin-32">Platforms</p>
-                            <span *ngFor="let platform of game.platforms; let i = index" class="detailed-game-badge">
-                                {{platform.name}}
-                            </span>
+                <!-- Game image -->
+                <img (click)="gotoGamePage()" *ngIf="game && game.cover" class="detailed-game-cover"
+                    src="{{coverPath}}{{game.cover.image_id}}.jpg" />
+
+                <!-- Game info -->
+                <div id="game-info">
+                    <span *ngIf="game.genres">
+                        <p class="detailed-game-heading">Genre</p>
+                        <span *ngFor="let genre of game.genres; let i = index" class="detailed-game-badge">
+                            {{genre.name}}
                         </span>
-                        <p class="detailed-game-heading top-margin-32">Release date: {{game.release_date}}</p>
-                        <p class="detailed-game-heading top-margin-32">Game Ratings</p>
-                        <div class="flex-row">
-                            <p class="ratings-label">Global Rating:</p>
-                            <p-rating stars="5" [cancel]="false" readonly="true" disabled="true" [(ngModel)]="globalRating"></p-rating>
-                        </div>
-                        <div class="flex-row">
-                                <p class="ratings-label">My Rating:</p>
-                                <p-rating stars="5" [cancel]="false" (onRate)="handleRate($event)" [ngModel]="userRating"></p-rating>
-                        </div>
-                        
-                        
-                    </div>
-                </div>
-                <span *ngIf="game.storyline">
-                    <p class="detailed-game-heading">Game Description</p>
-                    <p class="detailed-game-description">{{game.storyline}}</p>
-                </span>
-                    
-                    
-                    
-                    
-                    
-                    <span *ngIf="game.artworks">
-                        <p class="detailed-game-heading top-margin-32">Artworks</p>
-                        <img *ngFor="let art of game.artworks; let i = index" src="{{screenshotPath}}{{art.image_id}}.jpg"
-                            class="detailed-game-art" />
                     </span>
+                    <span *ngIf="game.platforms">
+                        <p class="detailed-game-heading top-margin-32">Platforms</p>
+                        <span *ngFor="let platform of game.platforms; let i = index" class="detailed-game-badge">
+                            {{platform.name}}
+                        </span>
+                    </span>
+                    <p class="detailed-game-heading top-margin-32">Release date: {{game.release_date}}</p>
+                    <p class="detailed-game-heading top-margin-32">Game Ratings</p>
+                    <div class="flex-row">
+                        <p class="ratings-label">Global Rating:</p>
+                        <p-rating stars="5" [cancel]="false" readonly="true" disabled="true" [(ngModel)]="globalRating">
+                        </p-rating>
+                    </div>
+                    <div class="flex-row">
+                        <p class="ratings-label">My Rating:</p>
+                        <p-rating stars="5" [cancel]="false" (onRate)="handleRate($event)" [ngModel]="userRating">
+                        </p-rating>
+                    </div>
+
+
+                </div>
+            </div>
+            <span *ngIf="game.storyline">
+                <p class="detailed-game-heading">Game Description</p>
+                <p class="detailed-game-description">{{game.storyline}}</p>
+            </span>
+
+
+
+
+
+            <span *ngIf="game.artworks">
+                <p class="detailed-game-heading top-margin-32">Artworks</p>
+                <img *ngFor="let art of game.artworks; let i = index" src="{{screenshotPath}}{{art.image_id}}.jpg"
+                    class="detailed-game-art" />
+            </span>
         </div>
-       
+
     </div>
-    
+
+</div>
+
+<div *ngFor="let c of comments" (click)="upvote(c)">
+    {{c.comment}}
+    {{c.username}}
+    {{c.time_stamp}}
+    {{c.score}}
+    {{c.comment_id}}
 </div>

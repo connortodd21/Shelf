@@ -38,7 +38,8 @@ let userSchema = new mongoose.Schema({
   }],
   inboxID: { type: String },
   verificationNum: { type: String},
-  verified: { type: Boolean, default: false }
+  verified: { type: Boolean, default: false },
+  messages: { type: [String] }
 })
 
 /* Generate authentication token for user */

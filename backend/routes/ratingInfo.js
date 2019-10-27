@@ -49,8 +49,106 @@ router.get('/:gameId', authenticate, async (req,res) => {
 
 });
 
-router.post("/:gameId", authenticate, async (req, res) => {
+router.post("/add-comment", authenticate, (req, res) => {
+    if(!req.body || !req.body.comment || !req.body.gameID) {
+        res.status(400).send('Bad Request: add comment data is incomplete')
+        return;
+    }
 
+    RatingInfo.findOneAndUpdate({_id: req.body.gameID}, {
+        $push: {
+            comments: {
+                comment: req.body.comment,
+                username: req.user.username
+            }
+        }
+    }).then( () => {
+        res.status(200).send({message: "comment successfully added!"})
+        return;
+    }).catch(err => {
+        res.status(500).send(err);
+        return;
+    })
+})
+
+router.post("/delete-comment", authenticate, (req, res) => {
+    if(!req.body || !req.body.commentID || !req.body.gameID) {
+        res.status(400).send('Bad Request: delete comment data is incomplete')
+        return;
+    }
+
+    RatingInfo.findOneAndUpdate({_id: req.body.gameID}, {
+        $pull: {
+            comments: {
+                _id: req.body.commentID
+            }
+        }
+    }).then( () => {
+        res.status(200).send({message: "comment successfully deleted!"})
+        return;
+    }).catch(err => {
+        res.status(500).send(err);
+        return;
+    })
+})
+
+router.post("/upvote", authenticate, (req, res) => {
+    if(!req.body || !req.body.commentID || !req.body.gameID) {
+        res.status(400).send('Bad Request: upvote comment data is incomplete')
+        return;
+    }
+
+    RatingInfo.findOne({_id: req.body.gameID}).then((game) => {
+        const tempCommemts = game.comments
+        for(let i = 0; i < tempCommemts.length; i++) {
+            if(tempCommemts[i]._id == req.body.commentID) {
+                tempCommemts[i].score++;
+                break;
+            }
+        }
+        RatingInfo.findOneAndUpdate({_id: req.body.gameID}, {
+            $set: {
+                comments: tempCommemts
+            }
+        }).then(() => {
+            res.status(200).send({message: "comment successfully upvoted!"})
+        return;
+        })
+    }).catch(err => {
+        res.status(500).send(err);
+        return;
+    })
+})
+
+router.post("/downvote", authenticate, (req, res) => {
+    if(!req.body || !req.body.commentID || !req.body.gameID) {
+        res.status(400).send('Bad Request: downvote comment data is incomplete')
+        return;
+    }
+    
+    RatingInfo.findOne({_id: req.body.gameID}).then((game) => {
+        const tempCommemts = game.comments
+        for(let i = 0; i < tempCommemts.length; i++) {
+            if(tempCommemts[i]._id == req.body.commentID) {
+                tempCommemts[i].score--;
+                break;
+            }
+        }
+        RatingInfo.findOneAndUpdate({_id: req.body.gameID}, {
+            $set: {
+                comments: tempCommemts
+            }
+        }).then(() => {
+            res.status(200).send({message: "comment successfully downvoted!"})
+        return;
+        })
+    }).catch(err => {
+        res.status(500).send(err);
+        return;
+    })
+})
+
+router.post("/:gameId", authenticate, async (req, res) => {
 
     //not in db
     RatingInfo.findOne({game_id: req.params.gameId}).then(ratingInfo => {
@@ -167,7 +265,5 @@ router.post("/:gameId", authenticate, async (req, res) => {
 
 
 });
-
-
 
 module.exports = router;
