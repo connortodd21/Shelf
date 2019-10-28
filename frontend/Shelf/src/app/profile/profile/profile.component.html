@@ -35,6 +35,8 @@
 <!--              <p class="profile-username-text" *ngIf="user != null">{{user.birthday}}</p>-->
                 <p class="profile-username-subtext" *ngIf="user != null">{{user.email}}</p>
 
+                <app-top-icon></app-top-icon>
+
                 <!-- Unfollow -->
                 <button *ngIf="!isOwner && followStatus" class="messagesButton-unfollow" mdbBtn type="button" color="info"
               (click)="toggleFollow()">{{followButtonText}}</button>

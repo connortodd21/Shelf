@@ -21,6 +21,7 @@ import { SearchModule } from './search/search.module';
 import { FindUsersModule } from './find-users/find-users.module';
 import { UserOverviewModule } from './user-overview/user-overview.module';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
+import { TopIconComponent } from './top-icon/top-icon.component';
 
 @NgModule({
   declarations: [
