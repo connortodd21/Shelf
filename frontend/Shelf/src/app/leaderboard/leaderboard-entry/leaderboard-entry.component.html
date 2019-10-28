@@ -1,4 +1,5 @@
 <div class="profile-link" (click)="goToProfile()">
     <div class="profile-photo"></div>
-    <a class="profile-name">Ben</a>
+    <a class="profile-name" routerLink="/profile/{{username}}">{{username}}</a>
+    <div class="score">Score: {{score}}</div>
 </div>

@@ -13,6 +13,6 @@ export class LeaderboardEntryComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
-
 }
