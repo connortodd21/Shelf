@@ -237,6 +237,10 @@ export class ProfileComponent implements OnInit {
     this.profileService.unfollowUser(user.username);
   }
 
+  public isTopUser() {
+    return true;
+  }
+
   private setFollowStatus(user: ProfileModel) {
     if (user.username === localStorage.getItem('user')) {
       // check to see if this person is in the followers section
