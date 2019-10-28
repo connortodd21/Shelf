@@ -1,3 +1,8 @@
-<p>Top 10 Shelf users!</p>
-<leaderboard-entry *ngFor="let user of userList" [username]="user.username" 
-    [score]="user.followers.length * 2 + user.gamesRated.length"></leaderboard-entry>
+<div id="full-container">
+    <app-nav></app-nav>
+    <div id="leaderboard-entries">
+        <p>Top 10 Shelf users</p>
+        <leaderboard-entry *ngFor="let user of userList" [username]="user.username" 
+            [score]="user.followers.length * 2 + user.gamesRated.length"></leaderboard-entry>
+    </div>
+</div>
