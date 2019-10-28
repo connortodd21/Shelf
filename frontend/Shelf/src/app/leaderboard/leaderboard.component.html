@@ -1,2 +1,3 @@
 <p>leaderboard works!</p>
-<leaderboard-entry></leaderboard-entry>
+<leaderboard-entry *ngFor="let user of userList" [username]="user.username" 
+    [score]="user.followers.length * 2 + user.gamesRated.length"></leaderboard-entry>

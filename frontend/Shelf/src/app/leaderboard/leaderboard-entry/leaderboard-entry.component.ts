@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'leaderboard-entry',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./leaderboard-entry.component.scss']
 })
 export class LeaderboardEntryComponent implements OnInit {
+
+  @Input() username: string;
+  @Input() score: string;
 
   constructor() { }
 
