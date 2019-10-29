@@ -35,8 +35,6 @@
 <!--              <p class="profile-username-text" *ngIf="user != null">{{user.birthday}}</p>-->
                 <p class="profile-username-subtext" *ngIf="user != null">{{user.email}}</p>
 
-                <app-top-icon *ngIf="isTopUser()"></app-top-icon>
-
                 <!-- Unfollow -->
                 <button *ngIf="!isOwner && followStatus" class="messagesButton-unfollow" mdbBtn type="button" color="info"
               (click)="toggleFollow()">{{followButtonText}}</button>
@@ -58,6 +56,8 @@
                     <app-user-overview *ngFor="let f of following" [username]="f"></app-user-overview>
                 </div>
             </div>
+
+            <app-top-icon *ngIf="isTopUser()"></app-top-icon>
         </div>
 
 <!--        <p *ngIf="user != null"> Games Played: {{user.gamesPlayed}} </p>-->

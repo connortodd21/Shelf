@@ -238,7 +238,16 @@ export class ProfileComponent implements OnInit {
   }
 
   public isTopUser() {
-    return true;
+    const tempUsers = this.allUsers;
+    tempUsers.sort((first, second) => {
+      return ((first.followers.length * 2 + first.gamesRated.length) < (second.followers.length * 2 + second.gamesRated.length)) ? 1 : -1
+    })
+    for (let i = 0; i < 10; i++) {
+      if (tempUsers[i].username == this.user.username) {
+        return true
+      }
+    }
+    return false
   }
 
   private setFollowStatus(user: ProfileModel) {

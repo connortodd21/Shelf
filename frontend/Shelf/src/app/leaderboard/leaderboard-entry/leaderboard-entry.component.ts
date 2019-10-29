@@ -15,4 +15,8 @@ export class LeaderboardEntryComponent implements OnInit {
   ngOnInit() {
     
   }
+
+  public goToProfile() {
+    window.location.replace(`/profile/${this.username}`);
+  }
 }
