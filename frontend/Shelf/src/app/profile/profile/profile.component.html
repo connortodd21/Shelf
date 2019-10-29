@@ -56,6 +56,8 @@
                     <app-user-overview *ngFor="let f of following" [username]="f"></app-user-overview>
                 </div>
             </div>
+
+            <app-top-icon *ngIf="isTopUser()"></app-top-icon>
         </div>
 
 <!--        <p *ngIf="user != null"> Games Played: {{user.gamesPlayed}} </p>-->
