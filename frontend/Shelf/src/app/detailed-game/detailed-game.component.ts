@@ -116,18 +116,19 @@ export class DetailedGameComponent implements OnInit {
   }
 
   upvote(comment) {
-    this.gamesService.upvote(comment.commend_id, this.id).then(res => {
+    this.gamesService.upvote(comment.comment_id, this.id).then(res => {
       // window.location.reload();
     });
   }
 
   downvote(comment) {
-    this.gamesService.downvote(comment.commend_id, this.id).then(res => {
+    this.gamesService.downvote(comment.comment_id, this.id).then(res => {
       // window.location.reload();
     });
   }
 
   addComment(comment) {
+    console.log(this.id)
     this.gamesService.addComment(comment, this.id).then(res => {
       // window.location.reload();
     });
