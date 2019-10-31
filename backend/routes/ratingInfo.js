@@ -3,7 +3,7 @@ var router = express.Router();
 let mongoose = require('mongoose');
 var authenticate = require('../middleware/authenticate');
 
-mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
@@ -24,7 +24,7 @@ router.get("/", function (req, res) {
 });
 
 
-router.get('/all', authenticate, async (req,res) => {
+router.get('/all', authenticate, async (req, res) => {
 
     RatingInfo.find({}).then((ratingInfos) => {
         res.status(200).send(ratingInfos);
@@ -36,9 +36,10 @@ router.get('/all', authenticate, async (req,res) => {
 
 });
 
-router.get('/:gameId', authenticate, async (req,res) => {
+router.get('/:gameId', authenticate, async (req, res) => {
 
-    RatingInfo.findOne({game_id: req.params.gameId}).then( ratingInfo => {
+
+    RatingInfo.findOne({ game_id: req.params.gameId }).then(ratingInfo => {
 
         res.status(200).send(ratingInfo);
 
@@ -50,44 +51,74 @@ router.get('/:gameId', authenticate, async (req,res) => {
 });
 
 router.post("/add-comment", authenticate, (req, res) => {
-    if(!req.body || !req.body.comment || !req.body.gameID) {
+    if (!req.body || !req.body.comment || !req.body.gameID) {
         res.status(400).send('Bad Request: add comment data is incomplete')
         return;
     }
 
-    console.log(req.body)
-    
-    RatingInfo.findOneAndUpdate({game_id: req.body.gameID}, {
-        $push: {
-            comments: {
-                comment: req.body.comment,
-                username: req.user.username
-            }
+    RatingInfo.findOne({ game_id: req.body.gameID }).then((game) => {
+        if (game) {
+            RatingInfo.findOneAndUpdate({ game_id: req.body.gameID }, {
+                $push: {
+                    comments: {
+                        comment: req.body.comment,
+                        username: req.user.username
+                    }
+                }
+            }).then(() => {
+                res.status(200).send({ message: "comment successfully added!" })
+                return;
+            }).catch(err => {
+                res.status(500).send(err);
+                return;
+            })
         }
-    }).then( () => {
-        res.status(200).send({message: "comment successfully added!"})
-        return;
+        else{
+            var newRatingInfo = new RatingInfo({
+                game_id: req.body.gameID,
+                total_rating_value: 0,
+                number_of_players: 0,
+                number_of_ratings: 0
+            });
+
+            // Add to database with auth
+            newRatingInfo.save().then(resp => {
+                RatingInfo.findOneAndUpdate({ game_id: req.body.gameID }, {
+                    $push: {
+                        comments: {
+                            comment: req.body.comment,
+                            username: req.user.username
+                        }
+                    }
+                }).then(() => {
+                    res.status(200).send({ message: "comment successfully added!" })
+                    return;
+                }).catch(err => {
+                    res.status(500).send(err);
+                    return;
+                })
+            })
+        }
     }).catch(err => {
-        cons
         res.status(500).send(err);
         return;
     })
 })
 
 router.post("/delete-comment", authenticate, (req, res) => {
-    if(!req.body || !req.body.commentID || !req.body.gameID) {
+    if (!req.body || !req.body.commentID || !req.body.gameID) {
         res.status(400).send('Bad Request: delete comment data is incomplete')
         return;
     }
 
-    RatingInfo.findOneAndUpdate({game_id: req.body.gameID}, {
+    RatingInfo.findOneAndUpdate({ game_id: req.body.gameID }, {
         $pull: {
             comments: {
                 _id: req.body.commentID
             }
         }
-    }).then( () => {
-        res.status(200).send({message: "comment successfully deleted!"})
+    }).then(() => {
+        res.status(200).send({ message: "comment successfully deleted!" })
         return;
     }).catch(err => {
         res.status(500).send(err);
@@ -96,26 +127,26 @@ router.post("/delete-comment", authenticate, (req, res) => {
 })
 
 router.post("/upvote", authenticate, (req, res) => {
-    if(!req.body || !req.body.commentID || !req.body.gameID) {
+    if (!req.body || !req.body.commentID || !req.body.gameID) {
         res.status(400).send('Bad Request: upvote comment data is incomplete')
         return;
     }
 
-    RatingInfo.findOne({game_id: req.body.gameID}).then((game) => {
+    RatingInfo.findOne({ game_id: req.body.gameID }).then((game) => {
         const tempCommemts = game.comments
-        for(let i = 0; i < tempCommemts.length; i++) {
-            if(tempCommemts[i]._id == req.body.commentID) {
+        for (let i = 0; i < tempCommemts.length; i++) {
+            if (tempCommemts[i]._id == req.body.commentID) {
                 tempCommemts[i].score++;
                 break;
             }
         }
-        RatingInfo.findOneAndUpdate({_id: req.body.gameID}, {
+        RatingInfo.findOneAndUpdate({ _id: req.body.gameID }, {
             $set: {
                 comments: tempCommemts
             }
         }).then(() => {
-            res.status(200).send({message: "comment successfully upvoted!"})
-        return;
+            res.status(200).send({ message: "comment successfully upvoted!" })
+            return;
         })
     }).catch(err => {
         res.status(500).send(err);
@@ -124,26 +155,26 @@ router.post("/upvote", authenticate, (req, res) => {
 })
 
 router.post("/downvote", authenticate, (req, res) => {
-    if(!req.body || !req.body.commentID || !req.body.gameID) {
+    if (!req.body || !req.body.commentID || !req.body.gameID) {
         res.status(400).send('Bad Request: downvote comment data is incomplete')
         return;
     }
-    
-    RatingInfo.findOne({game_id: req.body.gameID}).then((game) => {
+
+    RatingInfo.findOne({ game_id: req.body.gameID }).then((game) => {
         const tempCommemts = game.comments
-        for(let i = 0; i < tempCommemts.length; i++) {
-            if(tempCommemts[i]._id == req.body.commentID) {
+        for (let i = 0; i < tempCommemts.length; i++) {
+            if (tempCommemts[i]._id == req.body.commentID) {
                 tempCommemts[i].score--;
                 break;
             }
         }
-        RatingInfo.findOneAndUpdate({_id: req.body.gameID}, {
+        RatingInfo.findOneAndUpdate({ _id: req.body.gameID }, {
             $set: {
                 comments: tempCommemts
             }
         }).then(() => {
-            res.status(200).send({message: "comment successfully downvoted!"})
-        return;
+            res.status(200).send({ message: "comment successfully downvoted!" })
+            return;
         })
     }).catch(err => {
         res.status(500).send(err);
@@ -153,8 +184,12 @@ router.post("/downvote", authenticate, (req, res) => {
 
 router.post("/:gameId", authenticate, async (req, res) => {
 
+    console.log(req.body)
+
     //not in db
-    RatingInfo.findOne({game_id: req.params.gameId}).then(ratingInfo => {
+    RatingInfo.findOne({ game_id: req.params.gameId }).then(ratingInfo => {
+
+        console.log(ratingInfo)
 
         if (!ratingInfo) {
             var newRatingInfo = new RatingInfo({
@@ -167,26 +202,29 @@ router.post("/:gameId", authenticate, async (req, res) => {
             // Add to database with auth
             newRatingInfo.save().then(resp => {
                 if (req.body.oldRating === 0 || req.body.oldRating === '0') {
-                    RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                    RatingInfo.findOneAndUpdate({ game_id: req.params.gameId }, {
                         $inc: {
                             number_of_ratings: 1,
                             total_rating_value: req.body.newRating
                         }
                     }).exec().then(usr => {
-                        res.status(200).send({ message: req.body.gameId + " added to ratingInfo list for first" +
-                                " time!1" })
+                        res.status(200).send({
+                            message: req.body.gameId + " added to ratingInfo list for first" +
+                                " time!1"
+                        })
                         return
                     }).catch((err) => {
+                        console.log(err)
                         res.status(500).send(err);
                         return
                     })
                 }
                 //user asking to delete rating
                 else if (req.body.oldRating === req.body.newRating) {
-                    RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                    RatingInfo.findOneAndUpdate({ game_id: req.params.gameId }, {
                         $inc: {
                             number_of_ratings: -1,
-                            total_rating_value: (-1*req.body.oldRating)
+                            total_rating_value: (-1 * req.body.oldRating)
                         }
                     }).exec().then(usr => {
                         res.status(200).send({ message: req.body.gameId + " removed rating info1" })
@@ -198,7 +236,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                 }
                 else {
                     //previous rating
-                    RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                    RatingInfo.findOneAndUpdate({ game_id: req.params.gameId }, {
                         $inc: {
                             number_of_ratings: 0,
                             total_rating_value: (req.body.newRating - req.body.oldRating)
@@ -215,7 +253,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
         }
         else {
             if (req.body.oldRating === '0' || req.body.oldRating === 0) {
-                RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                RatingInfo.findOneAndUpdate({ game_id: req.params.gameId }, {
                     $inc: {
                         number_of_ratings: 1,
                         total_rating_value: req.body.newRating
@@ -230,10 +268,10 @@ router.post("/:gameId", authenticate, async (req, res) => {
             }
             //user asking to delete rating
             else if (req.body.oldRating === req.body.newRating) {
-                RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                RatingInfo.findOneAndUpdate({ game_id: req.params.gameId }, {
                     $inc: {
                         number_of_ratings: -1,
-                        total_rating_value: (-1*req.body.oldRating)
+                        total_rating_value: (-1 * req.body.oldRating)
                     }
                 }).exec().then(usr => {
                     res.status(200).send({ message: req.body.gameId + " removed from rating info 2" })
@@ -245,7 +283,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
             }
             else {
                 //previous rating
-                RatingInfo.findOneAndUpdate({game_id: req.params.gameId}, {
+                RatingInfo.findOneAndUpdate({ game_id: req.params.gameId }, {
                     $inc: {
                         number_of_ratings: 0,
                         total_rating_value: (req.body.newRating - req.body.oldRating)
@@ -259,14 +297,10 @@ router.post("/:gameId", authenticate, async (req, res) => {
                 })
             }
         }
-
-
     }).catch((err) => {
         res.status(500).send(err);
         return;
     });
-
-
 });
 
 module.exports = router;

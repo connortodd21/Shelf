@@ -44,17 +44,23 @@ export class DetailedGameComponent implements OnInit {
   getDetailedGameData(shouldFetchRatings: boolean) {
     this.gamesService.getDetailedInfoAboutGame(this.id).subscribe(
       (response) => {
+        console.log(response);
         this.game = response.shift();
         this.game.release_date = this.getDateString(this.game.first_release_date);
         this.artworkUrls = [];
-        this.game.artworks.forEach(artwork => {
-          this.artworkUrls.push(`${SCREENSHOT_BIG}${artwork.image_id}.jpg`);
-        });
+        if (this.game.artworks){
+          this.game.artworks.forEach(artwork => {
+            this.artworkUrls.push(`${SCREENSHOT_BIG}${artwork.image_id}.jpg`);
+          });
+        }
+
+        console.log(shouldFetchRatings);
 
         if (shouldFetchRatings) {
           this.gamesService.getGlobalRatingInfo(this.id).subscribe(
             // tslint:disable: no-shadowed-variable
             response => {
+              console.log(response);
               this.globalRating = response.total_rating_value / response.number_of_ratings;
               let i = 0;
               response.comments.forEach(element => {
@@ -91,6 +97,7 @@ export class DetailedGameComponent implements OnInit {
 
 
   handleRate(event) {
+    console.log(this);
     this.gamesService.submitRatingToUser(event.value, this.userRating, this.id).subscribe(
       () => {
 
@@ -128,7 +135,6 @@ export class DetailedGameComponent implements OnInit {
   }
 
   addComment(comment) {
-    console.log(this.id)
     this.gamesService.addComment(comment, this.id).then(res => {
       // window.location.reload();
     });
