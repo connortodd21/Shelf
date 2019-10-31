@@ -36,6 +36,7 @@ export class DetailedGameComponent implements OnInit {
     // tslint:disable: one-line
     else {
       this.getDetailedGameData(true);
+      this.getComments();
     }
 
     this.coverPath = COVER_BIG;
