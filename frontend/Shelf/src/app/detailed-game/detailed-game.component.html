@@ -60,18 +60,30 @@
                     class="detailed-game-art" />
             </span>
 
-            <span>
-                <!-- Ability to add comment -->
-                <div><input #box placeholder="Add Comment" class="send-message-bar"
-                    (keyup.enter)="addComment(box.value);box.value=''"></div>
-            </span>
-            <div *ngFor="let c of comments" (click)="upvote(c)">
-                {{c.comment}}
-                {{c.username}}
-                {{c.time_stamp}}
-                {{c.score}}
-                {{c.comment_id}}
+            <p class="detailed-game-heading top-margin-32">Comments</p>
+            <div class="game-comment" *ngFor="let c of comments" (click)="upvote(c)">
+                <div class="profile-photo"><p style="padding-left: 11px; padding-top: 4px;">{{c.score}}</p></div>
+                <div class="comment-information ">
+                    <div class="flex-row no-padding">
+                        <p class="comment-username no-padding">{{c.username}}</p>
+                        <p class="no-padding comment-date">{{c.time_stamp | date:'yyyy-MM-dd'}}</p>
+                    </div>
+                    <div class="no-padding">
+                        {{c.comment}}
+                    </div>
+                    
+                </div>
+                
+                
+                
+                
             </div>
+            <span>
+                    <!-- Ability to add comment -->
+                    
+                    <div><input #box placeholder="Add Comment" class="send-message-bar"
+                        (keyup.enter)="addComment(box.value);box.value=''"></div>
+                </span>
         </div>
 
     </div>
