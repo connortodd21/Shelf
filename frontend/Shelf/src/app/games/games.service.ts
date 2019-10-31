@@ -56,7 +56,7 @@ export class GamesService {
 
   submitRatingToUser(newRating: number, oldRating: number, gameId: string): Observable<any> {
     const username = localStorage.getItem('user');
-    console.log(gameId);
+    console.log(oldRating);
     return this.http.post<object>('http://localhost:8080/user/' + username + '/games-rated', {
       gameId,
       newRating,

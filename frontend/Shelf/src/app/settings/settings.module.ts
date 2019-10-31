@@ -9,6 +9,7 @@ import { PasswordModule } from 'primeng/password';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ToastModule } from 'primeng/toast';
+import { NavModule } from '../nav/nav.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ToastModule } from 'primeng/toast';
     InputTextModule,
     ButtonModule,
     CommonModule,
-    MatCardModule
+    MatCardModule,
+    NavModule
   ]
 })
 export class SettingsModule { }

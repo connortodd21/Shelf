@@ -25,6 +25,8 @@
     align-content: center;
 }
 
+
+
 h1 {
     font-weight: 800;
     font-size: 20pt;
@@ -71,6 +73,32 @@ h1 {
     margin-bottom: 16px;
 }
 
+.comment-username {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.comment-date {
+    font-size: 14px;
+    padding-left: 8px !important;
+    padding-top: 2px !important;
+    font-style: italic;
+}
+
+.no-padding {
+    padding: 0px;
+    margin: 0px;
+}
+
+.send-message-bar {
+    border-width: 1px;
+    border-radius: 4px;
+    border-color: #FAA61A;
+    padding: 8px;
+    margin-top: 16px;
+    width: 60%;
+}
+
 .overflow-scroll {
     overflow: scroll;
     height: 100%;
@@ -82,11 +110,34 @@ h1 {
     margin: 8px;
 }
 
+.game-comment {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 8px;
+    cursor: pointer;
+}
+
+.comment-information{
+    display: flex;
+    flex-direction: column;
+    padding-left: 24px;
+}
+
+.profile-photo {
+    display: flex;
+    flex-direction: row;
+    width: 32px;
+    height: 32px;
+    background-color: #FAA61A;
+    border-radius: 50px;
+    align-content: center;
+}
+
 .detailed-game-badge {
     border-radius: 5px;
     border: 1px solid #FAA61A;
     font-size: 12px;
-    margin: 0px 8px 0px 0px;
+    margin: 16px 8px 8px 0px;
     padding: 8px;
 }
 

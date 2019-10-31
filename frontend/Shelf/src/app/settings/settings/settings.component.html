@@ -1,70 +1,81 @@
-<h3>Change Password</h3>
-<form (submit)="changePassword(changePasswordForm)" [formGroup]="changePasswordForm">
-    <div class="form-group">
-        <p class="input_title">New Password</p>
-        <input type="password" class="form-control" autocomplete="password" size="30" id="password" ng-required
-            pInputText formControlName="password"
-            [ngClass]="{ 'is-invalid': changePasswordSubmit && changePasswordForm.controls.password.errors }">
-        <div *ngIf="changePasswordSubmit && changePasswordForm.controls.password.errors" class="invalid-feedback">
-            <div *ngIf="changePasswordForm.controls.password.errors.required">Please enter your password</div>
-            <div *ngIf="changePasswordForm.controls.password.errors.minlength">Password must be 8 characters
-                long</div>
-        </div>
-    </div>
+<div id="full-container">
 
-    <div class="form-group">
-        <p class="input_title">Confirm New Password</p>
-        <input type="password" class="form-control" autocomplete="new-password" size="30" id="confirmPassword"
-            ng-required pInputText formControlName="confirmPassword"
-            [ngClass]="{ 'is-invalid': changePasswordSubmit && changePasswordForm.hasError('notSame') }">
-        <div *ngIf="changePasswordSubmit && changePasswordForm.hasError('notSame')" class="invalid-feedback">
-            <div *ngIf="changePasswordForm.hasError('notSame')">Passwords do not match</div>
-        </div>
-    </div>
+    <app-nav></app-nav>
 
-    <p-button label="Submit" type="submit" styleClass="ui-button-raised ui-button-secondary" class="secondary_button">
-    </p-button>
+    <div id="content-container">
 
-    <br>
-    <div *ngIf="status === 'passwordError'" class="alert alert-danger" role="alert">
-        A Fatal Error Has Occoured. PLease Try Again Later.
+        <!-- Change Password-->
+            <h3 id="header-link">Change Password</h3>
+            <form (submit)="changePassword(changePasswordForm)" [formGroup]="changePasswordForm">
+                <div class="form-group">
+                    <p class="input_title">New Password</p>
+                    <input type="password" class="form-control" autocomplete="password" size="30" id="password" ng-required
+                        pInputText formControlName="password"
+                        [ngClass]="{ 'is-invalid': changePasswordSubmit && changePasswordForm.controls.password.errors }">
+                    <div *ngIf="changePasswordSubmit && changePasswordForm.controls.password.errors" class="invalid-feedback">
+                        <div *ngIf="changePasswordForm.controls.password.errors.required">Please enter your password</div>
+                        <div *ngIf="changePasswordForm.controls.password.errors.minlength">Password must be 8 characters
+                            long</div>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <p class="input_title">Confirm New Password</p>
+                    <input type="password" class="form-control" autocomplete="new-password" size="30" id="confirmPassword"
+                        ng-required pInputText formControlName="confirmPassword"
+                        [ngClass]="{ 'is-invalid': changePasswordSubmit && changePasswordForm.hasError('notSame') }">
+                    <div *ngIf="changePasswordSubmit && changePasswordForm.hasError('notSame')" class="invalid-feedback">
+                        <div *ngIf="changePasswordForm.hasError('notSame')">Passwords do not match</div>
+                    </div>
+                </div>
+        
+                <p-button label="Update Password" type="submit" styleClass="ui-button-raised ui-button-secondary" class="secondary_button">
+                </p-button>
+        
+                <br>
+                <div *ngIf="status === 'passwordError'" class="alert alert-danger" role="alert">
+                    A Fatal Error Has Occoured. PLease Try Again Later.
+                </div>
+            </form>
+            
+        <!-- Change Email -->
+            <h3>Change Email</h3>
+            <form (submit)="changeEmail(changeEmailForm)" [formGroup]="changeEmailForm">
+                <div class="form-group">
+                    <p class="input_title">New Email</p>
+                    <input type="email" class="form-control" autocomplete="email" size="30" id="email" ng-required pInputText
+                        formControlName="email"
+                        [ngClass]="{ 'is-invalid': changeEmailSubmit && changeEmailForm.controls.email.errors }">
+                    <div *ngIf="changeEmailSubmit && changeEmailForm.controls.email.errors" class="invalid-feedback">
+                        <div *ngIf="changeEmailForm.controls.email.errors.required">Please enter your email</div>
+                    </div>
+                </div>
+        
+                <div class="form-group">
+                    <p class="input_title">Confirm New Email</p>
+                    <input type="email" class="form-control" autocomplete="new-email" size="30" id="confirmEmail" ng-required
+                        pInputText formControlName="confirmEmail"
+                        [ngClass]="{ 'is-invalid': changeEmailSubmit && changeEmailForm.hasError('notSame') }">
+                    <div *ngIf="changeEmailSubmit && changeEmailForm.hasError('notSame')" class="invalid-feedback">
+                        <div *ngIf="changeEmailForm.hasError('notSame')">Emails do not match</div>
+                    </div>
+                    <div *ngIf="changeEmailForm.controls.email.errors">Please enter a valid email</div>
+                </div>
+        
+                <p-button label="Update Email" type="submit" styleClass="ui-button-raised ui-button-secondary" class="secondary_button">
+                </p-button>
+        
+                <br>
+                <div *ngIf="status === 'emailError'" class="alert alert-danger" role="alert">
+                    A fatal error has occurred. Please try again later.
+                </div>
+                <br>
+                <div *ngIf="status === 'emailTaken'" class="alert alert-danger" role="alert">
+                    This email is already registered to an account. Try a different email.
+                </div>
+            </form>
     </div>
-</form>
-<br>
-<br>
-<br>
-<h3>Change Email</h3>
-<form (submit)="changeEmail(changeEmailForm)" [formGroup]="changeEmailForm">
-    <div class="form-group">
-        <p class="input_title">New Email</p>
-        <input type="email" class="form-control" autocomplete="email" size="30" id="email" ng-required pInputText
-            formControlName="email"
-            [ngClass]="{ 'is-invalid': changeEmailSubmit && changeEmailForm.controls.email.errors }">
-        <div *ngIf="changeEmailSubmit && changeEmailForm.controls.email.errors" class="invalid-feedback">
-            <div *ngIf="changeEmailForm.controls.email.errors.required">Please enter your email</div>
-        </div>
-    </div>
+    
 
-    <div class="form-group">
-        <p class="input_title">Confirm New Email</p>
-        <input type="email" class="form-control" autocomplete="new-email" size="30" id="confirmEmail" ng-required
-            pInputText formControlName="confirmEmail"
-            [ngClass]="{ 'is-invalid': changeEmailSubmit && changeEmailForm.hasError('notSame') }">
-        <div *ngIf="changeEmailSubmit && changeEmailForm.hasError('notSame')" class="invalid-feedback">
-            <div *ngIf="changeEmailForm.hasError('notSame')">Emails do not match</div>
-        </div>
-        <div *ngIf="changeEmailForm.controls.email.errors">Please enter a valid email</div>
-    </div>
+</div>
 
-    <p-button label="Submit" type="submit" styleClass="ui-button-raised ui-button-secondary" class="secondary_button">
-    </p-button>
-
-    <br>
-    <div *ngIf="status === 'emailError'" class="alert alert-danger" role="alert">
-        A fatal error has occurred. Please try again later.
-    </div>
-    <br>
-    <div *ngIf="status === 'emailTaken'" class="alert alert-danger" role="alert">
-        This email is already registered to an account. Try a different email.
-    </div>
-</form>

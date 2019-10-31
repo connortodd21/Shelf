@@ -31,6 +31,7 @@ export class DetailedGameComponent implements OnInit {
       this.globalRating = history.state.globalRating;
       this.userRating = history.state.userRating;
       this.getDetailedGameData(false);
+      this.getComments();
     }
     // tslint:disable: one-line
     else {
@@ -41,27 +42,41 @@ export class DetailedGameComponent implements OnInit {
     this.screenshotPath = SCREENSHOT_BIG;
   }
 
+  getComments(){
+    this.gamesService.getGlobalRatingInfo(this.id).subscribe(
+      // tslint:disable: no-shadowed-variable
+      response => {
+        console.log(response);
+        let i = 0;
+        response.comments.forEach(element => {
+          this.comments[i] = element;
+          this.comments[i].comment_id = element._id;
+          i++;
+        });
+      }
+    );
+  }
+
   getDetailedGameData(shouldFetchRatings: boolean) {
     this.gamesService.getDetailedInfoAboutGame(this.id).subscribe(
       (response) => {
         this.game = response.shift();
         this.game.release_date = this.getDateString(this.game.first_release_date);
         this.artworkUrls = [];
-        this.game.artworks.forEach(artwork => {
-          this.artworkUrls.push(`${SCREENSHOT_BIG}${artwork.image_id}.jpg`);
-        });
+        if (this.game.artworks){
+          this.game.artworks.forEach(artwork => {
+            this.artworkUrls.push(`${SCREENSHOT_BIG}${artwork.image_id}.jpg`);
+          });
+        }
+
+        console.log(shouldFetchRatings);
 
         if (shouldFetchRatings) {
           this.gamesService.getGlobalRatingInfo(this.id).subscribe(
             // tslint:disable: no-shadowed-variable
             response => {
+              console.log(response);
               this.globalRating = response.total_rating_value / response.number_of_ratings;
-              let i = 0;
-              response.comments.forEach(element => {
-                this.comments[i] = element;
-                this.comments[i].comment_id = element._id;
-                i++;
-              });
             }
           );
         }
@@ -116,13 +131,13 @@ export class DetailedGameComponent implements OnInit {
   }
 
   upvote(comment) {
-    this.gamesService.upvote(comment.commend_id, this.id).then(res => {
+    this.gamesService.upvote(comment.comment_id, this.id).then(res => {
       // window.location.reload();
     });
   }
 
   downvote(comment) {
-    this.gamesService.downvote(comment.commend_id, this.id).then(res => {
+    this.gamesService.downvote(comment.comment_id, this.id).then(res => {
       // window.location.reload();
     });
   }
