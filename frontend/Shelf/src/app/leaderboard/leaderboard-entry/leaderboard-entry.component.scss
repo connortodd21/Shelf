@@ -15,7 +15,10 @@
 
 .profile-name {
     margin-left: 16px;
-    margin-top: 3px;
+    margin-top: 0px;
+    font-weight: bold;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 .profile-name:hover {
@@ -27,9 +30,16 @@
     height: 32px;
     background-color: #FAA61A;
     border-radius: 50px;
+    margin-bottom: 32px;
+    margin-top: 4px;
 }
 
 .score {
     margin-left: 16px;
-    margin-top: 3px;
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+.nav-arrow {
+    padding-left: 16px;
 }
