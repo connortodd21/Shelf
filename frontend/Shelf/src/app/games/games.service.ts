@@ -42,7 +42,6 @@ export class GamesService {
   }
 
   getGlobalRatingInfo(id: string): Observable<any> {
-    console.log(id)
     return this.http.get<GameModel>(`http://localhost:8080/ratingInfo/${id}`);
   }
 

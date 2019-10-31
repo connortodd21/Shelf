@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { COVER_BIG } from '../constants/constants.images';
-import { GamesService } from "../games/games.service";
+import { GamesService } from '../games/games.service';
 
 @Component({
   selector: 'app-game-overview',
@@ -13,6 +13,7 @@ export class GameOverviewComponent {
   coverPath = COVER_BIG;
 
   @Input() name: string;
+  // tslint:disable: variable-name
   @Input() image_id: string;
   @Input() id: string;
   @Input() globalRating: number;
@@ -36,14 +37,13 @@ export class GameOverviewComponent {
 
                 if (event.value === this.userRating) {
                   this.userRating = 0;
-                }
-                else {
+                } else {
                   this.userRating = event.value;
                 }
               }
-            )
+            );
           }
-        )
+        );
       }
     );
   }

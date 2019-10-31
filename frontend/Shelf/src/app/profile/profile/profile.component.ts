@@ -57,7 +57,7 @@ export class ProfileComponent implements OnInit {
 
 
 
-      console.log("prof service")
+      console.log('prof service');
       this.profileService.getAllUsers().then(users => {
         let i: number;
         const response = [];
@@ -88,7 +88,7 @@ export class ProfileComponent implements OnInit {
     }
 
     this.followStatus = !this.followStatus;
-    this.followButtonText = "Unfollow";
+    this.followButtonText = 'Unfollow';
     const receiver = user.username;
     const sender = localStorage.getItem('user');
 
@@ -196,28 +196,26 @@ export class ProfileComponent implements OnInit {
   }
 
   toggleFollow() {
-    console.log("begin");
+    console.log('begin');
     console.log(this.followStatus);
 
-    if (this.followStatus == true) {
+    if (this.followStatus === true) {
       this.unfollowUser(this.user);
-    }
-    else {
+    } else {
       this.followUser(this.user);
     }
 
-    console.log("end")
-    console.log(this.followStatus)
+    console.log('end');
+    console.log(this.followStatus);
 
   }
 
   private determineIfOwner(username: string): boolean {
     const realUser = localStorage.getItem('user');
     if (username === realUser) {
-      console.log("setting true");
+      console.log('setting true');
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -228,29 +226,28 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-    let realUser = localStorage.getItem('user');
+    const realUser = localStorage.getItem('user');
 
-    this.followers.splice(this.followers.indexOf(realUser),1);
+    this.followers.splice(this.followers.indexOf(realUser), 1);
 
     this.followStatus = !this.followStatus;
-    this.followButtonText = "Follow";
+    this.followButtonText = 'Follow';
     this.profileService.unfollowUser(user.username);
   }
 
   private setFollowStatus(user: ProfileModel) {
     if (user.username === localStorage.getItem('user')) {
-      //check to see if this person is in the followers section
-      console.log("checking follow status");
-      this.followButtonText = "Follow";
+      // check to see if this person is in the followers section
+      console.log('checking follow status');
+      this.followButtonText = 'Follow';
       this.followStatus = false;
       for (let i = 0; i < user.following.length; i++) {
         if (user.following[i] === this.user.username) {
-          this.followButtonText = "Unfollow";
+          this.followButtonText = 'Unfollow';
           this.followStatus = true;
           break;
         }
       }
     }
-
   }
 }
