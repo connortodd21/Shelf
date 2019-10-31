@@ -31,6 +31,7 @@ export class DetailedGameComponent implements OnInit {
       this.globalRating = history.state.globalRating;
       this.userRating = history.state.userRating;
       this.getDetailedGameData(false);
+      this.getComments();
     }
     // tslint:disable: one-line
     else {
@@ -41,10 +42,24 @@ export class DetailedGameComponent implements OnInit {
     this.screenshotPath = SCREENSHOT_BIG;
   }
 
+  getComments(){
+    this.gamesService.getGlobalRatingInfo(this.id).subscribe(
+      // tslint:disable: no-shadowed-variable
+      response => {
+        console.log(response);
+        let i = 0;
+        response.comments.forEach(element => {
+          this.comments[i] = element;
+          this.comments[i].comment_id = element._id;
+          i++;
+        });
+      }
+    );
+  }
+
   getDetailedGameData(shouldFetchRatings: boolean) {
     this.gamesService.getDetailedInfoAboutGame(this.id).subscribe(
       (response) => {
-        console.log(response);
         this.game = response.shift();
         this.game.release_date = this.getDateString(this.game.first_release_date);
         this.artworkUrls = [];
@@ -62,12 +77,6 @@ export class DetailedGameComponent implements OnInit {
             response => {
               console.log(response);
               this.globalRating = response.total_rating_value / response.number_of_ratings;
-              let i = 0;
-              response.comments.forEach(element => {
-                this.comments[i] = element;
-                this.comments[i].comment_id = element._id;
-                i++;
-              });
             }
           );
         }
@@ -97,7 +106,6 @@ export class DetailedGameComponent implements OnInit {
 
 
   handleRate(event) {
-    console.log(this);
     this.gamesService.submitRatingToUser(event.value, this.userRating, this.id).subscribe(
       () => {
 

@@ -140,7 +140,7 @@ router.post("/upvote", authenticate, (req, res) => {
                 break;
             }
         }
-        RatingInfo.findOneAndUpdate({ _id: req.body.gameID }, {
+        RatingInfo.findOneAndUpdate({ game_id: req.body.gameID }, {
             $set: {
                 comments: tempCommemts
             }
@@ -168,7 +168,7 @@ router.post("/downvote", authenticate, (req, res) => {
                 break;
             }
         }
-        RatingInfo.findOneAndUpdate({ _id: req.body.gameID }, {
+        RatingInfo.findOneAndUpdate({ game_id: req.body.gameID }, {
             $set: {
                 comments: tempCommemts
             }
