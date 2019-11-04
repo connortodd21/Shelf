@@ -1,18 +1,25 @@
-<div class="messaging" *ngIf="messages != null">
-    <h1 id="messages-title">Messages</h1>
-    <div class="messages-list">
-        <div *ngFor="let msg of messages">
-            <b (click)="updateCurrentMessages(msg.receiver, msg.messages)">{{msg.receiver}}</b>
-            <div *ngIf="receiver === msg.receiver">
-                <div *ngFor="let m of currentMessages">
-                    {{m.message}}
-                </div>
-                <div><input #box placeholder="Send message" class="send-message-bar"
-                        (keyup.enter)="sendMessage(box.value, msg.id, msg.receiver);box.value=''"> <a class="iconSize"
-                        (click)="sendMessage(box.value, msg.id, msg.receiver);box.value=''"><i class="fa fa-angle-double-right"></i></a>
+<div id="full-container">
+    <app-nav></app-nav>
+    <div id="content-container">
+        <div class="messaging" *ngIf="messages != null">
+            <h1 id="messages-title">Messages</h1>
+            <div class="messages-list">
+                <div *ngFor="let msg of messages">
+                    <b (click)="updateCurrentMessages(msg.receiver, msg.messages)">{{msg.receiver}}</b>
+                    <div *ngIf="receiver === msg.receiver">
+                        <div *ngFor="let m of currentMessages">
+                            {{m.message}}
+                        </div>
+                        <div><input #box placeholder="Send message" class="send-message-bar"
+                                (keyup.enter)="sendMessage(box.value, msg.id, msg.receiver);box.value=''"> <a
+                                class="iconSize" (click)="sendMessage(box.value, msg.id, msg.receiver);box.value=''"><i
+                                    class="fa fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
+        </div>
+
+    </div>
 </div>

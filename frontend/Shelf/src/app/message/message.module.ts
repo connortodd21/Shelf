@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ToastModule } from 'primeng/toast';
 import { MessageComponent } from './message/message.component';
+import {NavModule} from '../nav/nav.module';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { MessageComponent } from './message/message.component';
     FormsModule,
     ToastModule,
     ReactiveFormsModule,
+    NavModule
   ]
 })
 export class MessageModule { }
