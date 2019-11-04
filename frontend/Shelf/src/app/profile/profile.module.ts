@@ -11,7 +11,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { GameOverviewModule } from '../game-overview/game-overview.module';
 import { NavModule } from '../nav/nav.module';
 import { UserOverviewModule } from '../user-overview/user-overview.module';
-import { TopIconComponent } from '../top-icon/top-icon.component'
+import { TopIconComponent } from '../top-icon/top-icon.component';
 
 
 
