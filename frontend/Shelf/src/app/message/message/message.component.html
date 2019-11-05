@@ -8,8 +8,8 @@
                     <b (click)="updateCurrentMessages(msg.receiver, msg.messages)">{{msg.receiver}}</b>
                     <div *ngIf="receiver === msg.receiver">
                         <div *ngFor="let m of currentMessages">
-                            {{m.message}}
-                            {{m.sender}}
+                            {{m.message}} ||
+                            {{m.sender}} ||
                             {{m.time_stamp}}
                         </div>
                         <div><input #box placeholder="Send message" class="send-message-bar"
