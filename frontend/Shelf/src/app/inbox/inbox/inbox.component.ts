@@ -40,10 +40,11 @@ export class InboxComponent implements OnInit {
 
   renderComponent(location: string) {
     if (location === 'messages') {
-      this.component = location;
+      const nav = '/messages';
+      window.location.replace(nav);
     } else {
       const nav = '/profile/' + location;
-      this.router.navigate([nav]);
+      window.location.replace(nav);
     }
   }
 
