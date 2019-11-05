@@ -20,6 +20,9 @@ import { TopIconComponent } from '../top-icon/top-icon.component';
     ProfileComponent,
     TopIconComponent
   ],
+  exports: [
+    ProfileComponent
+  ],
   imports: [
     CommonModule,
     ButtonModule,

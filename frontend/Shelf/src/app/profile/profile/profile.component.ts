@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from './profile.service';
 import { ProfileModel } from '../../models/profile.model';
-import { Message } from '../../models/message.model';
 import { InboxService } from '../../inbox/inbox/inbox.service';
-import { SEND_MESSAGE_NOTIFICATION, NEW_FOLLOWER_NOTIFICATION } from '../../constants/constants.messages';
+import { NEW_FOLLOWER_NOTIFICATION } from '../../constants/constants.messages';
 import { GamesService } from 'src/app/games/games.service';
 
 @Component({

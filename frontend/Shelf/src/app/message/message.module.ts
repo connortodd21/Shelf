@@ -14,6 +14,9 @@ import {NavModule} from '../nav/nav.module';
   declarations: [
     MessageComponent
   ],
+  exports: [
+    MessageComponent
+  ],
   imports: [
   CommonModule,
     ButtonModule,
