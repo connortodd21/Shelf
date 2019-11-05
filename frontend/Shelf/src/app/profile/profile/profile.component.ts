@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from './profile.service';
 import { ProfileModel } from '../../models/profile.model';
-import { Message } from '../../models/message.model';
 import { InboxService } from '../../inbox/inbox/inbox.service';
-import { SEND_MESSAGE_NOTIFICATION, NEW_FOLLOWER_NOTIFICATION } from '../../constants/constants.messages';
+import { NEW_FOLLOWER_NOTIFICATION } from '../../constants/constants.messages';
 import { GamesService } from 'src/app/games/games.service';
 
 @Component({
@@ -18,8 +17,6 @@ export class ProfileComponent implements OnInit {
   allUsers: ProfileModel[];
   followers: string[];
   following: string[];
-  messages: Message[];
-  messageID: string;
   queryString: string;
   ratedGames;
   show: boolean;
@@ -28,10 +25,7 @@ export class ProfileComponent implements OnInit {
   followStatus: boolean;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {
-    this.messages = [];
-    // this.getMessages();
-  }
+  constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {}
 
   ngOnInit() {
     const username = this.route.snapshot.params.username;
@@ -40,7 +34,6 @@ export class ProfileComponent implements OnInit {
 
     this.profileService.getUserData(username).then(res => {
       this.user = new ProfileModel(res);
-      this.getMessages();
       this.followers = res.followers;
       this.following = res.following;
       console.log(this.user);
@@ -106,39 +99,6 @@ export class ProfileComponent implements OnInit {
       return true;
     }
     return false;
-  }
-
-  public getMessages() {
-    this.profileService.getMessages(this.route.snapshot.params.username).then(msg => {
-      if (msg) {
-        // tslint:disable: no-string-literal
-        const messages = msg['messages'];
-        this.messageID = msg['_id'];
-        let i = 0;
-        messages.forEach(message => {
-          this.messages[i] = new Message(message);
-          i++;
-        });
-      } else {
-        this.newConversation();
-      }
-    });
-  }
-
-  public sendMessage(message: string) {
-    this.profileService.sendMessage(message, this.messageID).then(res => {
-      const sender = localStorage.getItem('user');
-      const receiver = this.route.snapshot.params.username;
-      this.inboxService.sendNotification(SEND_MESSAGE_NOTIFICATION(sender, receiver), receiver).then((resp) => {
-        window.location.reload();
-      });
-    });
-  }
-
-  public newConversation() {
-    this.profileService.newConversation(localStorage.getItem('user'), this.user.username).then(() => {
-      window.location.reload();
-    });
   }
 
   private addUserRating() {
@@ -240,14 +200,14 @@ export class ProfileComponent implements OnInit {
   public isTopUser() {
     const tempUsers = this.allUsers;
     tempUsers.sort((first, second) => {
-      return ((first.followers.length * 2 + first.gamesRated.length) < (second.followers.length * 2 + second.gamesRated.length)) ? 1 : -1
-    })
+      return ((first.followers.length * 2 + first.gamesRated.length) < (second.followers.length * 2 + second.gamesRated.length)) ? 1 : -1;
+    });
     for (let i = 0; i < 10; i++) {
-      if (tempUsers[i].username == this.user.username) {
-        return true
+      if (tempUsers[i].username === this.user.username) {
+        return true;
       }
     }
-    return false
+    return false;
   }
 
   private setFollowStatus(user: ProfileModel) {
