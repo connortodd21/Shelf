@@ -7,7 +7,7 @@ import { HomeComponent } from './home/home/home.component';
 import {
   HOME_PAGE, LOGIN_PAGE, NOTFOUND_PAGE,
   DETAILED_GAME_PAGE, PROFILE_PAGE, INBOX_PAGE,
-  SEARCH_PAGE, FIND_USERS_PAGE, SETTINGS_PAGE, LEADERBOARD
+  SEARCH_PAGE, FIND_USERS_PAGE, SETTINGS_PAGE, LEADERBOARD, MESSAGES_PAGE
 } from './constants/constants.pages';
 import { DetailedGameComponent } from './detailed-game/detailed-game.component';
 import { ProfileComponent } from './profile/profile/profile.component';
@@ -16,6 +16,7 @@ import { SearchComponent } from './search/search/search.component';
 import { SettingsComponent } from './settings/settings/settings.component';
 import { FindUsersComponent } from './find-users/find-users/find-users.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { MessageComponent } from './message/message/message.component';
 
 const routes: Routes = [
   {
@@ -68,6 +69,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: MESSAGES_PAGE,
+    component: MessageComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: NOTFOUND_PAGE,
     component: PageNotFoundComponent
   },
@@ -80,7 +86,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+exports: [RouterModule],
   providers: [AuthGuard]
 })
 export class AppRoutingModule { }
