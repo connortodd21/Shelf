@@ -84,6 +84,14 @@ router.post("/detailedgamedata", authenticate, async (req, res) => {
 
 })
 
+router.post("/addimage", authenticate, async (req, res) => {
+    if (!req.body.data) {
+        res.status(400).send({ message: "Bad Request: Image data not provided" });
+        return;
+    }
+    console.log('Adding the image');
+});
+
 router.post("/multiplegameoverviews", authenticate, async (req, res) => {
     if (!req.body.gameIds) {
         res.status(400).send({ message: "Bad Request: IDs for games were not provided" });

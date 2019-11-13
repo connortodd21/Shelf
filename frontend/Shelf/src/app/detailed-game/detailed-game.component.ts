@@ -162,13 +162,14 @@ export class DetailedGameComponent implements OnInit {
     const reader = new FileReader();
 
     reader.addEventListener('load', (event: any) => {
-      console.log(event.target.result);
-      console.log(file);
-      this.images.push(event.target.result);
+      const data = event.target.result;
+      this.gamesService.addImage(file).then(res => {
+        console.log('Done adding image');
+      });
+      // this.images.push(event.target.result);
     });
 
     reader.readAsDataURL(file);
-    console.log(file);
   }
 
 }

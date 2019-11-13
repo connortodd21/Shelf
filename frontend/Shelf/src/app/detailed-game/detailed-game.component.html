@@ -83,11 +83,9 @@
 
 
             <p class="detailed-game-heading top-margin-32">Uploaded images</p>
-            <div>
                 <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
                 <img *ngFor="let image of images; let i = index" src="{{image}}"
                         class="detailed-game-art" />
-            </div>
         </div>
 
     </div>

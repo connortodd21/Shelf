@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {HOME_PAGE} from '../constants/constants.pages';
 import {GameModel} from './game.model';
 import {RatingModel} from '../models/rating.model';
-import {ADD_COMMENT_URL, DELETE_COMMENT_URL, UPVOTE_URL, DOWNVOTE_URL} from '../constants/constants.urls';
+import {ADD_COMMENT_URL, DELETE_COMMENT_URL, UPVOTE_URL, DOWNVOTE_URL, ADD_IMAGE_URL} from '../constants/constants.urls';
 
 @Injectable({
   providedIn: 'root'
@@ -111,5 +111,13 @@ export class GamesService {
     };
 
     return this.http.post(DOWNVOTE_URL, data).toPromise();
+  }
+
+  addImage(data) {
+    console.log("In the service!");
+    const body = {
+      data
+    }
+    return this.http.post(ADD_IMAGE_URL, body).toPromise();
   }
 }
