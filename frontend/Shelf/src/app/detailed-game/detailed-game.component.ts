@@ -19,10 +19,12 @@ export class DetailedGameComponent implements OnInit {
   globalRating: number;
   userRating: number;
   comments;
+  images;
 
   constructor(private route: ActivatedRoute, private gamesService: GamesService, private location: Location) {
     this.route.params.subscribe(params => this.id = params.id);
     this.comments = [];
+    this.images = [];
   }
   ngOnInit() {
     // if we navigated from home page, then we can save tons of time and use these
@@ -153,6 +155,20 @@ export class DetailedGameComponent implements OnInit {
     this.gamesService.deleteComment(comment.comment_id, this.id).then(res => {
       // window.location.reload();
     });
+  }
+
+  processFile(imageInput) {
+    const file = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+      console.log(event.target.result);
+      console.log(file);
+      this.images.push(event.target.result);
+    });
+
+    reader.readAsDataURL(file);
+    console.log(file);
   }
 
 }

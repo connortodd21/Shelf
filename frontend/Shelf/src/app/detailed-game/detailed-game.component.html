@@ -73,17 +73,21 @@
                     </div>
                     
                 </div>
-                
-                
-                
-                
             </div>
             <span>
-                    <!-- Ability to add comment -->
-                    
-                    <div><input #box placeholder="Add Comment" class="send-message-bar"
-                        (keyup.enter)="addComment(box.value);box.value=''"></div>
-                </span>
+                <!-- Ability to add comment -->
+                <div><input #box placeholder="Add Comment" class="send-message-bar"
+                    (keyup.enter)="addComment(box.value);box.value=''"></div>
+            </span>
+
+
+
+            <p class="detailed-game-heading top-margin-32">Uploaded images</p>
+            <div>
+                <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+                <img *ngFor="let image of images; let i = index" src="{{image}}"
+                        class="detailed-game-art" />
+            </div>
         </div>
 
     </div>
