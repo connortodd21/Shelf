@@ -14,7 +14,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 var User = require('../model/user');
 
 const USER_RATED_GAME_FEED = (user, game, rating) => {
-    return (user + ' has just rated the game \'' + game + ' ' + rating + '\' stars');
+    return (user + ' has just rated the game \'' + game + '\' ' + rating + ' stars');
 };
 
 const USER_FOLLOWED_SOMEONE_ELSE_FEED = (follower, followee) => {
@@ -22,7 +22,7 @@ const USER_FOLLOWED_SOMEONE_ELSE_FEED = (follower, followee) => {
 };
 
 const WISH_LIST_FEED = (user, game) => {
-    return (user + 'has just added \'' + game + '\' to their wish list!');
+    return (user + 'has just added the game \'' + game + '\' to their wish list!');
 };
 
 const PLAYED_GAME_FEED = (user, game) => {
