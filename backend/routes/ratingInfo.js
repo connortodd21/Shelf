@@ -38,16 +38,13 @@ router.get('/all', authenticate, async (req, res) => {
 
 router.get('/:gameId', authenticate, async (req, res) => {
 
-
     RatingInfo.findOne({ game_id: req.params.gameId }).then(ratingInfo => {
-
         res.status(200).send(ratingInfo);
-
+        return
     }).catch((err) => {
         res.status(500).send(err);
         return;
     })
-
 });
 
 router.post("/add-comment", authenticate, (req, res) => {
@@ -73,7 +70,7 @@ router.post("/add-comment", authenticate, (req, res) => {
                 return;
             })
         }
-        else{
+        else {
             var newRatingInfo = new RatingInfo({
                 game_id: req.body.gameID,
                 total_rating_value: 0,
