@@ -22,6 +22,7 @@ import { FindUsersModule } from './find-users/find-users.module';
 import { UserOverviewModule } from './user-overview/user-overview.module';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
 import { TopIconComponent } from './top-icon/top-icon.component';
+import { FeedModule } from './feed/feed.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { TopIconComponent } from './top-icon/top-icon.component';
     PageNotFoundComponent,
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
@@ -49,7 +50,8 @@ import { TopIconComponent } from './top-icon/top-icon.component';
     SearchModule,
     FindUsersModule,
     UserOverviewModule,
-    LeaderboardModule
+    LeaderboardModule,
+    FeedModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

@@ -12,7 +12,7 @@ import {
   FOLLOW_URL,
   UNFOLLOW_URL
 } from '../../constants/constants.urls';
-import {ProfileModel} from "../../models/profile.model";
+import {ProfileModel} from '../../models/profile.model';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

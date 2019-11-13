@@ -20,3 +20,4 @@ export const ADD_COMMENT_URL = 'http://localhost:8080/ratingInfo/add-comment';
 export const DELETE_COMMENT_URL = 'http://localhost:8080/ratingInfo/delete-comment';
 export const UPVOTE_URL = 'http://localhost:8080/ratingInfo/upvote';
 export const DOWNVOTE_URL = 'http://localhost:8080/ratingInfo/downvote';
+export const GET_FEED_URL = 'http://localhost:8080/user/feed';

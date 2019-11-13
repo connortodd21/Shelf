@@ -1,0 +1,17 @@
+<div id="full-container">
+
+    <app-nav></app-nav>
+
+    <div id="content-container">
+        <h1 *ngIf="hasFeed">Your Shelf Feed:</h1>
+        <h1 *ngIf="!hasFeed">Whoops, looks like you don't have any events in your feed! Follow some users to begin!</h1>
+        <div class="overflow-scroll" *ngIf="hasFeed">
+            <div *ngFor="let f of feed">
+                {{f.event}}
+                {{f.user}}
+                {{f.timeStamp}}
+            </div>
+        </div>
+    </div>
+
+</div>

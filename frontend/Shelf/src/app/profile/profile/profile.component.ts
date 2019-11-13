@@ -240,14 +240,14 @@ export class ProfileComponent implements OnInit {
   public isTopUser() {
     const tempUsers = this.allUsers;
     tempUsers.sort((first, second) => {
-      return ((first.followers.length * 2 + first.gamesRated.length) < (second.followers.length * 2 + second.gamesRated.length)) ? 1 : -1
-    })
+      return ((first.followers.length * 2 + first.gamesRated.length) < (second.followers.length * 2 + second.gamesRated.length)) ? 1 : -1;
+    });
     for (let i = 0; i < 10; i++) {
-      if (tempUsers[i].username == this.user.username) {
-        return true
+      if (tempUsers[i].username === this.user.username) {
+        return true;
       }
     }
-    return false
+    return false;
   }
 
   private setFollowStatus(user: ProfileModel) {

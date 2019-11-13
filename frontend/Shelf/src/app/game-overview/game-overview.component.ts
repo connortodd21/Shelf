@@ -28,7 +28,7 @@ export class GameOverviewComponent {
     this.gameService.submitRatingToUser(event.value, this.userRating, this.id).subscribe(
       () => {
 
-        this.gameService.submitRatingToGame(event.value, this.userRating, this.id).subscribe(
+        this.gameService.submitRatingToGame(event.value, this.userRating, this.id, this.name).subscribe(
           () => {
 
             this.gameService.getGlobalRatingInfo(this.id).subscribe(

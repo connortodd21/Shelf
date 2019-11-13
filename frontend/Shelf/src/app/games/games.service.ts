@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Router } from '@angular/router';
 import {Observable} from 'rxjs';
-import {HOME_PAGE} from '../constants/constants.pages';
 import {GameModel} from './game.model';
 import {RatingModel} from '../models/rating.model';
 import {ADD_COMMENT_URL, DELETE_COMMENT_URL, UPVOTE_URL, DOWNVOTE_URL} from '../constants/constants.urls';
@@ -56,19 +55,19 @@ export class GamesService {
 
   submitRatingToUser(newRating: number, oldRating: number, gameId: string): Observable<any> {
     const username = localStorage.getItem('user');
-    console.log(oldRating);
     return this.http.post<object>('http://localhost:8080/user/' + username + '/games-rated', {
       gameId,
       newRating,
-      oldRating
+      oldRating,
     });
   }
 
-  submitRatingToGame(newRating: string, oldRating: number, gameId: string): Observable<any> {
+  submitRatingToGame(newRating: string, oldRating: number, gameId: string, gameName: string): Observable<any> {
     return this.http.post<object>('http://localhost:8080/ratingInfo/' + gameId, {
       gameId,
       newRating,
-      oldRating
+      oldRating,
+      gameName
     });
   }
 
