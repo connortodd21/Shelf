@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 let mongoose = require('mongoose');
 var authenticate = require('../middleware/authenticate');
+const updateFeed = require('../middleware/updateFeed')
 
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useNewUrlParser', true);
@@ -189,7 +190,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
     //not in db
     RatingInfo.findOne({ game_id: req.params.gameId }).then(ratingInfo => {
 
-        console.log(ratingInfo)
+        // console.log(ratingInfo)
 
         if (!ratingInfo) {
             var newRatingInfo = new RatingInfo({
@@ -208,6 +209,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                             total_rating_value: req.body.newRating
                         }
                     }).exec().then(usr => {
+                        updateFeed.updateFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
                         res.status(200).send({
                             message: req.body.gameId + " added to ratingInfo list for first" +
                                 " time!1"
@@ -230,6 +232,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                         res.status(200).send({ message: req.body.gameId + " removed rating info1" })
                         return
                     }).catch((err) => {
+                        console.log(err)
                         res.status(500).send(err);
                         return
                     })
@@ -242,9 +245,11 @@ router.post("/:gameId", authenticate, async (req, res) => {
                             total_rating_value: (req.body.newRating - req.body.oldRating)
                         }
                     }).then(usr => {
+                        updateFeed.updateFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
                         res.status(200).send({ message: req.body.gameId + " updated to previous rating info1" })
                         return
                     }).catch((err) => {
+                        console.log(err)
                         res.status(500).send(err);
                         return
                     })
@@ -259,9 +264,11 @@ router.post("/:gameId", authenticate, async (req, res) => {
                         total_rating_value: req.body.newRating
                     }
                 }).exec().then(usr => {
+                    updateFeed.updateFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
                     res.status(200).send({ message: req.body.gameId + " added to rating info for first time2!" })
                     return
                 }).catch((err) => {
+                    console.log(err)
                     res.status(500).send(err);
                     return
                 })
@@ -277,6 +284,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                     res.status(200).send({ message: req.body.gameId + " removed from rating info 2" })
                     return
                 }).catch((err) => {
+                    console.log(err)
                     res.status(500).send(err);
                     return
                 })
@@ -289,15 +297,18 @@ router.post("/:gameId", authenticate, async (req, res) => {
                         total_rating_value: (req.body.newRating - req.body.oldRating)
                     }
                 }).then(usr => {
+                    updateFeed.updateFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
                     res.status(200).send({ message: req.body.gameId + " updated previous rating info 2" })
                     return
                 }).catch((err) => {
+                    console.log(err)
                     res.status(500).send(err);
                     return
                 })
             }
         }
     }).catch((err) => {
+        console.log(err)
         res.status(500).send(err);
         return;
     });
