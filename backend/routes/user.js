@@ -6,6 +6,7 @@ var bcrypt = require('bcrypt')
 var authenticate = require('../middleware/authenticate')
 var mailer = require('../middleware/mailer')
 var crypto = require('crypto')
+const updateFeed = require('../middleware/updateFeed')
 
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useNewUrlParser', true);
@@ -71,6 +72,16 @@ router.get("/all-messages", authenticate, (req, res) => {
         console.log(err)
         res.status(500).send(err);
         return
+    })
+})
+
+router.get('/feed', authenticate, (req, res) => {
+    User.findOne({username: req.user.username}).then((usr) => {
+        res.status(200).send(usr.feed.reverse())
+        return;
+    }).catch(err => {
+        res.status(500).send(err)
+        return;
     })
 })
 
@@ -245,6 +256,7 @@ router.post('/follow', authenticate, (req, res) => {
                     followers: req.user.username
                 }
             }).then(() => {
+                updateFeed.updateFeed(req.user, updateFeed.USER_FOLLOWED_SOMEONE_ELSE_FEED(req.user.username, req.body.user))
                 res.status(200).send({ message: "You are now following " + req.body.user })
                 return
             })
@@ -503,6 +515,52 @@ router.post("/verify-email", (req, res) => {
         res.status(500).send(err)
         return;
     });
+})
+
+router.post('/add-to-feed', authenticate, (req, res) => {
+    if(!req.body || !req.body.event){
+        res.status(400).send({ message: "Add to feed data is incomplete" });
+        return;
+    }
+    User.findOneAndUpdate({username: req.user.username}, {
+        $push: {
+            feed: {
+                event: req.body.event,
+                user: req.user.username
+            }
+        }
+    }).then(() => {
+        res.status(200).send({ message: "Event has been added to feed" });
+        return;
+    }).catch(err => {
+        res.status(500).send(err)
+        return;
+    })
+})
+
+router.post('/add-to-other-feeds', authenticate, (req, res) => {
+    if(!req.body || !req.body.event){
+        res.status(400).send({ message: "Add to other feed data is incomplete" });
+        return;
+    }
+
+    const followers = req.user.followers
+    followers.forEach(element => {
+        User.findOneAndUpdate({username: element}, {
+            $push: {
+                feed: {
+                    event: req.body.event,
+                    user: req.user.username
+                }
+            }
+        })
+    }).then(() => {
+        res.status(200).send({ message: "Event has been added to your followers feeds!" });
+        return;
+    }).catch(err => {
+        res.status(500).send(err)
+        return;
+    })
 })
 
 module.exports = router;
