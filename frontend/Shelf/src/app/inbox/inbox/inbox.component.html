@@ -1,4 +1,4 @@
-<div id="full-container">
+<div id="full-container" *ngIf="component == 'inbox'">
 
   <app-nav></app-nav>
 
@@ -10,7 +10,8 @@
     <!-- Display notifications -->
     <div class="overflow-scroll" *ngIf="hasNotifications">
        <div *ngFor="let i of inbox">
-         <p class="notification-title">📣 From {{i.sender}} on {{i.timeStamp | date:'yyyy-MM-dd'}}</p>
+         <p *ngIf="i.type == 'message'" class="notification-title">📣 From <a class="notification-link" (click)="renderComponent('messages')" >{{i.sender}}</a> on {{i.timeStamp | date:'yyyy-MM-dd'}} </p>
+         <p *ngIf="i.type == 'follower'" class="notification-title">📣 From <a class="notification-link" (click)="renderComponent(i.sender)" >{{i.sender}}</a> on {{i.timeStamp | date:'yyyy-MM-dd'}} </p>
          <p>{{i.message}}</p>
        </div>
     </div>

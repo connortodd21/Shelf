@@ -1,12 +1,16 @@
 export class Message {
-    sender: string;
-    message: string;
-    timeStamp: Date;
+    receiver: string;
+    id: string;
+    messages: any[] = [];
 
     constructor(response: any) {
-        this.sender = response.sender;
-        this.message = response.message;
-        this.timeStamp = response.timeStamp;
+        if (localStorage.getItem('user') === response.firstUser) {
+            this.receiver = response.secondUser;
+        } else {
+            this.receiver = response.firstUser;
+        }
+        this.id = response._id;
+        this.messages = response.messages;
     }
 
 }

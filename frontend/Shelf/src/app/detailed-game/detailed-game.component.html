@@ -61,6 +61,8 @@
             </span>
 
             <p class="detailed-game-heading top-margin-32">Comments</p>
+            <button (click)="getTopComments()">Top Comments</button>
+            <button (click)="getBottomComments()">Bottom Comments</button>
             <div class="game-comment" *ngFor="let c of comments" (click)="upvote(c)">
                 <div class="profile-photo"><p style="padding-left: 11px; padding-top: 4px;">{{c.score}}</p></div>
                 <div class="comment-information ">

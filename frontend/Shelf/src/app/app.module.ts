@@ -23,6 +23,7 @@ import { UserOverviewModule } from './user-overview/user-overview.module';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
 import { TopIconComponent } from './top-icon/top-icon.component';
 import { FeedModule } from './feed/feed.module';
+import { MessageModule } from './message/message.module';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { FeedModule } from './feed/feed.module';
     FindUsersModule,
     UserOverviewModule,
     LeaderboardModule,
-    FeedModule
+    FeedModule,
+    MessageModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

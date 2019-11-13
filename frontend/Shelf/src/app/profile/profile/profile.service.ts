@@ -6,9 +6,6 @@ import { UserModel } from '../../models/user.model';
 import {
   USER_DATA_URL,
   ALL_USERS_URL,
-  SEND_MESSAGE_URL,
-  NEW_MESSAGE_URL,
-  GET_ALL_MESSAGES_URL,
   FOLLOW_URL,
   UNFOLLOW_URL
 } from '../../constants/constants.urls';
@@ -39,31 +36,6 @@ export class ProfileService {
 
     unfollowUser(username: string) {
         return this.http.post(UNFOLLOW_URL, { user: username }).toPromise();
-    }
-
-    getMessages(receiver: string) {
-        const info = {
-            headers: new HttpHeaders({
-                receiver
-            })
-        };
-        return this.http.get(GET_ALL_MESSAGES_URL, info).toPromise();
-    }
-
-    sendMessage(message: string, messageID: string) {
-        const options = {
-            message,
-            messageID
-        };
-        return this.http.post(SEND_MESSAGE_URL, options).toPromise();
-    }
-
-    newConversation(firstUser: string, secondUser: string) {
-        const options = {
-            firstUser,
-            secondUser
-        };
-        return this.http.post(NEW_MESSAGE_URL, options).toPromise().catch(err => {});
     }
 
 }

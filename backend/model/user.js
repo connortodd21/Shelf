@@ -23,7 +23,6 @@ let userSchema = new mongoose.Schema({
   favorites: { type: [String] },
   followers: { type: [String] },
   following: { type: [String] },
-  inbox: { type: [String] },
   wish_list: { type: [String] },
   date_created: { type: Date, default: Date.now() },
   tokens: [{

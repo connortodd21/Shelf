@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GamesService } from '../games/games.service';
 import { COVER_BIG, SCREENSHOT_BIG } from '../constants/constants.images';
 import { Location } from '@angular/common';
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 @Component({
   selector: 'app-detailed-game',
@@ -135,6 +136,7 @@ export class DetailedGameComponent implements OnInit {
   upvote(comment) {
     this.gamesService.upvote(comment.comment_id, this.id).then(res => {
       // window.location.reload();
+      this.getTopComments();
     });
   }
 
@@ -154,6 +156,14 @@ export class DetailedGameComponent implements OnInit {
     this.gamesService.deleteComment(comment.comment_id, this.id).then(res => {
       // window.location.reload();
     });
+  }
+
+  getBottomComments(){
+    this.comments.sort((a: { score: number; }, b: { score: number; }) => (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0));
+  }
+
+  getTopComments(){
+    this.comments.sort((a: { score: number; }, b: { score: number; }) => (b.score > a.score) ? 1 : ((a.score > b.score) ? -1 : 0));
   }
 
 }
