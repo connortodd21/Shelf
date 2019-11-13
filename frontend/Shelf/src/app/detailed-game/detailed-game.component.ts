@@ -20,6 +20,7 @@ export class DetailedGameComponent implements OnInit {
   globalRating: number;
   userRating: number;
   comments;
+  gameName: string;
 
   constructor(private route: ActivatedRoute, private gamesService: GamesService, private location: Location) {
     this.route.params.subscribe(params => this.id = params.id);
@@ -111,7 +112,7 @@ export class DetailedGameComponent implements OnInit {
     this.gamesService.submitRatingToUser(event.value, this.userRating, this.id).subscribe(
       () => {
 
-        this.gamesService.submitRatingToGame(event.value, this.userRating, this.id).subscribe(
+        this.gamesService.submitRatingToGame(event.value, this.userRating, this.id, this.game.name).subscribe(
           () => {
 
             this.gamesService.getGlobalRatingInfo(this.id).subscribe(

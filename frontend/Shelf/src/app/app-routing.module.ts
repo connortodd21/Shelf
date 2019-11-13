@@ -7,7 +7,7 @@ import { HomeComponent } from './home/home/home.component';
 import {
   HOME_PAGE, LOGIN_PAGE, NOTFOUND_PAGE,
   DETAILED_GAME_PAGE, PROFILE_PAGE, INBOX_PAGE,
-  SEARCH_PAGE, FIND_USERS_PAGE, SETTINGS_PAGE, LEADERBOARD, MESSAGES_PAGE
+  SEARCH_PAGE, FIND_USERS_PAGE, SETTINGS_PAGE, LEADERBOARD, MESSAGES_PAGE, FEED_PAGE
 } from './constants/constants.pages';
 import { DetailedGameComponent } from './detailed-game/detailed-game.component';
 import { ProfileComponent } from './profile/profile/profile.component';
@@ -16,6 +16,7 @@ import { SearchComponent } from './search/search/search.component';
 import { SettingsComponent } from './settings/settings/settings.component';
 import { FindUsersComponent } from './find-users/find-users/find-users.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { FeedComponent } from './feed/feed/feed.component';
 import { MessageComponent } from './message/message/message.component';
 
 const routes: Routes = [
@@ -42,7 +43,7 @@ const routes: Routes = [
     path: PROFILE_PAGE + '/:username',
     component: ProfileComponent,
     canActivate: [AuthGuard]
-},
+  },
   {
     path: SEARCH_PAGE,
     component: SearchComponent,
@@ -66,6 +67,11 @@ const routes: Routes = [
   {
     path: LEADERBOARD,
     component: LeaderboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: FEED_PAGE,
+    component: FeedComponent,
     canActivate: [AuthGuard]
   },
   {

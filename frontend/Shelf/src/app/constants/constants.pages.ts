@@ -8,4 +8,5 @@ export const SEARCH_PAGE = 'search';
 export const SETTINGS_PAGE = 'settings';
 export const FIND_USERS_PAGE = 'find-users';
 export const LEADERBOARD = 'leaderboard';
+export const FEED_PAGE = 'feed';
 export const MESSAGES_PAGE = 'messages';

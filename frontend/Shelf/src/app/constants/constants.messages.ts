@@ -1,3 +1,6 @@
+/*
+    Notification messages
+ */
 export const NEW_FOLLOWER_NOTIFICATION = (sender, receiver) => {
     return ('Hello ' + receiver + ', ' + sender + ' has begun following you!');
 };

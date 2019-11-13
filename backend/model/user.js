@@ -38,7 +38,12 @@ let userSchema = new mongoose.Schema({
   inboxID: { type: String },
   verificationNum: { type: String},
   verified: { type: Boolean, default: false },
-  messages: { type: [String] }
+  messages: { type: [String] },
+  feed: [{
+    event: { type: String },
+    time_stamp: { type: Date, default: Date.now() },
+    user: { type: String },
+  }]
 })
 
 /* Generate authentication token for user */
