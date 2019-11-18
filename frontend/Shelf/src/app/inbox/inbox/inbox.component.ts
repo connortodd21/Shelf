@@ -27,11 +27,11 @@ export class InboxComponent implements OnInit {
       if (inbox) {
         this.hasNotifications = true;
         let i = 0;
-        for (i = 0; i < inbox.length; i++) {
+        for (let j = inbox.length - 1; j >= 0; j--) {
           if (inbox[i].message.includes('message')) {
-            this.inbox[i] = new Inbox(inbox[i], 'message');
+            this.inbox[i++] = new Inbox(inbox[j], 'message');
           } else {
-            this.inbox[i] = new Inbox(inbox[i], 'follower');
+            this.inbox[i++] = new Inbox(inbox[j], 'follower');
           }
         }
       }
