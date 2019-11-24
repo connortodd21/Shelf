@@ -167,7 +167,7 @@ export class DetailedGameComponent implements OnInit {
   }
 
   addToWishList() {
-    console.log('Hello!');
+    this.gamesService.addToWishList();
   }
 
 }

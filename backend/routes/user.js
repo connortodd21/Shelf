@@ -517,4 +517,13 @@ router.post("/verify-email", (req, res) => {
     });
 })
 
+router.post('/add-to-wish-list', (req, res) => {
+    if (!req.body) {
+        res.status(400).send({ message: "Data incomplete" });
+        return;
+    }
+
+    console.log("In the post!");
+})
+
 module.exports = router;
