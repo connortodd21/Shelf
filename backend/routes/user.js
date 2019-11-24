@@ -517,30 +517,32 @@ router.post("/verify-email", (req, res) => {
     });
 })
 
-router.post('/add-to-wish-list', (req, res) => {
-    if (!req.body) {
+router.post('/add-to-wish-list', authenticate, (req, res) => {
+
+    if (!req.body || !req.body.gameName || !req.body.id) {
         res.status(400).send({ message: "Username or game id not provided" });
         return;
     }
 
-    User.findOneAndUpdate({ username: req.body.username }, {
+    User.findOneAndUpdate({ username: req.user.username }, {
         $push: {
             wish_list: req.body.id
         }
     }).then(() => {
+        updateFeed.updateFeed(req.user, updateFeed.WISH_LIST_FEED(req.user.username, req.body.gameName))
         res.status(200).send({ message: "Game added to wish list" })
     }).catch(err => {
         res.status(500).send(err);
     });
 })
 
-router.post('/remove-from-wish-list', (req, res) => {
-    if (!req.body) {
+router.post('/remove-from-wish-list', authenticate, (req, res) => {
+    if (!req.body || !req.body.id) {
         res.status(400).send({ message: "Username or game id not provided" });
         return;
     }
 
-    User.findOneAndUpdate({ username: req.body.username }, {
+    User.findOneAndUpdate({ username: req.user.username }, {
         $pull: {
             wish_list: req.body.id
         }

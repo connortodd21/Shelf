@@ -25,7 +25,7 @@ export class DetailedGameComponent implements OnInit {
   isWishListed: boolean;
 
   constructor(private route: ActivatedRoute, private gamesService: GamesService,
-    private userService: UserService, private location: Location) {
+              private userService: UserService, private location: Location) {
     this.route.params.subscribe(params => this.id = params.id);
     this.comments = [];
   }
@@ -57,7 +57,7 @@ export class DetailedGameComponent implements OnInit {
       } else {
         this.isWishListed = false;
       }
-    })
+    });
   }
 
   getComments(){
@@ -182,7 +182,7 @@ export class DetailedGameComponent implements OnInit {
   }
 
   addToWishList() {
-    this.gamesService.addToWishList(this.id).then(x => {
+    this.gamesService.addToWishList(this.id, this.game.name).then(x => {
       this.isWishListed = true;
     });
   }

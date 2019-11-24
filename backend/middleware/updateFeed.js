@@ -32,7 +32,6 @@ const PLAYED_GAME_FEED = (user, game) => {
 const updateFeed = function(user, event) {
 
     const followers = user.followers
-    console.log(followers)
     followers.forEach(element => {
         User.findOneAndUpdate({username: element}, {
             $push: {
