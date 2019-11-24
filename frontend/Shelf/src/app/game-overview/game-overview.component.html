@@ -9,8 +9,8 @@
     </div>
 
   <div>
-    <p class="rating-label">Global Rating<p-rating stars="5" [cancel]="false" readonly="true" disabled="true" [(ngModel)]="globalRating"></p-rating></p>
-    <p class="rating-label">My Rating<p-rating stars="5" [readonly]="shouldDisable" [disabled]="shouldDisable" [cancel]="false" (onRate)="handleRate($event)"
+    <p *ngIf="globalRating != null || userRating != null" class="rating-label">Global Rating<p-rating stars="5" [cancel]="false" readonly="true" disabled="true" [(ngModel)]="globalRating"></p-rating></p>
+    <p *ngIf="globalRating != null || userRating != null" class="rating-label">My Rating<p-rating stars="5" [readonly]="shouldDisable" [disabled]="shouldDisable" [cancel]="false" (onRate)="handleRate($event)"
                                                [ngModel]="userRating"></p-rating></p>
   </div>
 

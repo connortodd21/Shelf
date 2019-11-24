@@ -74,6 +74,18 @@
             </span>
         </div>
 
+        <!-- Wish List -->
+        <div class="header-link"><h1>Wish List</h1></div>
+        <div *ngIf="user != null && user.wishList != null" id="profile-rated-games">
+            <span *ngFor="let item of wishList; let i = index">
+                <app-game-overview *ngIf="item.cover" [shouldDisable]="!isOwner" [globalRating]="null"
+                                    [userRating]="null" [name]=item.name [id]=item.id
+                                    [image_id]=item.cover.image_id></app-game-overview>
+                <app-game-overview *ngIf="!item.cover" [shouldDisable]="!isOwner" [globalRating]="null"
+                                    [userRating]="null" [name]=item.name [id]=item.id image_id=""></app-game-overview>
+            </span>
+        </div>
+
         <div class="messaging" *ngIf="messages != null">
 <!--            <button class="messagesButton" mdbBtn type="button" color="info" mdbWavesEffect (click)="show = !show"-->
 <!--                (click)="getMessages()"> View Messages </button>-->
