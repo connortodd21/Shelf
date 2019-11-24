@@ -166,4 +166,8 @@ export class DetailedGameComponent implements OnInit {
     this.comments.sort((a: { score: number; }, b: { score: number; }) => (b.score > a.score) ? 1 : ((a.score > b.score) ? -1 : 0));
   }
 
+  addToWishList() {
+    console.log('Hello!');
+  }
+
 }
