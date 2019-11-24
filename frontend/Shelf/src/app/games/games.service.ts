@@ -112,11 +112,12 @@ export class GamesService {
     return this.http.post(DOWNVOTE_URL, data).toPromise();
   }
 
-  addToWishList() {
+  addToWishList(id) {
     const body = {
-
+      id,
+      username: localStorage.getItem('user')
     };
-    
+
     return this.http.post(ADD_WISH_LIST_URL, body).toPromise();
   }
 }

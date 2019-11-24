@@ -519,11 +519,36 @@ router.post("/verify-email", (req, res) => {
 
 router.post('/add-to-wish-list', (req, res) => {
     if (!req.body) {
-        res.status(400).send({ message: "Data incomplete" });
+        res.status(400).send({ message: "Username or game id not provided" });
         return;
     }
 
-    console.log("In the post!");
+    User.findOneAndUpdate({ username: req.body.username }, {
+        $push: {
+            wish_list: req.body.id
+        }
+    }).then(() => {
+        res.status(200).send({ message: "Game added to wish list" })
+    }).catch(err => {
+        res.status(500).send(err);
+    });
+})
+
+router.post('/remove-from-wish-list', (req, res) => {
+    if (!req.body) {
+        res.status(400).send({ message: "Username or game id not provided" });
+        return;
+    }
+
+    User.findOneAndUpdate({ username: req.body.username }, {
+        $pull: {
+            wish_list: req.body.id
+        }
+    }).then(() => {
+        res.status(200).send({ message: "Game removed from wish list" })
+    }).catch(err => {
+        res.status(500).send(err);
+    });
 })
 
 module.exports = router;

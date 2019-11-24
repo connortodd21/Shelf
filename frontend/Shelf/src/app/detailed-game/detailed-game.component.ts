@@ -167,7 +167,7 @@ export class DetailedGameComponent implements OnInit {
   }
 
   addToWishList() {
-    this.gamesService.addToWishList();
+    this.gamesService.addToWishList(this.id);
   }
 
 }
