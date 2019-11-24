@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
   following: string[];
   queryString: string;
   ratedGames;
+  wishList;
   show: boolean;
   isOwner = false;
   followButtonText: string;
@@ -45,6 +46,18 @@ export class ProfileComponent implements OnInit {
             this.addGlobalRating();
           }
           this.printUsefulInfo();
+        });
+      }
+
+      if (this.user.wishList.length > 0) {
+        const temp = [];
+        for (let i = 0; i < this.user.wishList.length; i++) {
+          temp.push({game_id: this.user.wishList[i]});
+        }
+        this.gamesService.getOverviewInfoAboutGames(temp).subscribe((gamesInfo) => {
+          console.log("Wish listed games");
+          console.log(gamesInfo);
+          this.wishList = gamesInfo;
         });
       }
 
