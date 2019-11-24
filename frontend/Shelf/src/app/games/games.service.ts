@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import {Observable} from 'rxjs';
 import {GameModel} from './game.model';
 import {RatingModel} from '../models/rating.model';
-import {ADD_COMMENT_URL, DELETE_COMMENT_URL, UPVOTE_URL, DOWNVOTE_URL, ADD_WISH_LIST_URL} from '../constants/constants.urls';
+import {ADD_COMMENT_URL, DELETE_COMMENT_URL, UPVOTE_URL, DOWNVOTE_URL, ADD_WISH_LIST_URL, REMOVE_WISH_LIST_URL} from '../constants/constants.urls';
 
 @Injectable({
   providedIn: 'root'
@@ -119,5 +119,14 @@ export class GamesService {
     };
 
     return this.http.post(ADD_WISH_LIST_URL, body).toPromise();
+  }
+
+  removeFromWishList(id) {
+    const body = {
+      id,
+      username: localStorage.getItem('user')
+    };
+
+    return this.http.post(REMOVE_WISH_LIST_URL, body).toPromise();
   }
 }

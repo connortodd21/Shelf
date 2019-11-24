@@ -170,4 +170,8 @@ export class DetailedGameComponent implements OnInit {
     this.gamesService.addToWishList(this.id);
   }
 
+  removeFromWishList() {
+    this.gamesService.removeFromWishList(this.id);
+  }
+
 }

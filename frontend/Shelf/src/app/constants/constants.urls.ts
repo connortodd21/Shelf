@@ -23,3 +23,4 @@ export const UPVOTE_URL = 'http://localhost:8080/ratingInfo/upvote';
 export const DOWNVOTE_URL = 'http://localhost:8080/ratingInfo/downvote';
 export const GET_FEED_URL = 'http://localhost:8080/user/feed';
 export const ADD_WISH_LIST_URL = 'http://localhost:8080/user/add-to-wish-list';
+export const REMOVE_WISH_LIST_URL = 'http://localhost:8080/user/remove-from-wish-list';
