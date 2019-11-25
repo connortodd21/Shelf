@@ -101,9 +101,7 @@ export class ProfileComponent implements OnInit {
     this.followers.push(sender);
 
     this.profileService.followUser(receiver).then(() => {
-      this.inboxService.sendNotification(NEW_FOLLOWER_NOTIFICATION(sender, receiver), receiver).then((resp) => {
-        window.location.reload();
-      });
+      this.inboxService.sendNotification(NEW_FOLLOWER_NOTIFICATION(sender, receiver), receiver);
     });
   }
 
