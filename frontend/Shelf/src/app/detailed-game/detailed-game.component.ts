@@ -163,13 +163,13 @@ export class DetailedGameComponent implements OnInit {
 
   addComment(comment) {
     this.gamesService.addComment(comment, this.id).then(res => {
-      // window.location.reload();
+      this.getComments()
     });
   }
 
   deleteComment(comment) {
     this.gamesService.deleteComment(comment.comment_id, this.id).then(res => {
-      // window.location.reload();
+      this.getComments()
     });
   }
 
