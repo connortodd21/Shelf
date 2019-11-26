@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit {
         for (let i = 0; i < this.user.wishList.length; i++) {
           temp.push({game_id: this.user.wishList[i]});
         }
-        this.gamesService.getOverviewInfoAboutGames(temp).subscribe((gamesInfo) => {
+        this.gamesService.getOverviewInfoAboutGames(temp, this.user.username).subscribe((gamesInfo) => {
           console.log("Wish listed games");
           console.log(gamesInfo);
           this.wishList = gamesInfo;
