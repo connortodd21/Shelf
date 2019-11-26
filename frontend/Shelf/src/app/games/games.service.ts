@@ -14,14 +14,13 @@ export class GamesService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  getDashboardGames(): Observable<any> {
-    return this.http.get('http://localhost:8080/games/criticallyacclaimedgames');
+  getDashboardGames(username: String): Observable<any> {
+    return this.http.get(`http://localhost:8080/games/criticallyacclaimedgames/${username}`);
   }
 
-  getSearchedGames(search, sortingOption): Observable<any> {
-    return this.http.post<object>('http://localhost:8080/games/searchedgames', {
+  getSearchedGames(search, username: String): Observable<any> {
+    return this.http.post<object>(`http://localhost:8080/games/searchedgames/${username}`, {
       search,
-      sortingOption
     });
   }
 
@@ -32,11 +31,11 @@ export class GamesService {
     });
   }
 
-  getOverviewInfoAboutGames(games): Observable<any> {
+  getOverviewInfoAboutGames(games, username: String): Observable<any> {
     // tslint:disable-next-line: curly
     if (games.length === 0) return null;
     const gameIds = games.map(a => a.game_id);
-    return this.http.post<object>('http://localhost:8080/games/multiplegameoverviews', {
+    return this.http.post<object>(`http://localhost:8080/games/multiplegameoverviews/${username}`, {
       gameIds
     });
   }

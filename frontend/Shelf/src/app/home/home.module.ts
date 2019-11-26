@@ -18,6 +18,9 @@ import { UserOverviewModule } from '../user-overview/user-overview.module';
     DetailedGameComponent,
     SearchPipe
   ],
+  exports: [
+    SearchPipe
+  ],
   imports: [
     AppRoutingModule,
     CommonModule,
