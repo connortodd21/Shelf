@@ -32,11 +32,11 @@ export class GamesService {
     });
   }
 
-  getOverviewInfoAboutGames(games): Observable<any> {
+  getOverviewInfoAboutGames(games, username: String): Observable<any> {
     // tslint:disable-next-line: curly
     if (games.length === 0) return null;
     const gameIds = games.map(a => a.game_id);
-    return this.http.post<object>('http://localhost:8080/games/multiplegameoverviews', {
+    return this.http.post<object>(`http://localhost:8080/games/multiplegameoverviews/${username}`, {
       gameIds
     });
   }

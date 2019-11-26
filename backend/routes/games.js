@@ -89,7 +89,7 @@ router.post("/detailedgamedata", authenticate, async (req, res) => {
 
 })
 
-router.post("/multiplegameoverviews", authenticate, async (req, res) => {
+router.post("/multiplegameoverviews/:username", authenticate, async (req, res) => {
     if (!req.body.gameIds) {
         res.status(400).send({ message: "Bad Request: IDs for games were not provided" });
         return;
@@ -98,9 +98,12 @@ router.post("/multiplegameoverviews", authenticate, async (req, res) => {
     const body = buildRequestBodyForMultipleGameOverviews(req.body.gameIds);
     const url = 'https://api-v3.igdb.com/games';
 
-    const result = await axiosPost(url, body);
-    if (result.data) {
-        res.status(200).send(result.data);
+    let result = await axiosPost(url, body);
+    result = await appendGlobalRatingsToGames(result.data);
+    result = await appendUserRatingsToGames(result, req.params.username);
+
+    if (result) {
+        res.status(200).send(result);
     } else {
         res.status(400).send({ message: "There was an error retrieving detailed game data" })
     }
