@@ -9,6 +9,7 @@ import { GameOverviewModule } from '../game-overview/game-overview.module';
 import { NavModule } from '../nav/nav.module';
 import { DropdownModule } from 'primeng/dropdown';
 import {HomeModule} from "../home/home.module";
+import {PipeModule} from "../filter/pipe.module";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {HomeModule} from "../home/home.module";
     GameOverviewModule,
     NavModule,
     DropdownModule,
-    HomeModule
+    HomeModule,
+    PipeModule
   ]
 })
 export class SearchModule { }

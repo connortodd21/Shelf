@@ -12,6 +12,9 @@ import { GameOverviewModule } from '../game-overview/game-overview.module';
 import { NavModule } from '../nav/nav.module';
 import { UserOverviewModule } from '../user-overview/user-overview.module';
 import { TopIconComponent } from '../top-icon/top-icon.component';
+import {DropdownModule} from "primeng/dropdown";
+import {AppModule} from "../app.module";
+import {PipeModule} from "../filter/pipe.module";
 
 
 
@@ -35,7 +38,9 @@ import { TopIconComponent } from '../top-icon/top-icon.component';
     ReactiveFormsModule,
     GameOverviewModule,
     NavModule,
-    UserOverviewModule
+    UserOverviewModule,
+    DropdownModule,
+    PipeModule
   ]
 })
 export class ProfileModule { }

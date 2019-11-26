@@ -5,6 +5,14 @@ import { ProfileModel } from '../../models/profile.model';
 import { InboxService } from '../../inbox/inbox/inbox.service';
 import { NEW_FOLLOWER_NOTIFICATION } from '../../constants/constants.messages';
 import { GamesService } from 'src/app/games/games.service';
+import {SelectItem} from "primeng/api";
+import {
+  GLOBAL_RATING_ASC,
+  GLOBAL_RATING_DESC,
+  RANDOM_SORTING,
+  USER_RATING_ASC,
+  USER_RATING_DESC
+} from "../../home/home/home.constants";
 
 @Component({
   selector: 'app-profile',
@@ -24,13 +32,15 @@ export class ProfileComponent implements OnInit {
   isOwner = false;
   followButtonText: string;
   followStatus: boolean;
+  sortOptions: SelectItem[];
+  selectedOption = RANDOM_SORTING;
 
   // tslint:disable-next-line: max-line-length
   constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {}
 
   ngOnInit() {
     const username = this.route.snapshot.params.username;
-
+    this.setSortOptions();
     this.isOwner = this.determineIfOwner(username);
 
     this.profileService.getUserData(username).then(res => {
@@ -168,6 +178,16 @@ export class ProfileComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  private setSortOptions() {
+    this.sortOptions = [
+      { label: 'Random', value: RANDOM_SORTING },
+      { label: 'Global Rating: Asc', value: GLOBAL_RATING_ASC },
+      { label: 'Global Rating: Desc', value: GLOBAL_RATING_DESC },
+      { label: 'User Rating: Asc', value: USER_RATING_ASC },
+      { label: 'User Rating: Desc', value: USER_RATING_DESC },
+    ];
   }
 
   private setFollowStatus(user: ProfileModel) {

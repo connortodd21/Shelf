@@ -63,9 +63,13 @@
 <!--        <p *ngIf="user != null"> Games Played: {{user.gamesPlayed}} </p>-->
 
         <!-- Rated Games Section -->
-        <div class="header-link"><h1>Rated Games</h1></div>
+        <div class="header-link">
+          <h1>Rated Games</h1>
+          <p-dropdown class="zach-dropdown" [options]="sortOptions" [(ngModel)]="selectedOption"></p-dropdown>
+       </div>
         <div *ngIf="user != null && user.gamesRated != null" id="profile-rated-games">
-            <span *ngFor="let item of ratedGames; let i = index">
+
+            <span *ngFor="let item of ratedGames | searchPipe : '' : selectedOption">
                 <app-game-overview *ngIf="item.cover" [shouldDisable]="!isOwner" [globalRating]="item.globalRating"
                                     [userRating]="item.userRating" [name]=item.name [id]=item.id
                                     [image_id]=item.cover.image_id></app-game-overview>
