@@ -17,6 +17,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 /* Objects */
 var User = require('../model/user');
 var Game = require('../model/game');
+var RatingInfo = require('../model/ratingInfo');
 
 /**
  * All game related routes
@@ -29,12 +30,16 @@ router.get("/", function (req, res) {
 /*
  * Get all games
  */
-router.get("/criticallyacclaimedgames", authenticate, async (req, res) => {
+router.get("/criticallyacclaimedgames/:username", authenticate, async (req, res) => {
     const body = 'fields id,name,cover.image_id; where aggregated_rating > 95; limit 20; sort popularity desc;';
 
-    const result = await axiosPost('https://api-v3.igdb.com/games', body);
-    if (result.data) {
-        res.status(200).send(result.data);
+    let result = await axiosPost('https://api-v3.igdb.com/games', body);
+
+    result = await appendGlobalRatingsToGames(result.data);
+    result = await appendUserRatingsToGames(result, req.params.username);
+
+    if (result) {
+        res.status(200).send(result);
     } else {
         res.status(400).send({ message: "There was an error retrieving game overview data" })
     }
@@ -114,6 +119,82 @@ axiosPost = async (url, body) => {
         return null;
     }
 }
+
+appendGlobalRatingsToGames = async (games) => {
+
+    let ratings = await getRatings();
+    const map = new Map();
+
+    for (let i = 0; i < ratings.length; i++) {
+        map.set(ratings[i].game_id, ratings[i]._doc);
+    }
+
+    for (let i = 0; i < games.length; i++) {
+        const key = games[i].id.toString();
+        if (map.has(key)) {
+
+            const ratingInfo = map.get(key);
+            games[i].number_of_players = ratingInfo.number_of_players;
+            games[i].number_of_ratings = ratingInfo.number_of_ratings;
+            games[i].total_rating_value = ratingInfo.total_rating_value;
+            if (ratingInfo.number_of_ratings === 0) {
+                games[i].globalRating = 0;
+            } else {
+                games[i].globalRating = Math.floor(ratingInfo.total_rating_value / ratingInfo.number_of_ratings);
+            }
+        } else {
+            games[i].number_of_players = 0;
+            games[i].number_of_ratings = 0;
+            games[i].total_rating_value = 0;
+            games[i].globalRating = 0;
+        }
+    }
+
+    return games;
+}
+
+getRatings = async () => {
+
+    try {
+        return await RatingInfo.find({})
+    } catch (error) {
+        console.error('There was an error in the getRatings method');
+        return null;
+    }
+
+};
+
+getUserRatings = async (username) => {
+    try {
+        return await User.findOne({ username: username })
+    }
+    catch (error) {
+        console.error("There was an eorr in the getUserRatings method");
+        return null;
+    }
+};
+
+appendUserRatingsToGames = async (games, username) => {
+
+    let user = await getUserRatings(username);
+    const map = new Map();
+    let ratings = user.games_rated;
+
+    for (let i = 0; i < ratings.length; i++) {
+        map.set(ratings[i]._doc.game_id, ratings[i]._doc.rating);
+    }
+
+    for (let i = 0; i < games.length; i++) {
+        const key = games[i].id.toString();
+        if (map.has(key)) {
+            games[i].userRating = map.get(key);
+        } else {
+            games[i].userRating = 0;
+        }
+    }
+    return games;
+};
+
 
 buildRequestBodyForMultipleGameOverviews = (gameIds) => {
     let body = `fields id,name,cover.image_id; where `;

@@ -5,6 +5,7 @@ let ratingSchema = new mongoose.Schema({
     total_rating_value: {type: Number},
     number_of_players: {type: Number},
     number_of_ratings: {type: Number},
+    userRating: {type: Number},
     comments: [{
         comment: { type: String },
         username: { type: String },

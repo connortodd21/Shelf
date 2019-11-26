@@ -14,8 +14,8 @@ export class GamesService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  getDashboardGames(): Observable<any> {
-    return this.http.get('http://localhost:8080/games/criticallyacclaimedgames');
+  getDashboardGames(username: String): Observable<any> {
+    return this.http.get(`http://localhost:8080/games/criticallyacclaimedgames/${username}`);
   }
 
   getSearchedGames(search, sortingOption): Observable<any> {

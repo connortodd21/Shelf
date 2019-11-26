@@ -52,14 +52,14 @@ export class HomeComponent implements OnInit {
 
   private getDashboardGames() {
 
-    this.gamesService.getDashboardGames().subscribe(
+    this.gamesService.getDashboardGames(localStorage.getItem('user')).subscribe(
       (response) => {
-
+        console.log(response);
         this.dashboardGames = response;
 
-        this.setupGlobalRatingInfo();
-        this.setupUserRatingInfo();
-        this.shuffle(response);
+        if (response) {
+          this.shuffle(response);
+        }
 
       }
     );
@@ -67,67 +67,6 @@ export class HomeComponent implements OnInit {
 
   public goToProfile() {
     this.router.navigate(['/profile/' + this.user.username]);
-  }
-
-
-  private setupGlobalRatingInfo() {
-    this.gamesService.getAllGlobalRatingInfo().subscribe(
-      ratingInfo => {
-
-        const map = new Map();
-        // tslint:disable: prefer-for-of
-        for (let i = 0; i < ratingInfo.length; i++) {
-          map.set(ratingInfo[i].game_id, ratingInfo[i]);
-        }
-
-
-        for (let i = 0; i < this.dashboardGames.length; i++) {
-
-          const key = this.dashboardGames[i].id.toString();
-
-          if (map.has(key)) {
-            // tslint:disable: no-shadowed-variable
-            const ratingInfo = map.get(key);
-            this.dashboardGames[i].number_of_players = ratingInfo.number_of_players;
-            this.dashboardGames[i].number_of_ratings = ratingInfo.number_of_ratings;
-            this.dashboardGames[i].total_rating_value = ratingInfo.total_rating_value;
-            if (ratingInfo.number_of_ratings === 0) {
-              this.dashboardGames[i].globalRating = 0;
-            } else {
-              this.dashboardGames[i].globalRating = ratingInfo.total_rating_value / ratingInfo.number_of_ratings;
-            }
-
-          } else {
-            this.dashboardGames[i].number_of_players = 0;
-            this.dashboardGames[i].number_of_ratings = 0;
-            this.dashboardGames[i].total_rating_value = 0;
-            this.dashboardGames[i].globalRating = 0;
-          }
-        }
-      }
-    );
-  }
-
-
-  private setupUserRatingInfo() {
-    this.userService.fetchUser(localStorage.getItem('user')).subscribe(
-      user => {
-        const map = new Map();
-        for (let i = 0; i < user.games_rated.length; i++) {
-          map.set(user.games_rated[i].game_id, user.games_rated[i].rating);
-        }
-        for (let i = 0; i < this.dashboardGames.length; i++) {
-
-          const key = this.dashboardGames[i].id.toString();
-
-          if (map.has(key)) {
-            this.dashboardGames[i].userRating = map.get(key);
-          } else {
-            this.dashboardGames[i].userRating = 0;
-          }
-        }
-      }
-    );
   }
 
   private setSortOptions() {
