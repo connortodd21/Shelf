@@ -18,10 +18,9 @@ export class GamesService {
     return this.http.get(`http://localhost:8080/games/criticallyacclaimedgames/${username}`);
   }
 
-  getSearchedGames(search, sortingOption): Observable<any> {
-    return this.http.post<object>('http://localhost:8080/games/searchedgames', {
+  getSearchedGames(search, username: String): Observable<any> {
+    return this.http.post<object>(`http://localhost:8080/games/searchedgames/${username}`, {
       search,
-      sortingOption
     });
   }
 
