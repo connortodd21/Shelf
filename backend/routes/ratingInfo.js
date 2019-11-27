@@ -182,7 +182,7 @@ router.post("/downvote", authenticate, (req, res) => {
 
 router.post("/:gameId", authenticate, async (req, res) => {
 
-    console.log(req.body)
+    // console.log(req.body)
 
     //not in db
     RatingInfo.findOne({ game_id: req.params.gameId }).then(ratingInfo => {
@@ -206,7 +206,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                             total_rating_value: req.body.newRating
                         }
                     }).exec().then(usr => {
-                        updateFeed.updateFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
+                        updateFeed.addToFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
                         res.status(200).send({
                             message: req.body.gameId + " added to ratingInfo list for first" +
                                 " time!1"
@@ -242,7 +242,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                             total_rating_value: (req.body.newRating - req.body.oldRating)
                         }
                     }).then(usr => {
-                        updateFeed.updateFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
+                        updateFeed.addToFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
                         res.status(200).send({ message: req.body.gameId + " updated to previous rating info1" })
                         return
                     }).catch((err) => {
@@ -261,7 +261,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                         total_rating_value: req.body.newRating
                     }
                 }).exec().then(usr => {
-                    updateFeed.updateFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
+                    updateFeed.addToFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
                     res.status(200).send({ message: req.body.gameId + " added to rating info for first time2!" })
                     return
                 }).catch((err) => {
@@ -294,7 +294,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                         total_rating_value: (req.body.newRating - req.body.oldRating)
                     }
                 }).then(usr => {
-                    updateFeed.updateFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
+                    updateFeed.addToFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
                     res.status(200).send({ message: req.body.gameId + " updated previous rating info 2" })
                     return
                 }).catch((err) => {

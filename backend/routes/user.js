@@ -77,7 +77,19 @@ router.get("/all-messages", authenticate, (req, res) => {
 
 router.get('/feed', authenticate, (req, res) => {
     User.findOne({username: req.user.username}).then((usr) => {
-        res.status(200).send(usr.feed.reverse())
+        updateFeed.getCollectiveFeed(req.user).then(feeds => {
+            res.status(200).send(feeds)
+        })
+        return;
+    }).catch(err => {
+        res.status(500).send(err)
+        return;
+    })
+})
+
+router.get('/personal-history', authenticate, (req, res) => {
+    User.findOne({username: req.user.username}).then((usr) => {
+        res.status(200).send(usr.feed)
         return;
     }).catch(err => {
         res.status(500).send(err)
@@ -256,7 +268,7 @@ router.post('/follow', authenticate, (req, res) => {
                     followers: req.user.username
                 }
             }).then(() => {
-                updateFeed.updateFeed(req.user, updateFeed.USER_FOLLOWED_SOMEONE_ELSE_FEED(req.user.username, req.body.user))
+                updateFeed.addToFeed(req.user, updateFeed.USER_FOLLOWED_SOMEONE_ELSE_FEED(req.user.username, req.body.user))
                 res.status(200).send({ message: "You are now following " + req.body.user })
                 return
             })
@@ -529,7 +541,7 @@ router.post('/add-to-wish-list', authenticate, (req, res) => {
             wish_list: req.body.id
         }
     }).then(() => {
-        updateFeed.updateFeed(req.user, updateFeed.WISH_LIST_FEED(req.user.username, req.body.gameName))
+        updateFeed.addToFeed(req.user, updateFeed.WISH_LIST_FEED(req.user, gameName))
         res.status(200).send({ message: "Game added to wish list" })
     }).catch(err => {
         res.status(500).send(err);

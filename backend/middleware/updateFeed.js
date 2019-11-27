@@ -29,22 +29,43 @@ const PLAYED_GAME_FEED = (user, game) => {
     return (user + 'has just played \'' + game + '\'!');
 };
 
-const updateFeed = function(user, event) {
-
-    const followers = user.followers
-    followers.forEach(element => {
-        User.findOneAndUpdate({username: element}, {
-            $push: {
-                feed: {
-                    event: event,
-                    user: user.username
-                }
+const addToFeed = function (user, event) {
+    User.findOneAndUpdate({ username: user.username }, {
+        $push: {
+            feed: {
+                event: event,
+                user: user.username,
+                time_stamp: Date.now()
             }
-        }).catch(err => {
-            console.log(err)
-            return;
-        })
+        }
+    }).catch(err => {
+        console.log(err)
+        return;
     })
 }
 
-module.exports = {updateFeed, USER_FOLLOWED_SOMEONE_ELSE_FEED, USER_RATED_GAME_FEED, WISH_LIST_FEED, PLAYED_GAME_FEED};
+const getCollectiveFeed = async function (user) {
+
+    let cumulativeFeed = []
+
+    const getFeed = async (following) => {
+        return Promise.all(following.map(element => {
+            return Promise.resolve(getDetailedFeed(element))
+        }))
+    }
+
+    const getDetailedFeed = async (username) => {
+        return User.findOne({ username: username }).then(usr => {
+            return Promise.all(usr.feed.map(element => {
+                return Promise.resolve(element)
+            }))
+        })
+    }
+
+    const following = user.following;
+    return getFeed(following).then(async (individualFeeds) => {
+        return individualFeeds
+    })
+}
+
+module.exports = { getCollectiveFeed, addToFeed, USER_FOLLOWED_SOMEONE_ELSE_FEED, USER_RATED_GAME_FEED, WISH_LIST_FEED, PLAYED_GAME_FEED };
