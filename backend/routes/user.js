@@ -535,16 +535,18 @@ router.post('/add-to-wish-list', authenticate, (req, res) => {
         res.status(400).send({ message: "Username or game id not provided" });
         return;
     }
-
+    
     User.findOneAndUpdate({ username: req.user.username }, {
         $push: {
             wish_list: req.body.id
         }
     }).then(() => {
-        updateFeed.addToFeed(req.user, updateFeed.WISH_LIST_FEED(req.user, gameName))
+        updateFeed.addToFeed(req.user, updateFeed.WISH_LIST_FEED(req.user.username, req.body.gameName))
         res.status(200).send({ message: "Game added to wish list" })
+        return;
     }).catch(err => {
         res.status(500).send(err);
+        return
     });
 })
 

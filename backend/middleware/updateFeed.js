@@ -22,7 +22,7 @@ const USER_FOLLOWED_SOMEONE_ELSE_FEED = (follower, followee) => {
 };
 
 const WISH_LIST_FEED = (user, game) => {
-    return (user + 'has just added the game \'' + game + '\' to their wish list!');
+    return (user + ' has just added the game \'' + game + '\' to their wish list!');
 };
 
 const PLAYED_GAME_FEED = (user, game) => {
@@ -45,8 +45,6 @@ const addToFeed = function (user, event) {
 }
 
 const getCollectiveFeed = async function (user) {
-
-    let cumulativeFeed = []
 
     const getFeed = async (following) => {
         return Promise.all(following.map(element => {
