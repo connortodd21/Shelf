@@ -22,12 +22,17 @@ export class FeedComponent implements OnInit {
     this.feedService.getFeed().then((res) => {
       let i = 0;
       res.forEach(element => {
-        this.feed[i++] = new Feed(element);
+        element.forEach(item => {
+          this.feed[i++] = new Feed(item);
+        });
       });
       if (i !== 0) {
         this.hasFeed = true;
       }
+      // tslint:disable: max-line-length
+      this.feed.sort((a: {timeStamp: Date}, b: {timeStamp: Date}) => (new Date(b.timeStamp) > new Date(a.timeStamp)) ? 1 : (new Date(a.timeStamp) > new Date(b.timeStamp)) ? -1 : 0);
     });
   }
+
 
 }

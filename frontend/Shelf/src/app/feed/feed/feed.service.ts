@@ -11,7 +11,7 @@ export class FeedService {
   constructor(private http: HttpClient, private router: Router) { }
 
   getFeed() {
-      return this.http.get<Feed[]>(GET_FEED_URL).toPromise();
+      return this.http.get<any[]>(GET_FEED_URL).toPromise();
   }
 
 }
