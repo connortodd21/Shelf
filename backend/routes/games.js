@@ -169,7 +169,7 @@ getUserRatings = async (username) => {
         return await User.findOne({ username: username })
     }
     catch (error) {
-        console.error("There was an eorr in the getUserRatings method");
+        console.error("There was an error in the getUserRatings method");
         return null;
     }
 };
