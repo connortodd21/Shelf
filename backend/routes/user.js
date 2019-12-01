@@ -337,11 +337,13 @@ router.post("/:username/games-rated", authenticate, (req, res) => {
     //no previous rating
     if (req.body.oldRating === 0 || req.body.oldRating === '0') {
 
+        console.log(req.body.coverUrl);
         User.findOneAndUpdate({ username: req.params.username }, {
             $push: {
                 games_rated: {
                     game_id: req.body.gameId,
                     rating: req.body.newRating,
+                    coverUrl: req.body.coverUrl
                 }
             }
         }).then(usr => {
@@ -361,6 +363,7 @@ router.post("/:username/games-rated", authenticate, (req, res) => {
                 games_rated: {
                     game_id: req.body.gameId,
                     rating: req.body.newRating,
+                    coverUrl: req.body.coverUrl
                 }
             }
         }).then(usr => {

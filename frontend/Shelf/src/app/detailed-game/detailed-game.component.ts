@@ -124,7 +124,8 @@ export class DetailedGameComponent implements OnInit {
 
 
   handleRate(event) {
-    this.gamesService.submitRatingToUser(event.value, this.userRating, this.id).subscribe(
+    let coverUrl = "https://images.igdb.com/igdb/image/upload/t_cover_big/" + this.game.cover.image_id + ".jpg";
+    this.gamesService.submitRatingToUser(event.value, this.userRating, this.id, coverUrl).subscribe(
       () => {
 
         this.gamesService.submitRatingToGame(event.value, this.userRating, this.id, this.game.name).subscribe(

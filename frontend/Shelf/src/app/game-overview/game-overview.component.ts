@@ -25,7 +25,8 @@ export class GameOverviewComponent {
   }
 
   handleRate(event) {
-    this.gameService.submitRatingToUser(event.value, this.userRating, this.id).subscribe(
+    let coverUrl = "https://images.igdb.com/igdb/image/upload/t_cover_big/" + this.image_id + ".jpg";
+    this.gameService.submitRatingToUser(event.value, this.userRating, this.id, coverUrl).subscribe(
       () => {
 
         this.gameService.submitRatingToGame(event.value, this.userRating, this.id, this.name).subscribe(

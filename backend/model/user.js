@@ -19,6 +19,7 @@ let userSchema = new mongoose.Schema({
   games_rated: [{
     game_id: { type: String },
     rating: { type: Number },
+    coverUrl: { type: String },
   }],
   favorites: { type: [String] },
   followers: { type: [String] },

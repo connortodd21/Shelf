@@ -35,6 +35,7 @@ export class GamesService {
     // tslint:disable-next-line: curly
     if (games.length === 0) return null;
     const gameIds = games.map(a => a.game_id);
+    console.log(gameIds)
     return this.http.post<object>(`http://localhost:8080/games/multiplegameoverviews/${username}`, {
       gameIds
     });
@@ -53,12 +54,14 @@ export class GamesService {
     return this.http.get<GameModel>('http://localhost:8080/user/' + username + '/games-rated');
   }
 
-  submitRatingToUser(newRating: number, oldRating: number, gameId: string): Observable<any> {
+  submitRatingToUser(newRating: number, oldRating: number, gameId: string, coverUrl: string): Observable<any> {
     const username = localStorage.getItem('user');
+    console.log(coverUrl)
     return this.http.post<object>('http://localhost:8080/user/' + username + '/games-rated', {
       gameId,
       newRating,
       oldRating,
+      coverUrl
     });
   }
 
