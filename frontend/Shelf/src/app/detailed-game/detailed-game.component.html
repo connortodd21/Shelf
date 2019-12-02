@@ -6,8 +6,9 @@
         <div class="flex-row center">
             <img src="../../../assets/Arrow.svg" class="back-arrow" (click)="goBack()">
             <h1>{{game.name}}</h1>
-            <button *ngIf="!isWishListed" (click)="addToWishList()" class="wish-list-button">Add game to wish list</button>
-            <button *ngIf="isWishListed" (click)="removeFromWishList()" class="wish-list-button">Remove game from wish list</button>
+            <img *ngIf="isWishListed" class="favorited-button" title="Remove from Wish List" src="../../../assets/Favorited.svg" (click)="removeFromWishList()">
+            <img *ngIf="!isWishListed" class="favorited-button" title="Add To Wish List" src="../../../assets/AddToFavorites.svg" (click)="addToWishList()">
+            
         </div>
 
         <!-- Game Image and Information -->

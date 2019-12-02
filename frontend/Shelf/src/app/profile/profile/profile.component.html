@@ -26,10 +26,11 @@
 <!--        </div>-->
         <!-- Personal Information -->
         <div class="flex-row margin-48" style="align-items: flex-start">
-            <div id="orange-profile-dot"></div>
+            <div id="orange-profile-dot"><img id="top-banner" *ngIf="isTopUser()" src="../../../assets/TopBanner.svg"></div>
+            
             <div id="profile-username">
                 <!-- Owner -->
-                <p class="profile-username-text" *ngIf="user != null && isOwner">Hey there, {{user.username}}!</p>
+                <p class="profile-username-text" *ngIf="user != null && isOwner">{{user.username}}</p>
                 <!-- !Owner -->
                 <p class="profile-username-text" *ngIf="user != null && !isOwner">{{user.username}}</p>
 <!--              <p class="profile-username-text" *ngIf="user != null">{{user.birthday}}</p>-->
@@ -56,8 +57,6 @@
                     <app-user-overview *ngFor="let f of following" [username]="f"></app-user-overview>
                 </div>
             </div>
-
-            <app-top-icon *ngIf="isTopUser()"></app-top-icon>
         </div>
 
 <!--        <p *ngIf="user != null"> Games Played: {{user.gamesPlayed}} </p>-->
