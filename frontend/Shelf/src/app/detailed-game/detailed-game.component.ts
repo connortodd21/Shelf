@@ -153,6 +153,7 @@ export class DetailedGameComponent implements OnInit {
     this.gamesService.upvote(comment.comment_id, this.id).then(res => {
       // window.location.reload();
       this.getTopComments();
+      comment.score += 1
     });
   }
 
