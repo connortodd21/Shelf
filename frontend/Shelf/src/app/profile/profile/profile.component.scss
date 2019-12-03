@@ -158,6 +158,8 @@ h3 {
 
 .header-link {
     margin-top: 48px;
+    display: flex;
+    flex-direction: row;
 }
 
 .messages-list {

@@ -45,7 +45,7 @@
               (click)="toggleFollow()">{{followButtonText}}</button>
             </div>
             <div class="profile-list-users">
-                <h3>Followers</h3>
+                <h3>{{followers.length}} Followers</h3>
                 <div *ngIf="user != null">
 
                     <app-user-overview *ngFor="let f of followers" [username]="f"></app-user-overview>
@@ -53,7 +53,7 @@
             </div>
 
             <div class="profile-list-users">
-                <h3>Following</h3>
+                <h3>{{following.length}} Following</h3>
                 <div *ngIf="user != null">
                     <app-user-overview *ngFor="let f of following" [username]="f"></app-user-overview>
                 </div>

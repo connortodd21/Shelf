@@ -63,11 +63,20 @@
                     class="detailed-game-art" />
             </span>
 
-            <p class="detailed-game-heading top-margin-32">Comments</p>
-            <button (click)="getTopComments()">Top Comments</button>
-            <button (click)="getBottomComments()">Bottom Comments</button>
-            <div class="game-comment" *ngFor="let c of comments" (click)="upvote(c)">
-                <div class="profile-photo"><p style="padding-left: 11px; padding-top: 4px;">{{c.score}}</p></div>
+            <!-- Comments -->
+            
+            <div class="flex-row align-center">
+                <p class="detailed-game-heading top-margin-32">Comments</p>
+                <p class="detailed-game-heading top-margin-32 link" (click)="getTopComments()">Highest Rated</p>
+                <p class="detaield-game-heading top-margin-32 link" (click)="getBottomComments()">Lowest Rated</p>
+            </div>
+            
+            <div class="game-comment" *ngFor="let c of comments" >
+                <div class="flex-column">
+                    <img class="upvote-arrow arrow" (click)="upvote(c)" src="../../assets/CommentArrow.svg">
+                    <img class="downvote-arrow arrow" (click)="downvote(c)" src="../../assets/CommentArrow.svg">
+                </div>
+                <div class="profile-photo"><p>{{c.score}}</p></div>
                 <div class="comment-information ">
                     <div class="flex-row no-padding">
                         <p class="comment-username no-padding">{{c.username}}</p>
