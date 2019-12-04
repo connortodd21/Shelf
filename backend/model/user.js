@@ -19,6 +19,7 @@ let userSchema = new mongoose.Schema({
   games_rated: [{
     game_id: { type: String },
     rating: { type: Number },
+    coverUrl: { type: String },
   }],
   favorites: { type: [String] },
   followers: { type: [String] },
@@ -38,7 +39,12 @@ let userSchema = new mongoose.Schema({
   inboxID: { type: String },
   verificationNum: { type: String},
   verified: { type: Boolean, default: false },
-  messages: { type: [String] }
+  messages: { type: [String] },
+  feed: [{
+    event: { type: String },
+    time_stamp: { type: Date, default: Date.now() },
+    user: { type: String },
+  }]
 })
 
 /* Generate authentication token for user */

@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { GameOverviewModule } from '../game-overview/game-overview.module';
 import { NavModule } from '../nav/nav.module';
 import { DropdownModule } from 'primeng/dropdown';
+import {HomeModule} from "../home/home.module";
+import {PipeModule} from "../filter/pipe.module";
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { DropdownModule } from 'primeng/dropdown';
     RatingModule,
     GameOverviewModule,
     NavModule,
-    DropdownModule
+    DropdownModule,
+    HomeModule,
+    PipeModule
   ]
 })
 export class SearchModule { }

@@ -73,6 +73,21 @@ h1 {
     margin-bottom: 16px;
 }
 
+.link {
+    opacity: 0.75;
+
+    margin-left: 12px;
+}
+
+.align-enter {
+    align-items: center;
+}
+
+.link:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
 .comment-username {
     font-weight: 700;
     font-size: 16px;
@@ -113,8 +128,8 @@ h1 {
 .game-comment {
     display: flex;
     flex-direction: row;
-    padding-bottom: 8px;
-    cursor: pointer;
+    padding-bottom: 16px;
+    align-items: center;
 }
 
 .comment-information{
@@ -124,13 +139,44 @@ h1 {
 }
 
 .profile-photo {
-    display: flex;
-    flex-direction: row;
     width: 32px;
     height: 32px;
     background-color: #FAA61A;
     border-radius: 50px;
-    align-content: center;
+    text-align: center;
+    margin-left: 8px;
+}
+
+.profile-photo p {
+    margin-top: 4px;
+}
+
+.upvote-arrow {
+    width: 16px;
+    margin-bottom: 4px;
+}
+
+.cursor:hover {
+    cursor: pointer;
+}
+
+.arrow {
+    opacity: 0.5;
+}
+
+.arrow:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.downvote-arrow {
+    width: 16px;
+    transform: rotate(180deg);
 }
 
 .detailed-game-badge {
@@ -153,4 +199,25 @@ h1 {
 
 .ratings-label {
     margin-right: 8px;
+}
+
+.wish-list-button {
+    margin-left: 6px;
+}
+
+.favorited-button {
+    margin-left: 8px;
+    width: 24px;
+    height: 24px;
+    margin-top: 4px;
+    opacity: 0.75;
+}
+
+.favorited-button:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+a {
+    cursor: pointer;
 }

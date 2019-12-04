@@ -1,10 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from './profile.service';
 import { ProfileModel } from '../../models/profile.model';
 import { InboxService } from '../../inbox/inbox/inbox.service';
 import { NEW_FOLLOWER_NOTIFICATION } from '../../constants/constants.messages';
 import { GamesService } from 'src/app/games/games.service';
+import {SelectItem} from "primeng/api";
+import {
+  GLOBAL_RATING_ASC,
+  GLOBAL_RATING_DESC,
+  RANDOM_SORTING,
+  USER_RATING_ASC,
+  USER_RATING_DESC
+} from "../../home/home/home.constants";
 
 @Component({
   selector: 'app-profile',
@@ -19,17 +27,28 @@ export class ProfileComponent implements OnInit {
   following: string[];
   queryString: string;
   ratedGames;
+  wishList;
   show: boolean;
   isOwner = false;
   followButtonText: string;
   followStatus: boolean;
+  sortOptions: SelectItem[];
+  selectedOption = RANDOM_SORTING;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {}
+  constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {
+    //Hi this is kind of bad bc it will force ngOnInit to be called every single time
+    //but it was put in to fix the issue where you are on a profile page and click MyShelf
+    //without this, it wouldn't load your prof page bc the component would already be init
+    //normally I would do it a better way but 1 week left so
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
+  }
 
   ngOnInit() {
     const username = this.route.snapshot.params.username;
-
+    this.setSortOptions();
     this.isOwner = this.determineIfOwner(username);
 
     this.profileService.getUserData(username).then(res => {
@@ -38,13 +57,25 @@ export class ProfileComponent implements OnInit {
       this.following = res.following;
       console.log(this.user);
       if (this.user.gamesRated.length > 0) {
-        this.gamesService.getOverviewInfoAboutGames(this.user.gamesRated).subscribe((gamesInfo) => {
+        this.gamesService.getOverviewInfoAboutGames(this.user.gamesRated, this.user.username).subscribe((gamesInfo) => {
           if (gamesInfo !== null || gamesInfo !== undefined) {
             this.ratedGames = gamesInfo;
-            this.addUserRating();
-            this.addGlobalRating();
+            //this.addUserRating();
+            //this.addGlobalRating();
           }
           this.printUsefulInfo();
+        });
+      }
+
+      if (this.user.wishList.length > 0) {
+        const temp = [];
+        for (let i = 0; i < this.user.wishList.length; i++) {
+          temp.push({game_id: this.user.wishList[i]});
+        }
+        this.gamesService.getOverviewInfoAboutGames(temp, this.user.username).subscribe((gamesInfo) => {
+          console.log("Wish listed games");
+          console.log(gamesInfo);
+          this.wishList = gamesInfo;
         });
       }
 
@@ -70,6 +101,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+
   public goToProfile(username) {
     window.location.replace('/profile/' + username);
   }
@@ -88,9 +120,7 @@ export class ProfileComponent implements OnInit {
     this.followers.push(sender);
 
     this.profileService.followUser(receiver).then(() => {
-      this.inboxService.sendNotification(NEW_FOLLOWER_NOTIFICATION(sender, receiver), receiver).then((resp) => {
-        window.location.reload();
-      });
+      this.inboxService.sendNotification(NEW_FOLLOWER_NOTIFICATION(sender, receiver), receiver);
     });
   }
 
@@ -99,57 +129,6 @@ export class ProfileComponent implements OnInit {
       return true;
     }
     return false;
-  }
-
-  private addUserRating() {
-    const map = new Map();
-    // tslint:disable: prefer-for-of
-    for (let i = 0; i < this.user.gamesRated.length; i++) {
-      map.set(this.user.gamesRated[i].game_id, this.user.gamesRated[i].rating);
-    }
-
-    for (let i = 0; i < this.ratedGames.length; i++) {
-      if (map.has(this.ratedGames[i].id.toString())) {
-        this.ratedGames[i].userRating = map.get(this.ratedGames[i].id.toString());
-      }
-    }
-  }
-
-  private addGlobalRating() {
-    this.gamesService.getAllGlobalRatingInfo().subscribe(
-      ratingInfo => {
-
-        const map = new Map();
-        for (let i = 0; i < ratingInfo.length; i++) {
-          map.set(ratingInfo[i].game_id, ratingInfo[i]);
-        }
-
-
-        for (let i = 0; i < this.ratedGames.length; i++) {
-
-          const key = this.ratedGames[i].id.toString();
-
-          if (map.has(key)) {
-            // tslint:disable: no-shadowed-variable
-            const ratingInfo = map.get(key);
-            this.ratedGames[i].number_of_players = ratingInfo.number_of_players;
-            this.ratedGames[i].number_of_ratings = ratingInfo.number_of_ratings;
-            this.ratedGames[i].total_rating_value = ratingInfo.total_rating_value;
-            if (ratingInfo.number_of_ratings === 0) {
-              this.ratedGames[i].globalRating = 0;
-            } else {
-              this.ratedGames[i].globalRating = Math.floor(ratingInfo.total_rating_value / ratingInfo.number_of_ratings);
-            }
-
-          } else {
-            this.ratedGames[i].number_of_players = 0;
-            this.ratedGames[i].number_of_ratings = 0;
-            this.ratedGames[i].total_rating_value = 0;
-            this.ratedGames[i].globalRating = 0;
-          }
-        }
-      }
-    );
   }
 
   private printUsefulInfo() {
@@ -208,6 +187,16 @@ export class ProfileComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  private setSortOptions() {
+    this.sortOptions = [
+      { label: 'Random', value: RANDOM_SORTING },
+      { label: 'Global Rating: Asc', value: GLOBAL_RATING_ASC },
+      { label: 'Global Rating: Desc', value: GLOBAL_RATING_DESC },
+      { label: 'User Rating: Asc', value: USER_RATING_ASC },
+      { label: 'User Rating: Desc', value: USER_RATING_DESC },
+    ];
   }
 
   private setFollowStatus(user: ProfileModel) {

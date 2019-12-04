@@ -6,6 +6,7 @@ var bcrypt = require('bcrypt')
 var authenticate = require('../middleware/authenticate')
 var mailer = require('../middleware/mailer')
 var crypto = require('crypto')
+const updateFeed = require('../middleware/updateFeed')
 
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useNewUrlParser', true);
@@ -71,6 +72,28 @@ router.get("/all-messages", authenticate, (req, res) => {
         console.log(err)
         res.status(500).send(err);
         return
+    })
+})
+
+router.get('/feed', authenticate, (req, res) => {
+    User.findOne({username: req.user.username}).then((usr) => {
+        updateFeed.getCollectiveFeed(req.user).then(feeds => {
+            res.status(200).send(feeds)
+        })
+        return;
+    }).catch(err => {
+        res.status(500).send(err)
+        return;
+    })
+})
+
+router.get('/personal-history', authenticate, (req, res) => {
+    User.findOne({username: req.user.username}).then((usr) => {
+        res.status(200).send(usr.feed)
+        return;
+    }).catch(err => {
+        res.status(500).send(err)
+        return;
     })
 })
 
@@ -245,6 +268,7 @@ router.post('/follow', authenticate, (req, res) => {
                     followers: req.user.username
                 }
             }).then(() => {
+                updateFeed.addToFeed(req.user, updateFeed.USER_FOLLOWED_SOMEONE_ELSE_FEED(req.user.username, req.body.user))
                 res.status(200).send({ message: "You are now following " + req.body.user })
                 return
             })
@@ -325,11 +349,13 @@ router.post("/:username/games-rated", authenticate, (req, res) => {
     //no previous rating
     if (req.body.oldRating === 0 || req.body.oldRating === '0') {
 
+        console.log(req.body.coverUrl);
         User.findOneAndUpdate({ username: req.params.username }, {
             $push: {
                 games_rated: {
                     game_id: req.body.gameId,
                     rating: req.body.newRating,
+                    coverUrl: req.body.coverUrl
                 }
             }
         }).then(usr => {
@@ -349,6 +375,7 @@ router.post("/:username/games-rated", authenticate, (req, res) => {
                 games_rated: {
                     game_id: req.body.gameId,
                     rating: req.body.newRating,
+                    coverUrl: req.body.coverUrl
                 }
             }
         }).then(usr => {
@@ -502,6 +529,44 @@ router.post("/verify-email", (req, res) => {
         console.log(err)
         res.status(500).send(err)
         return;
+    });
+})
+
+router.post('/add-to-wish-list', authenticate, (req, res) => {
+
+    if (!req.body || !req.body.gameName || !req.body.id) {
+        res.status(400).send({ message: "Username or game id not provided" });
+        return;
+    }
+    
+    User.findOneAndUpdate({ username: req.user.username }, {
+        $push: {
+            wish_list: req.body.id
+        }
+    }).then(() => {
+        updateFeed.addToFeed(req.user, updateFeed.WISH_LIST_FEED(req.user.username, req.body.gameName))
+        res.status(200).send({ message: "Game added to wish list" })
+        return;
+    }).catch(err => {
+        res.status(500).send(err);
+        return
+    });
+})
+
+router.post('/remove-from-wish-list', authenticate, (req, res) => {
+    if (!req.body || !req.body.id) {
+        res.status(400).send({ message: "Username or game id not provided" });
+        return;
+    }
+
+    User.findOneAndUpdate({ username: req.user.username }, {
+        $pull: {
+            wish_list: req.body.id
+        }
+    }).then(() => {
+        res.status(200).send({ message: "Game removed from wish list" })
+    }).catch(err => {
+        res.status(500).send(err);
     });
 })
 

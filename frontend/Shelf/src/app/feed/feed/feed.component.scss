@@ -1,0 +1,91 @@
+#full-container {
+    /* Some basic stuff */
+    width: 100%;
+    height: 100%;
+    font-family: 'Karla', sans-serif;
+    background-color: #F8F7FB;
+  
+    /* Flexbox things */
+    display: flex;
+    flex-direction: row;
+  }
+  
+  #content-container {
+    width: 100%;
+    padding: 48px;
+  }
+  
+  h1 {
+    font-weight: 800;
+    font-size: 20pt;
+  }
+  
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+   
+  }
+  
+  .notification-title {
+    font-weight: 700;
+    margin: 0px;
+    font-size: 16px;
+    margin-top: 32px;
+  }
+  
+  .overflow-scroll {
+    overflow: scroll;
+    height: 100%;
+  }
+
+  a {
+    cursor: pointer;
+  }
+
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .no-padding {
+    padding: 0px;
+    margin: 0px;
+  }
+  
+  .comment-username {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  
+  .comment-date {
+    font-size: 14px;
+    padding-left: 8px !important;
+    padding-top: 2px !important;
+    font-style: italic;
+  }
+  
+  .comment-information{
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  a {
+    cursor: pointer;
+  }
+
+  .profile-photo {
+    width: 32px;
+    height: 32px;
+    background-color: #FAA61A;
+    border-radius: 50px;
+    text-align: center;
+    margin-right: 12px;
+  }
+
+  .message {
+    display: flex;
+      flex-direction: row;
+      padding-bottom: 16px;
+      align-items: center;
+  }

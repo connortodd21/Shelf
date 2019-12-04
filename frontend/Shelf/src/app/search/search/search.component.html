@@ -5,7 +5,7 @@
         <!-- Search bar and profile information located at the top of the page -->
         <div id="content-bar">
             <div class="search-wrapper">
-                <input class="search-bar" [(ngModel)]="queryString" placeholder="Search for games" 
+                <input class="search-bar" [(ngModel)]="queryString" placeholder="Search for games"
                 type="text" name="search" id="search-page-search"/>
                 <img src="../../../assets/Nav/Search.svg"/>
                 <input type="image" class="search-button" src="../../../assets/Arrow.svg" (click)="getSearchedGames()"/>
@@ -15,9 +15,9 @@
 
         <div *ngIf="searchedGames" class="header-link"><h1>Search Results for '{{queryString}}'</h1></div>
         <div id="search-results">
-                
-            <span *ngFor="let item of searchedGames; let i = index">
-                    
+
+            <span *ngFor="let item of searchedGames | searchPipe : '' : selectedSortingOption">
+
                 <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating"
                                     [name]=item.name [id]=item.id
                                     [image_id]=item.cover.image_id></app-game-overview>

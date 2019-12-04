@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { GamesService } from '../games/games.service';
 import { COVER_BIG, SCREENSHOT_BIG } from '../constants/constants.images';
 import { Location } from '@angular/common';
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
+import { UserService } from '../user/user.service';
 
 @Component({
   selector: 'app-detailed-game',
@@ -20,8 +22,11 @@ export class DetailedGameComponent implements OnInit {
   userRating: number;
   comments;
   images;
+  gameName: string;
+  isWishListed: boolean;
 
-  constructor(private route: ActivatedRoute, private gamesService: GamesService, private location: Location) {
+  constructor(private route: ActivatedRoute, private gamesService: GamesService,
+              private userService: UserService, private location: Location) {
     this.route.params.subscribe(params => this.id = params.id);
     this.comments = [];
     this.images = [];
@@ -40,9 +45,21 @@ export class DetailedGameComponent implements OnInit {
       this.getDetailedGameData(true);
       this.getComments();
     }
+    this.getIsWishListed();
 
     this.coverPath = COVER_BIG;
     this.screenshotPath = SCREENSHOT_BIG;
+  }
+
+  getIsWishListed() {
+    const username = localStorage.getItem('user');
+    this.userService.fetchUser(username).subscribe(response => {
+      if (response.wish_list.includes(this.id)) {
+        this.isWishListed = true;
+      } else {
+        this.isWishListed = false;
+      }
+    });
   }
 
   getComments(){
@@ -109,10 +126,11 @@ export class DetailedGameComponent implements OnInit {
 
 
   handleRate(event) {
-    this.gamesService.submitRatingToUser(event.value, this.userRating, this.id).subscribe(
+    let coverUrl = "https://images.igdb.com/igdb/image/upload/t_cover_big/" + this.game.cover.image_id + ".jpg";
+    this.gamesService.submitRatingToUser(event.value, this.userRating, this.id, coverUrl).subscribe(
       () => {
 
-        this.gamesService.submitRatingToGame(event.value, this.userRating, this.id).subscribe(
+        this.gamesService.submitRatingToGame(event.value, this.userRating, this.id, this.game.name).subscribe(
           () => {
 
             this.gamesService.getGlobalRatingInfo(this.id).subscribe(
@@ -136,6 +154,8 @@ export class DetailedGameComponent implements OnInit {
   upvote(comment) {
     this.gamesService.upvote(comment.comment_id, this.id).then(res => {
       // window.location.reload();
+      this.getTopComments();
+      comment.score += 1
     });
   }
 
@@ -147,13 +167,27 @@ export class DetailedGameComponent implements OnInit {
 
   addComment(comment) {
     this.gamesService.addComment(comment, this.id).then(res => {
-      // window.location.reload();
+      this.getComments()
     });
   }
 
   deleteComment(comment) {
     this.gamesService.deleteComment(comment.comment_id, this.id).then(res => {
-      // window.location.reload();
+      this.getComments()
+    });
+  }
+
+  getBottomComments(){
+    this.comments.sort((a: { score: number; }, b: { score: number; }) => (a.score > b.score) ? 1 : ((b.score > a.score) ? -1 : 0));
+  }
+
+  getTopComments(){
+    this.comments.sort((a: { score: number; }, b: { score: number; }) => (b.score > a.score) ? 1 : ((a.score > b.score) ? -1 : 0));
+  }
+
+  addToWishList() {
+    this.gamesService.addToWishList(this.id, this.game.name).then(x => {
+      this.isWishListed = true;
     });
   }
 
@@ -170,6 +204,16 @@ export class DetailedGameComponent implements OnInit {
     });
 
     reader.readAsDataURL(file);
+  }
+  
+  removeFromWishList() {
+    this.gamesService.removeFromWishList(this.id).then(x => {
+      this.isWishListed = false;
+    });
+  }
+
+  goToProfile = (username: string) => {
+    window.location.replace(`/profile/${username}`);
   }
 
 }

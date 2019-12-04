@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {UserService} from "../user/user.service";
+import {UserService} from '../user/user.service';
 
 @Component({
   selector: 'app-nav',
@@ -13,13 +13,13 @@ export class NavComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.username = localStorage.getItem("user");
+    this.username = localStorage.getItem('user');
 
   }
 
   logout() {
     console.log('logging out');
-    this.userService.logoutUser()
+    this.userService.logoutUser();
   }
 
 }

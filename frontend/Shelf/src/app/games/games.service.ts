@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Router } from '@angular/router';
 import {Observable} from 'rxjs';
-import {HOME_PAGE} from '../constants/constants.pages';
 import {GameModel} from './game.model';
 import {RatingModel} from '../models/rating.model';
-import {ADD_COMMENT_URL, DELETE_COMMENT_URL, UPVOTE_URL, DOWNVOTE_URL, ADD_IMAGE_URL} from '../constants/constants.urls';
+import {ADD_COMMENT_URL, DELETE_COMMENT_URL, UPVOTE_URL, DOWNVOTE_URL, ADD_IMAGE_URL, ADD_WISH_LIST_URL, REMOVE_WISH_LIST_URL} from '../constants/constants.urls';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +13,13 @@ export class GamesService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  getDashboardGames(): Observable<any> {
-    return this.http.get('http://localhost:8080/games/criticallyacclaimedgames');
+  getDashboardGames(username: String): Observable<any> {
+    return this.http.get(`http://localhost:8080/games/criticallyacclaimedgames/${username}`);
   }
 
-  getSearchedGames(search, sortingOption): Observable<any> {
-    return this.http.post<object>('http://localhost:8080/games/searchedgames', {
+  getSearchedGames(search, username: String): Observable<any> {
+    return this.http.post<object>(`http://localhost:8080/games/searchedgames/${username}`, {
       search,
-      sortingOption
     });
   }
 
@@ -32,11 +30,12 @@ export class GamesService {
     });
   }
 
-  getOverviewInfoAboutGames(games): Observable<any> {
+  getOverviewInfoAboutGames(games, username: String): Observable<any> {
     // tslint:disable-next-line: curly
     if (games.length === 0) return null;
     const gameIds = games.map(a => a.game_id);
-    return this.http.post<object>('http://localhost:8080/games/multiplegameoverviews', {
+    console.log(gameIds)
+    return this.http.post<object>(`http://localhost:8080/games/multiplegameoverviews/${username}`, {
       gameIds
     });
   }
@@ -54,21 +53,23 @@ export class GamesService {
     return this.http.get<GameModel>('http://localhost:8080/user/' + username + '/games-rated');
   }
 
-  submitRatingToUser(newRating: number, oldRating: number, gameId: string): Observable<any> {
+  submitRatingToUser(newRating: number, oldRating: number, gameId: string, coverUrl: string): Observable<any> {
     const username = localStorage.getItem('user');
-    console.log(oldRating);
+    console.log(coverUrl)
     return this.http.post<object>('http://localhost:8080/user/' + username + '/games-rated', {
       gameId,
       newRating,
-      oldRating
+      oldRating,
+      coverUrl
     });
   }
 
-  submitRatingToGame(newRating: string, oldRating: number, gameId: string): Observable<any> {
+  submitRatingToGame(newRating: string, oldRating: number, gameId: string, gameName: string): Observable<any> {
     return this.http.post<object>('http://localhost:8080/ratingInfo/' + gameId, {
       gameId,
       newRating,
-      oldRating
+      oldRating,
+      gameName
     });
   }
 
@@ -119,5 +120,23 @@ export class GamesService {
       data
     }
     return this.http.post(ADD_IMAGE_URL, body).toPromise();
+  }
+
+  addToWishList(id, gameName) {
+    const body = {
+      id,
+      gameName
+    };
+
+    return this.http.post(ADD_WISH_LIST_URL, body).toPromise();
+  }
+
+  removeFromWishList(id) {
+    const body = {
+      id,
+      username: localStorage.getItem('user')
+    };
+
+    return this.http.post(REMOVE_WISH_LIST_URL, body).toPromise();
   }
 }

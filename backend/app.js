@@ -40,7 +40,7 @@ app.use('/message', Message);
 app.use('/ratingInfo', RatingInfo);
 app.use('/inbox', Inbox)
 
-app.get('/', (res, req) => {});
+app.get('/', (res, req) => { });
 
 app.listen(process.env.PORT, () => {
     console.log('The application is running on localhost: ' + process.env.PORT)
