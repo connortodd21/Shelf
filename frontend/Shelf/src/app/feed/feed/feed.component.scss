@@ -37,3 +37,55 @@
     overflow: scroll;
     height: 100%;
   }
+
+  a {
+    cursor: pointer;
+  }
+
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .no-padding {
+    padding: 0px;
+    margin: 0px;
+  }
+  
+  .comment-username {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  
+  .comment-date {
+    font-size: 14px;
+    padding-left: 8px !important;
+    padding-top: 2px !important;
+    font-style: italic;
+  }
+  
+  .comment-information{
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  a {
+    cursor: pointer;
+  }
+
+  .profile-photo {
+    width: 32px;
+    height: 32px;
+    background-color: #FAA61A;
+    border-radius: 50px;
+    text-align: center;
+    margin-right: 12px;
+  }
+
+  .message {
+    display: flex;
+      flex-direction: row;
+      padding-bottom: 16px;
+      align-items: center;
+  }

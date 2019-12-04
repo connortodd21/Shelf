@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from './profile.service';
 import { ProfileModel } from '../../models/profile.model';
@@ -36,7 +36,15 @@ export class ProfileComponent implements OnInit {
   selectedOption = RANDOM_SORTING;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {}
+  constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {
+    //Hi this is kind of bad bc it will force ngOnInit to be called every single time
+    //but it was put in to fix the issue where you are on a profile page and click MyShelf
+    //without this, it wouldn't load your prof page bc the component would already be init
+    //normally I would do it a better way but 1 week left so
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
+  }
 
   ngOnInit() {
     const username = this.route.snapshot.params.username;
@@ -92,6 +100,7 @@ export class ProfileComponent implements OnInit {
       });
     });
   }
+
 
   public goToProfile(username) {
     window.location.replace('/profile/' + username);

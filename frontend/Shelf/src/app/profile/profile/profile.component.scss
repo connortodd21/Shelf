@@ -80,6 +80,11 @@
     overflow: hidden;
     flex-grow: 0;
     flex-shrink: 0;
+    text-align: center;
+}
+
+#top-banner {
+    width: 56px;
 }
 
 #profile-username {
@@ -153,6 +158,8 @@ h3 {
 
 .header-link {
     margin-top: 48px;
+    display: flex;
+    flex-direction: row;
 }
 
 .messages-list {
@@ -169,3 +176,5 @@ h3 {
       overflow: scroll;
       height: 50%;
   }
+
+  

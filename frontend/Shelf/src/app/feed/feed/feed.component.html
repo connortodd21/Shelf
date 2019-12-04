@@ -7,10 +7,19 @@
         <h1 *ngIf="!hasFeed">Whoops, looks like you don't have any events in your feed! Follow some users to begin!</h1>
         <div class="overflow-scroll" *ngIf="hasFeed">
             <!-- ZACH ZACH ZACH, if you could add links for the username (f.user) that would be cool when you do the css -->
-            <div *ngFor="let f of feed">
-                {{f.event}} ||
-                {{f.user}} ||
-                {{f.timeStamp}}
+
+            <div class="message" *ngFor="let f of feed">
+                    <a (click)="goToProfile(f.user)"><div class="profile-photo"></div></a>
+                <div class="message-information">
+                    <div class="flex-row no-padding">
+                            <a (click)="goToProfile(f.user)"><p class="comment-username no-padding">{{f.user}}</p></a>
+                        <p class="no-padding comment-date">{{f.timeStamp | date:'yyyy-MM-dd'}}</p>
+                    </div>
+                    <div class="no-padding">
+                        {{f.event}}
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>

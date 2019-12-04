@@ -153,6 +153,7 @@ export class DetailedGameComponent implements OnInit {
     this.gamesService.upvote(comment.comment_id, this.id).then(res => {
       // window.location.reload();
       this.getTopComments();
+      comment.score += 1
     });
   }
 
@@ -192,6 +193,10 @@ export class DetailedGameComponent implements OnInit {
     this.gamesService.removeFromWishList(this.id).then(x => {
       this.isWishListed = false;
     });
+  }
+
+  goToProfile = (username: string) => {
+    window.location.replace(`/profile/${username}`);
   }
 
 }
