@@ -115,7 +115,6 @@ export class GamesService {
   }
 
   addImage(data) {
-    console.log("In the service!");
     const body = {
       data
     }

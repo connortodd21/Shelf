@@ -2,6 +2,24 @@ var express = require('express');
 var router = express.Router();
 const axios = require('axios');
 let mongoose = require('mongoose');
+
+const multer = require("multer");
+const cloudinary = require("cloudinary");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_KEY,
+    api_secret: process.env.CLOUD_SECRET
+});
+
+const storage = cloudinaryStorage({
+    cloudinary: cloudinary,
+    allowedFormats: ["jpg", "png"],
+    transformation: [{ width: 500, height: 500, crop: "limit" }]
+});
+
+const parser = multer({ storage: storage });
 var authenticate = require('../middleware/authenticate');
 
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTopology: true});
@@ -86,7 +104,8 @@ router.post("/detailedgamedata", authenticate, async (req, res) => {
 
 })
 
-router.post("/addimage", authenticate, async (req, res) => {
+router.post("/addimage", async (req, res) => {
+    console.log('Backend')
     if (!req.body.data) {
         res.status(400).send({ message: "Bad Request: Image data not provided" });
         return;
