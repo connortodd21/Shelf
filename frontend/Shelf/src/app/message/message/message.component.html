@@ -2,11 +2,11 @@
     <app-nav></app-nav>
     <div id="content-container">
         <div class="messaging" *ngIf="messages != null">
-            <h1 id="messages-title">Messages</h1>
+            <h1 id="messages-title">Direct Messages</h1>
             <div class="messages-list">
-                <div *ngFor="let msg of messages">
-                    <b (click)="updateCurrentMessages(msg.receiver, msg.messages)">{{msg.receiver}}</b>
-                    <div *ngIf="receiver === msg.receiver">
+                <div class="flex-column" *ngFor="let msg of messages">
+                    <p class="message-user-name" (click)="updateCurrentMessages(msg.receiver, msg.messages, msg.id)">{{msg.receiver}}</p>
+                    <!-- <div *ngIf="receiver === msg.receiver">
                         <div *ngFor="let m of currentMessages">
                             {{m.message}} ||
                             {{m.sender}} ||
@@ -17,11 +17,33 @@
                                 class="iconSize" (click)="sendMessage(box.value, msg.id, msg.receiver);box.value=''"><i
                                     class="fa fa-angle-double-right"></i></a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
+                
             </div>
 
         </div>
 
+    </div>
+    <div *ngIf="receiver" id="content-container" style="background-color: white; margin-top: 0px;">
+        <h1 id="messages-title">{{receiver}}</h1>
+        <div class="message" *ngFor="let m of currentMessages">
+            <div class="profile-photo"></div>
+            <div class="message-information">
+                <div class="flex-row no-padding">
+                    <p class="comment-username no-padding">{{m.sender}}</p>
+                    <p class="no-padding comment-date">{{m.time_stamp | date:'yyyy-MM-dd'}}</p>
+                </div>
+                <div class="no-padding">
+                    {{m.message}}
+                </div>
+            </div>
+            
+        </div>
+        <div><input #box placeholder="Send message" class="send-message-bar"
+                (keyup.enter)="sendMessage(box.value, messageID, receiver);box.value=''"> <a
+                class="iconSize" (click)="sendMessage(box.value, messageID, receiver);box.value=''"><i
+                    class="fa fa-angle-double-right"></i></a>
+        </div>
     </div>
 </div>

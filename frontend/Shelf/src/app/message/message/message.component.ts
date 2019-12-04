@@ -16,6 +16,7 @@ export class MessageComponent implements OnInit {
   messages: Message[];
   currentMessages: Message;
   receiver: string;
+  messageID: string;
 
   // tslint:disable-next-line: max-line-length
   constructor(private inboxService: InboxService, private router: Router, private messageService: MessageService) {
@@ -36,6 +37,7 @@ export class MessageComponent implements OnInit {
   }
 
   sendMessage(message: string, messageID: string, receiver: string) {
+    console.log(message + ' MessageID ' + messageID + ' Receiver: ' + receiver);
     this.messageService.sendMessage(message, messageID).then(res => {
       const sender = localStorage.getItem('user');
       this.inboxService.sendNotification(SEND_MESSAGE_NOTIFICATION(sender, receiver), receiver).then((resp) => {
@@ -44,13 +46,14 @@ export class MessageComponent implements OnInit {
     });
   }
 
-  updateCurrentMessages(receiver, messages) {
+  updateCurrentMessages(receiver, messages, id) {
     this.currentMessages = messages;
     if (this.receiver === receiver) {
       this.receiver = '';
       return;
     }
     this.receiver = receiver;
+    this.messageID = id;
   }
 
 }
