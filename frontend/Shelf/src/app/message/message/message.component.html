@@ -28,10 +28,10 @@
     <div *ngIf="receiver" id="content-container" style="background-color: white; margin-top: 0px;">
         <h1 id="messages-title">{{receiver}}</h1>
         <div class="message" *ngFor="let m of currentMessages">
-            <div class="profile-photo"></div>
+                <a (click)="goToProfile(m.sender)"><div class="profile-photo"></div></a>
             <div class="message-information">
                 <div class="flex-row no-padding">
-                    <p class="comment-username no-padding">{{m.sender}}</p>
+                        <a (click)="goToProfile(m.sender)"><p class="comment-username no-padding">{{m.sender}}</p></a>
                     <p class="no-padding comment-date">{{m.time_stamp | date:'yyyy-MM-dd'}}</p>
                 </div>
                 <div class="no-padding">

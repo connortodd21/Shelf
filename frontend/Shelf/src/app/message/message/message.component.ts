@@ -55,5 +55,8 @@ export class MessageComponent implements OnInit {
     this.receiver = receiver;
     this.messageID = id;
   }
+  goToProfile = (username: string) => {
+    window.location.replace(`/profile/${username}`);
+  }
 
 }

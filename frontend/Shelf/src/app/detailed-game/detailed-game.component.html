@@ -79,7 +79,7 @@
                 <div class="profile-photo"><p>{{c.score}}</p></div>
                 <div class="comment-information ">
                     <div class="flex-row no-padding">
-                        <p class="comment-username no-padding">{{c.username}}</p>
+                            <a (click)="goToProfile(c.username)"><p class="comment-username no-padding">{{c.username}}</p></a>
                         <p class="no-padding comment-date">{{c.time_stamp | date:'yyyy-MM-dd'}}</p>
                     </div>
                     <div class="no-padding">

@@ -34,5 +34,9 @@ export class FeedComponent implements OnInit {
     });
   }
 
+  goToProfile = (username: string) => {
+    window.location.replace(`/profile/${username}`);
+  }
+
 
 }

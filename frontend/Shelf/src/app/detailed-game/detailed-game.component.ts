@@ -195,4 +195,8 @@ export class DetailedGameComponent implements OnInit {
     });
   }
 
+  goToProfile = (username: string) => {
+    window.location.replace(`/profile/${username}`);
+  }
+
 }
