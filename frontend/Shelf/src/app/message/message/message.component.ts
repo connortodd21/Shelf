@@ -37,11 +37,11 @@ export class MessageComponent implements OnInit {
   }
 
   sendMessage(message: string, messageID: string, receiver: string) {
-    console.log(message + ' MessageID ' + messageID + ' Receiver: ' + receiver);
+
     this.messageService.sendMessage(message, messageID).then(res => {
       const sender = localStorage.getItem('user');
       this.inboxService.sendNotification(SEND_MESSAGE_NOTIFICATION(sender, receiver), receiver).then((resp) => {
-        // window.location.reload();
+        this.refreshMessages()
       });
     });
   }
@@ -59,4 +59,24 @@ export class MessageComponent implements OnInit {
     window.location.replace(`/profile/${username}`);
   }
 
+  handleClick($event: MouseEvent) {
+   this.refreshMessages()
+  }
+
+  refreshMessages() {
+    this.messages = [];
+    this.messageService.getMessages().then((msg: any) => {
+      let i = 0;
+      msg.forEach(element => {
+        this.messages[i++] = new Message(element);
+      });
+
+      this.currentMessages = null
+      console.log(this.messages[0])
+      // @ts-ignore
+      this.currentMessages = this.messages[0].messages
+
+      console.log(this.messages)
+    });
+  }
 }

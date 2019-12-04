@@ -9,7 +9,6 @@ import { ToastModule } from 'primeng/toast';
 import { MessageComponent } from './message/message.component';
 import {NavModule} from '../nav/nav.module';
 
-
 @NgModule({
   declarations: [
     MessageComponent
