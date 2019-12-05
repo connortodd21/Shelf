@@ -5,6 +5,7 @@ import { COVER_BIG, SCREENSHOT_BIG } from '../constants/constants.images';
 import { Location } from '@angular/common';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { UserService } from '../user/user.service';
+import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-detailed-game',
@@ -191,19 +192,14 @@ export class DetailedGameComponent implements OnInit {
     });
   }
 
-  processFile(imageInput) {
-    const file = imageInput.files[0];
-    const reader = new FileReader();
-
-    reader.addEventListener('load', (event: any) => {
-      const data = event.target.result;
-      this.gamesService.addImage(file).then(res => {
-        console.log('Done adding image');
-      });
-      // this.images.push(event.target.result);
-    });
-
-    reader.readAsDataURL(file);
+  processFile(event) {
+    let file = event.target.files[0]
+    let formdata = new FormData()
+    formdata.append('image', file, file.name)
+    formdata.append('gameId', this.id)
+    this.gamesService.addImage(formdata, this.id).then((res) => {
+      console.log(res)
+    })
   }
   
   removeFromWishList() {

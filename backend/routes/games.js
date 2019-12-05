@@ -3,23 +3,11 @@ var router = express.Router();
 const axios = require('axios');
 let mongoose = require('mongoose');
 
-const multer = require("multer");
-const cloudinary = require("cloudinary");
-const cloudinaryStorage = require("multer-storage-cloudinary");
+var multer = require("multer");
+var cloudinary = require("cloudinary");
+var cloudinaryStorage = require("multer-storage-cloudinary");
+var upload = require('../middleware/photoUpload')
 
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_KEY,
-    api_secret: process.env.CLOUD_SECRET
-});
-
-const storage = cloudinaryStorage({
-    cloudinary: cloudinary,
-    allowedFormats: ["jpg", "png"],
-    transformation: [{ width: 500, height: 500, crop: "limit" }]
-});
-
-const parser = multer({ storage: storage });
 var authenticate = require('../middleware/authenticate');
 
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTopology: true});
@@ -104,13 +92,49 @@ router.post("/detailedgamedata", authenticate, async (req, res) => {
 
 })
 
-router.post("/addimage", async (req, res) => {
-    console.log('Backend')
-    if (!req.body.data) {
-        res.status(400).send({ message: "Bad Request: Image data not provided" });
+router.post("/addimage", upload.single("image"), async (req, res) => {
+
+    if (!req.file.url || !req.file.public_id || !req.body.gameId) {
+        res.status(400).send({ message: "Bad request" });
         return;
     }
-    console.log('Adding the image');
+
+    RatingInfo.findOne({ game_id: req.body.gameId }).then((game) => {
+        if (!game) {
+            var newRatingInfo = new RatingInfo({
+                game_id: req.params.gameId,
+                total_rating_value: 0,
+                number_of_players: 0,
+                number_of_ratings: 0,
+                images: [{
+                    url: req.file.url,
+                    id: req.file.public_id
+                }]
+            });
+
+            // Add to database with auth
+            newRatingInfo.save().then(resp => {
+                res.status(200).send({ message: "Photo successfully AND NEW OBJECT CREATED" })
+                return
+            })
+        }
+        RatingInfo.findOneAndUpdate({ game_id: req.body.gameId }, {
+            $push: {
+                images: {
+                    url: req.file.url,
+                    id: req.file.public_id
+                }
+            }
+        }).then((dd) => {
+            // console.log(dd)
+            res.status(200).send({ message: "Photo successfully uploaded" })
+            return
+        }).catch((err) => {
+            res.send(err);
+        })
+    }).catch((err) => {
+        res.send(err);
+    })
 });
 
 router.post("/multiplegameoverviews/:username", authenticate, async (req, res) => {

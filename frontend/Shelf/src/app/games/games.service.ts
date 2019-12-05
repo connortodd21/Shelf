@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Router } from '@angular/router';
 import {Observable} from 'rxjs';
 import {GameModel} from './game.model';
@@ -114,11 +114,15 @@ export class GamesService {
     return this.http.post(DOWNVOTE_URL, data).toPromise();
   }
 
-  addImage(data) {
-    const body = {
-      data
+  addImage(formData, id) {
+    const info = {
+      headers: new HttpHeaders({
+          'Content-Type': 'application/form-data',
+          id
+      })
     }
-    return this.http.post(ADD_IMAGE_URL, body).toPromise();
+    console.log(formData.getAll('image'))
+    return this.http.post(ADD_IMAGE_URL, formData).toPromise();
   }
 
   addToWishList(id, gameName) {
