@@ -7,7 +7,7 @@ import {
   USER_DATA_URL,
   ALL_USERS_URL,
   FOLLOW_URL,
-  UNFOLLOW_URL
+  UNFOLLOW_URL, SOME_USERS_URL
 } from '../../constants/constants.urls';
 import {ProfileModel} from '../../models/profile.model';
 
@@ -29,6 +29,10 @@ export class ProfileService {
     getAllUsers() {
         return this.http.get(ALL_USERS_URL).toPromise();
     }
+
+  getUsersContaining(query: string) {
+    return this.http.get(SOME_USERS_URL + query).toPromise();
+  }
 
     followUser(username: string) {
         return this.http.post(FOLLOW_URL, { user: username }).toPromise();

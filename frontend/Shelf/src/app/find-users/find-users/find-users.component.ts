@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { Router } from '@angular/router';
 import {ProfileService} from "../../profile/profile/profile.service";
-import {ProfileModel} from "../../models/profile.model";
 
 
 @Component({
@@ -9,19 +8,24 @@ import {ProfileModel} from "../../models/profile.model";
   templateUrl: './find-users.component.html',
   styleUrls: ['./find-users.component.scss']
 })
-export class FindUsersComponent implements OnInit {
-
-  users;
+export class FindUsersComponent {
   filterText: string;
+  users;
+
 
   constructor(private router: Router, private profileService: ProfileService) { }
 
-  ngOnInit() {
-
-    this.profileService.getAllUsers().then(users => {
-      this.users = users;
-    });
-
+  updateUserList() {
+    console.log("updating user list")
+    if (!this.filterText || this.filterText.length < 1) {
+      this.users = [];
+    }
+    else {
+      this.profileService.getUsersContaining(this.filterText).then(users => {
+        console.log(users)
+        this.users = users;
+      });
+    }
   }
 
 
