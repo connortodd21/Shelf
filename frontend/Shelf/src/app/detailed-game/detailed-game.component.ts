@@ -216,7 +216,7 @@ export class DetailedGameComponent implements OnInit {
 
   routeToSearch(genre) {
     let routeStringTemp = genre;
-    routeStringTemp.replace('/', '_');
+    routeStringTemp = routeStringTemp.replace('/', '_');
     const routeString = '/search/:' + routeStringTemp;
     this.router.navigate([routeString]);
   }

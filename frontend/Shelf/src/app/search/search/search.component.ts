@@ -15,7 +15,7 @@ export class SearchComponent implements OnInit {
 
   searchedGames;
   tempGames;
-  filteredGames;
+  urlSearch;
   queryString = '';
   sortingOptions: SelectItem[];
   platformOptions: SelectItem[];
@@ -32,6 +32,7 @@ export class SearchComponent implements OnInit {
     this.setSortingOptions();
     this.setGenreOptions();
     this.setPlatformOptions();
+    this.urlSearch = window.location.pathname;
 
     this.router.events.subscribe((evt) => {
         if (evt instanceof ResolveEnd && evt.url.split('/')[1] === 'search') {
@@ -39,6 +40,14 @@ export class SearchComponent implements OnInit {
           this.getSearchedGames();
         }
       });
+
+    if (this.urlSearch.includes('/:')) {
+      this.urlSearch = this.urlSearch.substring(9);
+      this.urlSearch = decodeURIComponent(this.urlSearch);
+      console.log(this.urlSearch);
+      this.queryString = this.urlSearch;
+      this.getSearchedGames();
+    }
 
   }
 
@@ -98,12 +107,98 @@ export class SearchComponent implements OnInit {
   }
 
   private setGenreOptions() {
-    this.gamesService.getGameGenres().subscribe(
-      (response) => {
-        console.log(response);
-        this.genreOptions = response;
+    // this.gamesService.getGameGenres().subscribe(
+    //   (response) => {
+    //     console.log(response);
+    //     this.genreOptions = response;
+    //   }
+    // );
+    this.genreOptions = [
+      {
+        "id": 31,
+        "name": "Adventure"
+      },
+      {
+        "id": 33,
+        "name": "Arcade"
+      },
+      {
+        "id": 4,
+        "name": "Fighting"
+      },
+      {
+        "id": 25,
+        "name": "Hack and slash/Beat 'em up"
+      },
+      {
+        "id": 32,
+        "name": "Indie"
+      },
+      {
+        "id": 7,
+        "name": "Music"
+      },
+      {
+        "id": 30,
+        "name": "Pinball"
+      },
+      {
+        "id": 8,
+        "name": "Platform"
+      },
+      {
+        "id": 2,
+        "name": "Point-and-click"
+      },
+      {
+        "id": 9,
+        "name": "Puzzle"
+      },
+      {
+        "id": 26,
+        "name": "Quiz/Trivia"
+      },
+      {
+        "id": 10,
+        "name": "Racing"
+      },
+      {
+        "id": 11,
+        "name": "Real Time Strategy (RTS)"
+      },
+      {
+        "id": 12,
+        "name": "Role-playing (RPG)"
+      },
+      {
+        "id": 5,
+        "name": "Shooter"
+      },
+      {
+        "id": 13,
+        "name": "Simulator"
+      },
+      {
+        "id": 14,
+        "name": "Sport"
+      },
+      {
+        "id": 15,
+        "name": "Strategy"
+      },
+      {
+        "id": 24,
+        "name": "Tactical"
+      },
+      {
+        "id": 16,
+        "name": "Turn-based strategy (TBS)"
+      },
+      {
+        "id": 34,
+        "name": "Visual Novel"
       }
-    );
+    ]
   }
 
 }

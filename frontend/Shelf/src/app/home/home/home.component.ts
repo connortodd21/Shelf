@@ -9,7 +9,9 @@ import {
   GLOBAL_RATING_DESC,
   RANDOM_SORTING,
   USER_RATING_ASC,
-  USER_RATING_DESC
+  USER_RATING_DESC,
+  CRIT_SORT,
+  UPCOMING_SORT,
 } from './home.constants';
 
 @Component({
@@ -21,15 +23,21 @@ export class HomeComponent implements OnInit {
 
   user: UserModel;
   dashboardGames;
+  upcomingGameDates;
+  upcomingGames;
   filterText: string;
   sortOptions: SelectItem[];
+  viewOptions: SelectItem[];
+  selectedViewOption = CRIT_SORT;
   selectedOption = RANDOM_SORTING;
 
   constructor(private router: Router, private userService: UserService, private gamesService: GamesService) { }
   ngOnInit() {
     this.setupUser();
     this.getDashboardGames();
+    this.getUpcomingGames();
     this.setSortOptions();
+    this.setViewOptions();
   }
 
 
@@ -51,18 +59,35 @@ export class HomeComponent implements OnInit {
   }
 
   private getDashboardGames() {
-
     this.gamesService.getDashboardGames(localStorage.getItem('user')).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.dashboardGames = response;
-
         if (response) {
           this.shuffle(response);
         }
 
       }
     );
+  }
+
+  private getUpcomingGames() {
+    this.upcomingGames = [];
+    this.gamesService.getUpcomingGameDates(localStorage.getItem('user')).subscribe(
+      (response) => {
+        this.upcomingGameDates = response;
+        for (const item of this.upcomingGameDates) {
+          this.upcomingGames.push({game_id: item.game});
+        }
+        this.gamesService.getOverviewInfoAboutGames(this.upcomingGames, localStorage.getItem('user')).subscribe(
+          (response) => {
+            this.upcomingGames = response;
+            console.log(response);
+          }
+        );
+      }
+    );
+    console.log(this.upcomingGames);
   }
 
   public goToProfile() {
@@ -76,6 +101,13 @@ export class HomeComponent implements OnInit {
       { label: 'Global Rating: Desc', value: GLOBAL_RATING_DESC },
       { label: 'User Rating: Asc', value: USER_RATING_ASC },
       { label: 'User Rating: Desc', value: USER_RATING_DESC },
+    ];
+  }
+
+  private setViewOptions() {
+    this.viewOptions = [
+      { label: 'Top Rated', value: CRIT_SORT },
+      { label: 'Coming Soon', value: UPCOMING_SORT },
     ];
   }
 
