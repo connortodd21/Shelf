@@ -115,7 +115,7 @@ export class MessageComponent implements OnInit {
     }
     else {
       this.profileService.getUsersContaining(this.filterText).then(users => {
-        console.log(users)
+        // console.log(users)
         this.users = users;
       });
     }
