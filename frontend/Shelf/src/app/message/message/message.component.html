@@ -27,25 +27,28 @@
     </div>
     <div *ngIf="receiver" id="content-container" style="background-color: white; margin-top: 0px;">
         <h1 id="messages-title">{{receiver}}</h1>
-        <div class="message" *ngFor="let m of currentMessages">
+        <div id="message-container" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+            <div class="message" *ngFor="let m of currentMessages">
                 <a (click)="goToProfile(m.sender)"><div class="profile-photo"></div></a>
-            <div class="message-information">
-                <div class="flex-row no-padding">
-                        <a (click)="goToProfile(m.sender)"><p class="comment-username no-padding">{{m.sender}}</p></a>
-                    <p class="no-padding comment-date">{{m.time_stamp | date:'yyyy-MM-dd'}}</p>
+                <div class="message-information">
+                    <div class="flex-row no-padding">
+                            <a (click)="goToProfile(m.sender)"><p class="comment-username no-padding">{{m.sender}}</p></a>
+                        <p class="no-padding comment-date">{{m.time_stamp | date:'yyyy-MM-dd'}}</p>
+                    </div>
+                    <div class="no-padding">
+                        {{m.message}}
+                    </div>
                 </div>
-                <div class="no-padding">
-                    {{m.message}}
-                </div>
-            </div>
 
+            </div>
         </div>
+        
         <div><input #box placeholder="Send message" class="send-message-bar"
                 (keyup.enter)="sendMessage(box.value, messageID, receiver);box.value=''"> <a
                 class="iconSize" (click)="sendMessage(box.value, messageID, receiver);box.value=''"><i
                     class="fa fa-angle-double-right"></i></a>
         </div>
-        <button pButton type="button" label="Refresh" (click)="handleClick($event)" class="ui-button-raised ui-button-secondary"></button>
+        <button pButton style="margin-left: 48px" type="button" label="Refresh Messages" (click)="handleClick($event)" class="ui-button-raised ui-button-secondary"></button>
       
     </div>
     <div id="content-container" style="background-color: white; margin-top: 0px;" *ngIf="showDetails">

@@ -12,6 +12,12 @@
   
   #content-container {
     width: 100%;
+    
+  }
+
+  #message-container {
+    height: 75%;
+    overflow: scroll;
   }
   
   h1 {
