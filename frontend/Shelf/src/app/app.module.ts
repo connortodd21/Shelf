@@ -16,6 +16,7 @@ import { ProfileModule } from './profile/profile.module';
 import { InboxModule } from './inbox/inbox.module';
 import { NavModule } from './nav/nav.module';
 import { GameOverviewModule } from './game-overview/game-overview.module';
+import { BasicGameOverviewModule } from './basic-game-overview/basic-game-overview.module';
 import { SettingsModule } from './settings/settings.module';
 import { SearchModule } from './search/search.module';
 import { FindUsersModule } from './find-users/find-users.module';
@@ -52,9 +53,10 @@ import { MessageModule } from './message/message.module';
     UserOverviewModule,
     LeaderboardModule,
     FeedModule,
-    MessageModule
+    MessageModule,
+    BasicGameOverviewModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

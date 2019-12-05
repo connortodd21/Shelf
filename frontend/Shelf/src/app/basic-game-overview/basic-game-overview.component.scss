@@ -1,0 +1,25 @@
+.game-overview-container:hover {
+    transform: scale(1.01);
+    cursor: pointer;
+}
+
+.game-overview-container {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.rating-label {
+    margin: 0px;
+}
+
+.game-overview-text {
+    color: black;
+    font-family: 'Karla', sans-serif;
+    font-size: 20px;
+    padding: 8px;
+    padding-left: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

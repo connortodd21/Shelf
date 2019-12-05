@@ -44,6 +44,11 @@ let userSchema = new mongoose.Schema({
     event: { type: String },
     time_stamp: { type: Date, default: Date.now() },
     user: { type: String },
+    userRatedGame: {type: Boolean},
+    game_id: { type: String },
+    rating: { type: Number },
+    globalRating: {type: Number},
+    gameName: {type: String},
   }]
 })
 
