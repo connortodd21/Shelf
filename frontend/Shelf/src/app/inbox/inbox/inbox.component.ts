@@ -40,11 +40,11 @@ export class InboxComponent implements OnInit {
   }
 
   // This is what the 'X' calls to clear the notifications. I have no idea how to get the messageID for markAsRead()
-  // clearNotifications() {
-  //   this.inbox.forEach(i => {
-  //     this.inboxService.markAsRead(i.);
-  //   });
-  // }
+  clearNotifications() {
+    this.inboxService.clearNotifications().then(res => {
+      console.log(res)
+    })
+  }
 
   renderComponent(location: string) {
     if (location === 'messages') {

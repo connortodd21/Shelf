@@ -102,12 +102,26 @@ router.post('/mark-as-read', authenticate, (req, res) => {
         var temp = com.comments
         Inbox.findByIdAndUpdate({ _id: req.user.inboxID }, {
             $set: {
-                'notifications': temp
+                'notification': temp
             }
         }).then(() => {
             res.status(200).send({ message: 'Notification successfully marked as read' })
             return;
         })
+    }).catch((err) => {
+        res.status(500).send(err);
+        return;
+    })
+})
+
+router.post("/clear-all", authenticate, (req, res) => {
+    Inbox.findByIdAndUpdate({_id: req.user.inboxID}, {
+        $set: {
+            notification: []
+        }
+    }).then(() => {
+        res.status(200).send({ message: 'Notifications successfully cleared' })
+        return;
     }).catch((err) => {
         res.status(500).send(err);
         return;

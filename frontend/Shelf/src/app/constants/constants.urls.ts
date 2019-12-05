@@ -26,3 +26,4 @@ export const ADD_IMAGE_URL = 'http://localhost:8080/games/addimage';
 export const GET_FEED_URL = 'http://localhost:8080/user/feed';
 export const ADD_WISH_LIST_URL = 'http://localhost:8080/user/add-to-wish-list';
 export const REMOVE_WISH_LIST_URL = 'http://localhost:8080/user/remove-from-wish-list';
+export const CLEAR_NOTIFICATIONS_URL = 'http://localhost:8080/inbox/clear-all';

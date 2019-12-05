@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ADD_NOTIFICATION_URL, DELETE_NOTIFICATION_URL, GET_INBOX_URL, MARK_AS_READ_URL } from '../../constants/constants.urls';
+import { ADD_NOTIFICATION_URL, DELETE_NOTIFICATION_URL, GET_INBOX_URL, MARK_AS_READ_URL, CLEAR_NOTIFICATIONS_URL } from '../../constants/constants.urls';
 import { Inbox } from '../../models/inbox.model';
 
 @Injectable({ providedIn: 'root' })
@@ -28,6 +28,10 @@ export class InboxService {
 
   markAsRead(notificationID: string) {
     return this.http.post(MARK_AS_READ_URL, {notificationID} ).toPromise();
+  }
+
+  clearNotifications(){
+    return this.http.post(CLEAR_NOTIFICATIONS_URL, {} ).toPromise();
   }
 
 }
