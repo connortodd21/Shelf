@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'leaderboard-entry',
@@ -10,13 +11,13 @@ export class LeaderboardEntryComponent implements OnInit {
   @Input() username: string;
   @Input() score: string;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    
+
   }
 
   public goToProfile() {
-    window.location.replace(`/profile/${this.username}`);
+    this.router.navigateByUrl(`/profile/${this.username}`)
   }
 }

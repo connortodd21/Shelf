@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { GamesService } from '../games/games.service';
 import { COVER_BIG, SCREENSHOT_BIG } from '../constants/constants.images';
 import { Location } from '@angular/common';
@@ -26,7 +26,7 @@ export class DetailedGameComponent implements OnInit {
   isWishListed: boolean;
 
   constructor(private route: ActivatedRoute, private gamesService: GamesService,
-              private userService: UserService, private location: Location) {
+              private userService: UserService, private location: Location, private router: Router) {
     this.route.params.subscribe(params => this.id = params.id);
     this.comments = [];
     this.images = [];
@@ -103,7 +103,7 @@ export class DetailedGameComponent implements OnInit {
             }
           }
         );
-        
+
         this.gamesService.fetchUserRating(this.id).subscribe(
           response => {
             this.userRating = response.rating;
@@ -157,7 +157,6 @@ export class DetailedGameComponent implements OnInit {
 
   upvote(comment) {
     this.gamesService.upvote(comment.comment_id, this.id).then(res => {
-      // window.location.reload();
       this.getTopComments();
       comment.score += 1
     });
@@ -165,7 +164,6 @@ export class DetailedGameComponent implements OnInit {
 
   downvote(comment) {
     this.gamesService.downvote(comment.comment_id, this.id).then(res => {
-      // window.location.reload();
       comment.score -= 1
     });
   }
@@ -207,7 +205,7 @@ export class DetailedGameComponent implements OnInit {
       console.log(res)
     })
   }
-  
+
   removeFromWishList() {
     this.gamesService.removeFromWishList(this.id).then(x => {
       this.isWishListed = false;
@@ -215,7 +213,7 @@ export class DetailedGameComponent implements OnInit {
   }
 
   goToProfile = (username: string) => {
-    window.location.replace(`/profile/${username}`);
+    this.router.navigateByUrl(`/profile/${username}`)
   }
 
 }

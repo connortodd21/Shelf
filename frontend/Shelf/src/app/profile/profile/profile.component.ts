@@ -102,10 +102,6 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  public goToProfile(username) {
-    window.location.replace('/profile/' + username);
-  }
-
   public followUser(user) {
     const confirm = window.confirm('Are you sure you want to follow ' + user.username);
     if (confirm === false) {
