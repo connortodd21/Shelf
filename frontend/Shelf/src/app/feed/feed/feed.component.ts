@@ -30,6 +30,7 @@ export class FeedComponent implements OnInit {
       if (i !== 0) {
         this.hasFeed = true;
       }
+      console.log(this.feed)
       // tslint:disable: max-line-length
       this.feed.sort((a: {timeStamp: Date}, b: {timeStamp: Date}) => (new Date(b.timeStamp) > new Date(a.timeStamp)) ? 1 : (new Date(a.timeStamp) > new Date(b.timeStamp)) ? -1 : 0);
     });

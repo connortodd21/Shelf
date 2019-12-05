@@ -6,7 +6,6 @@
         <h1 *ngIf="hasFeed">Your Shelf Feed:</h1>
         <h1 *ngIf="!hasFeed">Whoops, looks like you don't have any events in your feed! Follow some users to begin!</h1>
         <div class="overflow-scroll" *ngIf="hasFeed">
-            <!-- ZACH ZACH ZACH, if you could add links for the username (f.user) that would be cool when you do the css -->
 
             <div class="message" *ngFor="let f of feed">
                     <a (click)="goToProfile(f.user)"><div class="profile-photo"></div></a>
@@ -17,7 +16,10 @@
                     </div>
                     <div class="no-padding">
                         {{f.event}}
+                        <app-basic-game-overview *ngIf="f.userRatedGame" 
+                        [userRating]="f.rating" [id]=f.game_id [name]="f.gameName" [user]="f.user"></app-basic-game-overview>
                     </div>
+                   
                 </div>
                 
             </div>

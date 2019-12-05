@@ -281,7 +281,7 @@ router.post('/follow', authenticate, (req, res) => {
                     followers: req.user.username
                 }
             }).then(() => {
-                updateFeed.addToFeed(req.user, updateFeed.USER_FOLLOWED_SOMEONE_ELSE_FEED(req.user.username, req.body.user))
+                updateFeed.addToFeed(req.user, updateFeed.USER_FOLLOWED_SOMEONE_ELSE_FEED(req.user.username, req.body.user), false, null)
                 res.status(200).send({ message: "You are now following " + req.body.user })
                 return
             })
@@ -557,7 +557,7 @@ router.post('/add-to-wish-list', authenticate, (req, res) => {
             wish_list: req.body.id
         }
     }).then(() => {
-        updateFeed.addToFeed(req.user, updateFeed.WISH_LIST_FEED(req.user.username, req.body.gameName))
+        updateFeed.addToFeed(req.user, updateFeed.WISH_LIST_FEED(req.user.username, req.body.gameName), false, null)
         res.status(200).send({ message: "Game added to wish list" })
         return;
     }).catch(err => {

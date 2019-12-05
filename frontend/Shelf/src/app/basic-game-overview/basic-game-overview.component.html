@@ -1,0 +1,15 @@
+<div class="game-overview-container">
+    <div (click)="gotoDetailedGameView()">
+        <div class="game-overview-text">
+            {{name}}
+        </div>
+    </div>
+
+    <div>
+        <div *ngIf="globalRating != null || userRating != null" class="rating-label"> {{user}}'s Rating<p-rating stars="5"
+                [readonly]="true" [disabled]="true" [cancel]="false"
+                [ngModel]="userRating"></p-rating>
+        </div>
+    </div>
+
+</div>

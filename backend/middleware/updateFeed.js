@@ -29,19 +29,39 @@ const PLAYED_GAME_FEED = (user, game) => {
     return (user + 'has just played \'' + game + '\'!');
 };
 
-const addToFeed = function (user, event) {
-    User.findOneAndUpdate({ username: user.username }, {
-        $push: {
-            feed: {
-                event: event,
-                user: user.username,
-                time_stamp: Date.now()
+const addToFeed = function (user, event, hasGame, game, gameName) {
+    if(hasGame){
+        User.findOneAndUpdate({ username: user.username }, {
+            $push: {
+                feed: {
+                    event: event,
+                    user: user.username,
+                    time_stamp: Date.now(),
+                    userRatedGame: true,
+                    game_id: game.game_id,
+                    rating: game.rating,
+                    gameName: gameName,
+                }
             }
-        }
-    }).catch(err => {
-        console.log(err)
-        return;
-    })
+        }).catch(err => {
+            console.log(err)
+            return;
+        })
+    }
+    else{
+        User.findOneAndUpdate({ username: user.username }, {
+            $push: {
+                feed: {
+                    event: event,
+                    user: user.username,
+                    time_stamp: Date.now()
+                }
+            }
+        }).catch(err => {
+            console.log(err)
+            return;
+        })
+    }
 }
 
 const getCollectiveFeed = async function (user) {

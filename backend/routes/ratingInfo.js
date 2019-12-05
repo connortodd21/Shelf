@@ -189,6 +189,10 @@ router.post("/:gameId", authenticate, async (req, res) => {
     RatingInfo.findOne({ game_id: req.params.gameId }).then(ratingInfo => {
 
         // console.log(ratingInfo)
+        const game = {
+            game_id: req.params.gameId,
+            rating: req.body.newRating
+        }
 
         if (!ratingInfo) {
             var newRatingInfo = new RatingInfo({
@@ -199,6 +203,8 @@ router.post("/:gameId", authenticate, async (req, res) => {
                 images: []
             });
 
+            
+
             // Add to database with auth
             newRatingInfo.save().then(resp => {
                 if (req.body.oldRating === 0 || req.body.oldRating === '0') {
@@ -208,7 +214,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                             total_rating_value: req.body.newRating
                         }
                     }).exec().then(usr => {
-                        updateFeed.addToFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
+                        updateFeed.addToFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating), true, game, req.body.gameName)
                         res.status(200).send({
                             message: req.body.gameId + " added to ratingInfo list for first" +
                                 " time!1"
@@ -244,7 +250,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                             total_rating_value: (req.body.newRating - req.body.oldRating)
                         }
                     }).then(usr => {
-                        updateFeed.addToFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
+                        updateFeed.addToFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating), true, game, req.body.gameName)
                         res.status(200).send({ message: req.body.gameId + " updated to previous rating info1" })
                         return
                     }).catch((err) => {
@@ -263,7 +269,7 @@ router.post("/:gameId", authenticate, async (req, res) => {
                         total_rating_value: req.body.newRating
                     }
                 }).exec().then(usr => {
-                    updateFeed.addToFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
+                    updateFeed.addToFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating), true, game, req.body.gameName)
                     res.status(200).send({ message: req.body.gameId + " added to rating info for first time2!" })
                     return
                 }).catch((err) => {
@@ -290,13 +296,14 @@ router.post("/:gameId", authenticate, async (req, res) => {
             }
             else {
                 //previous rating
+                console.log(game)
                 RatingInfo.findOneAndUpdate({ game_id: req.params.gameId }, {
                     $inc: {
                         number_of_ratings: 0,
                         total_rating_value: (req.body.newRating - req.body.oldRating)
                     }
                 }).then(usr => {
-                    updateFeed.addToFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating))
+                    updateFeed.addToFeed(req.user, updateFeed.USER_RATED_GAME_FEED(req.user.username, req.body.gameName, req.body.newRating), true, game, req.body.gameName)
                     res.status(200).send({ message: req.body.gameId + " updated previous rating info 2" })
                     return
                 }).catch((err) => {
