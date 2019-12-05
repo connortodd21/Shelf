@@ -84,7 +84,7 @@ export class DetailedGameComponent implements OnInit {
         this.game = response.shift();
         this.game.release_date = this.getDateString(this.game.first_release_date);
         this.artworkUrls = [];
-        if (this.game.artworks){
+        if (this.game.artworks) {
           this.game.artworks.forEach(artwork => {
             this.artworkUrls.push(`${SCREENSHOT_BIG}${artwork.image_id}.jpg`);
           });
@@ -92,15 +92,19 @@ export class DetailedGameComponent implements OnInit {
 
         console.log(shouldFetchRatings);
 
-        if (shouldFetchRatings) {
-          this.gamesService.getGlobalRatingInfo(this.id).subscribe(
-            // tslint:disable: no-shadowed-variable
-            response => {
-              console.log(response);
-              this.globalRating = response.total_rating_value / response.number_of_ratings;
+        this.gamesService.getGlobalRatingInfo(this.id).subscribe(
+          // tslint:disable: no-shadowed-variable
+          resp => {
+            if (shouldFetchRatings) {
+              console.log(resp);
+              this.globalRating = resp.total_rating_value / resp.number_of_ratings;
             }
-          );
-        }
+            for (let i = 0; i < resp.images.length; i++) {
+              this.images.push(resp.images[i].url);
+            }
+          }
+        );
+        
         this.gamesService.fetchUserRating(this.id).subscribe(
           response => {
             this.userRating = response.rating;
@@ -195,9 +199,11 @@ export class DetailedGameComponent implements OnInit {
   processFile(event) {
     let file = event.target.files[0]
     let formdata = new FormData()
+    console.log(file)
     formdata.append('image', file, file.name)
     formdata.append('gameId', this.id)
     this.gamesService.addImage(formdata, this.id).then((res) => {
+      this.images.push(res['url'])
       console.log(res)
     })
   }

@@ -100,9 +100,10 @@ router.post("/addimage", upload.single("image"), async (req, res) => {
     }
 
     RatingInfo.findOne({ game_id: req.body.gameId }).then((game) => {
+        console.log(game)
         if (!game) {
             var newRatingInfo = new RatingInfo({
-                game_id: req.params.gameId,
+                game_id: req.body.gameId,
                 total_rating_value: 0,
                 number_of_players: 0,
                 number_of_ratings: 0,
@@ -114,24 +115,25 @@ router.post("/addimage", upload.single("image"), async (req, res) => {
 
             // Add to database with auth
             newRatingInfo.save().then(resp => {
-                res.status(200).send({ message: "Photo successfully AND NEW OBJECT CREATED" })
+                res.status(200).send({ message: "Photo successfully AND NEW OBJECT CREATED",  url: req.file.url })
                 return
             })
-        }
-        RatingInfo.findOneAndUpdate({ game_id: req.body.gameId }, {
-            $push: {
-                images: {
-                    url: req.file.url,
-                    id: req.file.public_id
+        } else {
+            RatingInfo.findOneAndUpdate({ game_id: req.body.gameId }, {
+                $push: {
+                    images: {
+                        url: req.file.url,
+                        id: req.file.public_id
+                    }
                 }
-            }
-        }).then((dd) => {
-            // console.log(dd)
-            res.status(200).send({ message: "Photo successfully uploaded" })
-            return
-        }).catch((err) => {
-            res.send(err);
-        })
+            }).then((dd) => {
+                // console.log(dd)
+                res.status(200).send({ message: "Photo successfully uploaded", url: req.file.url })
+                return
+            }).catch((err) => {
+                res.send(err);
+            })
+        }
     }).catch((err) => {
         res.send(err);
     })
