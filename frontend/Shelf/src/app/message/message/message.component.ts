@@ -67,7 +67,7 @@ export class MessageComponent implements OnInit {
     this.showDetails = false;
   }
   goToProfile = (username: string) => {
-    window.location.replace(`/profile/${username}`);
+    this.router.navigateByUrl(`/profile/${username}`)
   }
 
   handleClick($event: MouseEvent) {
