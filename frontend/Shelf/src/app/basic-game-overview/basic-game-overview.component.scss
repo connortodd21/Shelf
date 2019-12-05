@@ -3,6 +3,12 @@
     cursor: pointer;
 }
 
+.game-overview-container {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
 .rating-label {
     margin: 0px;
 }

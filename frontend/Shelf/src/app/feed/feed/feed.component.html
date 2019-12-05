@@ -11,11 +11,11 @@
                     <a (click)="goToProfile(f.user)"><div class="profile-photo"></div></a>
                 <div class="message-information">
                     <div class="flex-row no-padding">
-                            <a (click)="goToProfile(f.user)"><p class="comment-username no-padding">{{f.user}}</p></a>
+                            <a (click)="goToProfile(f.user)"><p class="comment-username no-padding">{{f.user}}<a *ngIf="f.userRatedGame"> rated a game.</a></p></a>
                         <p class="no-padding comment-date">{{f.timeStamp | date:'yyyy-MM-dd'}}</p>
                     </div>
                     <div class="no-padding">
-                        {{f.event}}
+                        <div *ngIf="!f.userRatedGame">{{f.event}}</div>
                         <app-basic-game-overview *ngIf="f.userRatedGame" 
                         [userRating]="f.rating" [id]=f.game_id [name]="f.gameName" [user]="f.user"></app-basic-game-overview>
                     </div>
