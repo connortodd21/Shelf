@@ -4,6 +4,7 @@ import { SEND_MESSAGE_NOTIFICATION } from '../../constants/constants.messages';
 import { InboxService } from 'src/app/inbox/inbox/inbox.service';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
+import {ProfileService} from "../../profile/profile/profile.service";
 
 
 @Component({
@@ -18,9 +19,11 @@ export class MessageComponent implements OnInit {
   receiver: string;
   messageID: string;
   showDetails: boolean;
+  users;
+  filterText: string;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private inboxService: InboxService, private router: Router, private messageService: MessageService) {
+  constructor(private inboxService: InboxService, private router: Router, private messageService: MessageService, private profileService: ProfileService) {
     this.messages = [];
     this.showDetails = false;
   }
@@ -95,6 +98,25 @@ export class MessageComponent implements OnInit {
     const me = localStorage.getItem('user');
     this.messageService.newConversation(username, me).then(res => {
       this.getMessages();
+      this.showDetails = false;
+      this.receiver = username;
+      this.refreshMessages()
+
     });
+
+
+  }
+
+  updateUserList() {
+    console.log("updating user list")
+    if (!this.filterText || this.filterText.length < 1) {
+      this.users = [];
+    }
+    else {
+      this.profileService.getUsersContaining(this.filterText).then(users => {
+        console.log(users)
+        this.users = users;
+      });
+    }
   }
 }

@@ -42,33 +42,39 @@
 
             </div>
         </div>
-        
+
         <div><input #box placeholder="Send message" class="send-message-bar"
                 (keyup.enter)="sendMessage(box.value, messageID, receiver);box.value=''"> <a
                 class="iconSize" (click)="sendMessage(box.value, messageID, receiver);box.value=''"><i
                     class="fa fa-angle-double-right"></i></a>
         </div>
         <button pButton style="margin-left: 48px" type="button" label="Refresh Messages" (click)="handleClick($event)" class="ui-button-raised ui-button-secondary"></button>
-      
+
     </div>
     <div id="content-container" style="background-color: white; margin-top: 0px;" *ngIf="showDetails">
         <h1 id="messages-title">New Message</h1>
         <!-- Here's the input -->
-        <input #box placeholder="Find user" class="send-message-bar"
-                (keyup.enter)="null">
+<!--        <input #box placeholder="Find user" class="send-message-bar"-->
+<!--                (keyup.enter)="null">-->
         <!--
             These are how the users are displayed. Replace the 'zzzzzz' with the profile name and
             change the (click) to whatever you need to start a new message with the person.
             Hopefully this makes your life easier!
                 -Zach
         -->
-        <div class="profile-link" (click)="null">
-            <div class="profile-photo"></div>
-            <a class="profile-name">{{'zzzzzz'}}</a>
+
+      <input (keyup)="updateUserList()" class="send-message-bar" [(ngModel)]="filterText"
+             placeholder="Find a user"/>
+
+      <div *ngFor="let user of users">
+        <div class="profile-link" (click)="newMessage(user.username)">
+          <div class="profile-photo"></div>
+          <a class="profile-name">{{user.username}}</a>
         </div>
-        <div class="profile-link" (click)="null">
-            <div class="profile-photo"></div>
-            <a class="profile-name">{{'aaaaaaaa'}}</a>
-        </div>
+    </div>
+<!--        <div class="profile-link" (click)="null">-->
+<!--            <div class="profile-photo"></div>-->
+<!--            <a class="profile-name">{{'aaaaaaaa'}}</a>-->
+<!--        </div>-->
     </div>
 </div>
