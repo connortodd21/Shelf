@@ -5,14 +5,14 @@
   <div id="content-container">
 
     
-      <h1 *ngIf="hasNotifications">Notifications:</h1>
+      <h1 *ngIf="hasNotifications">Notifications <a title="Clear Notifications" (click)="clearNotifications()">X</a></h1>
       <h1 *ngIf="!hasNotifications">Whoops, looks like you don't have any notifications!</h1>
     <!-- Display notifications -->
     <div class="overflow-scroll" *ngIf="hasNotifications">
        <div *ngFor="let i of inbox">
-         <p *ngIf="i.type == 'message'" class="notification-title">📣 From <a class="notification-link" (click)="renderComponent('messages')" >{{i.sender}}</a> on {{i.timeStamp | date:'yyyy-MM-dd'}} </p>
-         <p *ngIf="i.type == 'follower'" class="notification-title">📣 From <a class="notification-link" (click)="renderComponent(i.sender)" >{{i.sender}}</a> on {{i.timeStamp | date:'yyyy-MM-dd'}} </p>
-         <p>{{i.message}}</p>
+         <p *ngIf="i.type == 'message' && !i.hasBeenRead" class="notification-title">📣 From <a class="notification-link" (click)="renderComponent('messages')" >{{i.sender}}</a> on {{i.timeStamp | date:'yyyy-MM-dd'}} </p>
+         <p *ngIf="i.type == 'follower' && !i.hasBeenRead" class="notification-title">📣 From <a class="notification-link" (click)="renderComponent(i.sender)" >{{i.sender}}</a> on {{i.timeStamp | date:'yyyy-MM-dd'}} </p>
+         <p *ngIf="!i.hasBeenRead">{{i.message}}</p>
        </div>
     </div>
   </div>

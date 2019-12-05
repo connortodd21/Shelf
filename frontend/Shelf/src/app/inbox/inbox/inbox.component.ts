@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Inbox } from '../../models/inbox.model';
 import { InboxService } from './inbox.service';
 import { Router } from '@angular/router';
+import { MARK_AS_READ_URL } from 'src/app/constants/constants.urls';
 
 @Component({
   selector: 'app-inbox',
@@ -37,6 +38,13 @@ export class InboxComponent implements OnInit {
       }
     });
   }
+
+  // This is what the 'X' calls to clear the notifications. I have no idea how to get the messageID for markAsRead()
+  // clearNotifications() {
+  //   this.inbox.forEach(i => {
+  //     this.inboxService.markAsRead(i.);
+  //   });
+  // }
 
   renderComponent(location: string) {
     if (location === 'messages') {
