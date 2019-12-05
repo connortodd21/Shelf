@@ -67,6 +67,9 @@ router.post('/new', authenticate, (req, res) => {
                     { $and: [{ firstUser: req.body.secondUser }, { secondUser: req.body.firstUser }] }]
             }).then(msg => {
                 if (!msg) {
+
+                    console.log(1)
+
                     var newMessage = new Message({
                         firstUser: req.body.firstUser,
                         secondUser: req.body.secondUser
@@ -118,6 +121,10 @@ router.post('/new', authenticate, (req, res) => {
             })
 
         })
+    }).catch((err) => {
+        console.log(err)
+        res.status(500).send(err)
+        return
     })
 
 })
