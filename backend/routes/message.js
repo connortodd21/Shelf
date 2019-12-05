@@ -67,32 +67,49 @@ router.post('/new', authenticate, (req, res) => {
                     { $and: [{ firstUser: req.body.secondUser }, { secondUser: req.body.firstUser }] }]
             }).then(msg => {
                 if (!msg) {
+
+                    console.log(1)
+
                     var newMessage = new Message({
                         firstUser: req.body.firstUser,
                         secondUser: req.body.secondUser
                     })
 
-                    console.log(newMessage._id)
+                    // console.log(newMessage._id)
 
                     User.findOneAndUpdate({ username: req.body.firstUser }, {
                         $push: {
                             messages: newMessage._id
                         }
                     }).then(() => {
-                        User.findOneAndUpdate({ username: req.body.secondUser }, {
-                            $push: {
-                                messages: newMessage._id
-                            }
-                        }).then(() => {
+                        if (req.body.firstUser !== req.body.secondUser) {
+                            User.findOneAndUpdate({ username: req.body.secondUser }, {
+                                $push: {
+                                    messages: newMessage._id
+                                }
+                            }).then(() => {
+                                newMessage.save().then(() => {
+                                    res.status(200).send(newMessage);
+                                    return;
+                                }).catch((err) => {
+                                    console.log(err)
+                                    res.status(500).send(err)
+                                    return;
+                                })
+                            })
+                        }
+                        else {
                             newMessage.save().then(() => {
                                 res.status(200).send(newMessage);
                                 return;
                             }).catch((err) => {
+                                console.log(err)
                                 res.status(500).send(err)
                                 return;
                             })
-                        })
+                        }
                     }).catch((err) => {
+                        console.log(err)
                         res.status(500).send(err)
                         return
                     })
@@ -104,6 +121,10 @@ router.post('/new', authenticate, (req, res) => {
             })
 
         })
+    }).catch((err) => {
+        console.log(err)
+        res.status(500).send(err)
+        return
     })
 
 })
