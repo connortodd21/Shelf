@@ -76,7 +76,8 @@ router.post("/add-comment", authenticate, (req, res) => {
                 game_id: req.body.gameID,
                 total_rating_value: 0,
                 number_of_players: 0,
-                number_of_ratings: 0
+                number_of_ratings: 0,
+                images: []
             });
 
             // Add to database with auth
@@ -194,7 +195,8 @@ router.post("/:gameId", authenticate, async (req, res) => {
                 game_id: req.params.gameId,
                 total_rating_value: 0,
                 number_of_players: 0,
-                number_of_ratings: 0
+                number_of_ratings: 0,
+                images: []
             });
 
             // Add to database with auth
