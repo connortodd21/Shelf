@@ -1,4 +1,4 @@
-<div id="full-container"> 
+<div id="full-container">
 
   <app-nav></app-nav>
 
@@ -6,27 +6,19 @@
 
     <div id="content-bar">
         <div class="search-wrapper">
-            <input class="search-bar" [(ngModel)]="filterText" placeholder="Search for users"/>
+            <input (keyup)="updateUserList()" class="search-bar" [(ngModel)]="filterText"
+                   placeholder="Search for users"/>
             <img src="../../../assets/Nav/Search.svg"/>
         </div>
     </div>
 
     <h1>Filtered Users List</h1>
+    <p *ngIf="users && users.length > 1">({{users.length}} matches found)</p>
+    <p *ngIf="users && users.length == 1">({{users.length}} match found)</p>
+    <p *ngIf="!users">(0 matches found)</p>
     <div class="overflow-scroll">
-        <app-user-overview *ngFor="let user of users | userSearchPipe : filterText" [username]="user.username"></app-user-overview>
+        <app-user-overview *ngFor="let user of users" [username]="user.username"></app-user-overview>
     </div>
-    
-    <!-- <div id="content-bar">
-      <div class="search-wrapper">
-        <input class="search-bar" [(ngModel)]="filterText" placeholder="Search for users"/>
-        <img class="search-pic"src="../../../assets/Nav/Search.svg"/>
-        <br>
-      </div>
-      <br>
-      <br>
 
-      
-
-  </div> -->
 </div>
 </div>

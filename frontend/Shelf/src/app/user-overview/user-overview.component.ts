@@ -18,7 +18,7 @@ export class UserOverviewComponent implements OnInit {
   }
 
   goToProfile = () => {
-    window.location.replace(`/profile/${this.username}`);
+    this.router.navigateByUrl(`/profile/${this.username}`, )
   }
 
 }

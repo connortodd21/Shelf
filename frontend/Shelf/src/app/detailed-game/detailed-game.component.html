@@ -71,36 +71,37 @@
                 <p class="detailed-game-heading top-margin-32 link" (click)="getTopComments()">Highest Rated</p>
                 <p class="detaield-game-heading top-margin-32 link" (click)="getBottomComments()">Lowest Rated</p>
             </div>
-            
-            <div class="game-comment" *ngFor="let c of comments" >
-                <div class="flex-column">
-                    <img class="upvote-arrow arrow" (click)="upvote(c)" src="../../assets/CommentArrow.svg">
-                    <img class="downvote-arrow arrow" (click)="downvote(c)" src="../../assets/CommentArrow.svg">
-                </div>
-                <div class="profile-photo"><p>{{c.score}}</p></div>
-                <div class="comment-information ">
-                    <div class="flex-row no-padding">
-                            <a (click)="goToProfile(c.username)"><p class="comment-username no-padding">{{c.username}}</p></a>
-                        <p class="no-padding comment-date">{{c.time_stamp | date:'yyyy-MM-dd'}}</p>
-                    </div>
-                    <div class="no-padding">
-                        {{c.comment}}
-                    </div>
-                    
-                </div>
-            </div>
             <span>
                 <!-- Ability to add comment -->
                 <div><input #box placeholder="Add Comment" class="send-message-bar"
                     (keyup.enter)="addComment(box.value);box.value=''"></div>
             </span>
+            <div id="game-comment-container" >
+                <div class="game-comment" *ngFor="let c of comments" >
+                    <div class="flex-column">
+                        <img class="upvote-arrow arrow" (click)="upvote(c)" src="../../assets/CommentArrow.svg">
+                        <img class="downvote-arrow arrow" (click)="downvote(c)" src="../../assets/CommentArrow.svg">
+                    </div>
+                    <div class="profile-photo"><p>{{c.score}}</p></div>
+                    <div class="comment-information ">
+                        <div class="flex-row no-padding">
+                                <a (click)="goToProfile(c.username)"><p class="comment-username no-padding">{{c.username}}</p></a>
+                            <p class="no-padding comment-date">{{c.time_stamp | date:'yyyy-MM-dd'}}</p>
+                        </div>
+                        <div class="no-padding">
+                            {{c.comment}}
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
 
 
 
-            <p class="detailed-game-heading top-margin-32">Uploaded images</p>
-                <input #imageInput type="file" accept="image/*" (change)="processFile($event)">
+            <p class="detailed-game-heading top-margin-32">User Images<input #imageInput type="file" accept="image/*" (change)="processFile($event)"></p>
+                
                 <img *ngFor="let image of images; let i = index" src="{{image}}"
-                        class="detailed-game-art" />
+                        class="detailed-game-art-user" />
         </div>
 
     </div>

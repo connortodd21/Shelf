@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FeedService } from './feed.service';
 import { Feed } from '../../models/feed.model';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -13,7 +14,7 @@ export class FeedComponent implements OnInit {
   feed: Feed[];
   hasFeed: boolean;
 
-  constructor(private feedService: FeedService) {
+  constructor(private feedService: FeedService, private router: Router) {
     this.feed = [];
     this.hasFeed = false;
   }
@@ -35,7 +36,7 @@ export class FeedComponent implements OnInit {
   }
 
   goToProfile = (username: string) => {
-    window.location.replace(`/profile/${username}`);
+    this.router.navigateByUrl(`/profile/${username}`)
   }
 
 
