@@ -39,11 +39,13 @@ export class DetailedGameComponent implements OnInit {
       this.userRating = history.state.userRating;
       this.getDetailedGameData(false);
       this.getComments();
+      this.getTopComments()
     }
     // tslint:disable: one-line
     else {
       this.getDetailedGameData(true);
       this.getComments();
+      this.getTopComments();
     }
     this.getIsWishListed();
 
