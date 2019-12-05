@@ -79,12 +79,15 @@ export class MessageComponent implements OnInit {
         this.messages[i++] = new Message(element);
       });
 
-      this.currentMessages = null
-      console.log(this.messages[0])
-      // @ts-ignore
-      this.currentMessages = this.messages[0].messages
+      this.currentMessages = null;
 
-      console.log(this.messages)
+      for (let i = 0; i < this.messages.length; i++) {
+        if (this.receiver === this.messages[i].receiver) {
+          // @ts-ignore
+          this.currentMessages = this.messages[i].messages
+          break;
+        }
+      }
     });
   }
 
