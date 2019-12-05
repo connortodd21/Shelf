@@ -45,6 +45,7 @@
                 class="iconSize" (click)="sendMessage(box.value, messageID, receiver);box.value=''"><i
                     class="fa fa-angle-double-right"></i></a>
         </div>
+        <button pButton type="button" label="Refresh" (click)="handleClick($event)" class="ui-button-raised ui-button-secondary"></button>
       
     </div>
     <div id="content-container" style="background-color: white; margin-top: 0px;" *ngIf="showDetails">
