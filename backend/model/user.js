@@ -70,7 +70,6 @@ userSchema.statics.findByToken = function (token) {
   } catch (err) {
     return Promise.reject();
   }
-
   return User.findOne({
     _id: decodedTokenObj._id,
     'tokens.token': token,
