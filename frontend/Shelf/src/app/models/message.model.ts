@@ -2,6 +2,7 @@ export class Message {
     receiver: string;
     id: string;
     messages: any[] = [];
+    time_stamp: string;
 
     constructor(response: any) {
         if (localStorage.getItem('user') === response.firstUser) {
