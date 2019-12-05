@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Message } from 'src/app/models/message.model';
-import { SEND_MESSAGE_NOTIFICATION } from '../../constants/constants.messages';
-import { InboxService } from 'src/app/inbox/inbox/inbox.service';
-import { Router } from '@angular/router';
-import { MessageService } from './message.service';
+import {Component, OnInit} from '@angular/core';
+import {Message} from 'src/app/models/message.model';
+import {SEND_MESSAGE_NOTIFICATION} from '../../constants/constants.messages';
+import {InboxService} from 'src/app/inbox/inbox/inbox.service';
+import {Router} from '@angular/router';
+import {MessageService} from './message.service';
 import {ProfileService} from "../../profile/profile/profile.service";
 
 
@@ -98,10 +98,11 @@ export class MessageComponent implements OnInit {
     const me = localStorage.getItem('user');
     this.messageService.newConversation(username, me).then(res => {
       this.getMessages();
+      let temp: any = res;
+      this.messageID = temp._id
       this.showDetails = false;
       this.receiver = username;
       this.refreshMessages()
-
     });
 
 
