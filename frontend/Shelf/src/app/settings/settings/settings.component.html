@@ -18,7 +18,7 @@
                             long</div>
                     </div>
                 </div>
-    
+
                 <div class="form-group">
                     <p class="input_title">Confirm New Password</p>
                     <input type="password" class="form-control" autocomplete="new-password" size="30" id="confirmPassword"
@@ -28,16 +28,16 @@
                         <div *ngIf="changePasswordForm.hasError('notSame')">Passwords do not match</div>
                     </div>
                 </div>
-        
-                <p-button label="Update Password" type="submit" styleClass="ui-button-raised ui-button-secondary" class="secondary_button">
+
+                <p-button label="Update Password" styleClass="ui-button-raised ui-button-secondary" class="secondary_button">
                 </p-button>
-        
+
                 <br>
                 <div *ngIf="status === 'passwordError'" class="alert alert-danger" role="alert">
-                    A Fatal Error Has Occoured. PLease Try Again Later.
+                    A Fatal Error Has occurred. PLease Try Again Later.
                 </div>
             </form>
-            
+
         <!-- Change Email -->
             <h3>Change Email</h3>
             <form (submit)="changeEmail(changeEmailForm)" [formGroup]="changeEmailForm">
@@ -50,7 +50,7 @@
                         <div *ngIf="changeEmailForm.controls.email.errors.required">Please enter your email</div>
                     </div>
                 </div>
-        
+
                 <div class="form-group">
                     <p class="input_title">Confirm New Email</p>
                     <input type="email" class="form-control" autocomplete="new-email" size="30" id="confirmEmail" ng-required
@@ -61,10 +61,10 @@
                     </div>
                     <div *ngIf="changeEmailForm.controls.email.errors">Please enter a valid email</div>
                 </div>
-        
-                <p-button label="Update Email" type="submit" styleClass="ui-button-raised ui-button-secondary" class="secondary_button">
+
+                <p-button label="Update Email" styleClass="ui-button-raised ui-button-secondary" class="secondary_button">
                 </p-button>
-        
+
                 <br>
                 <div *ngIf="status === 'emailError'" class="alert alert-danger" role="alert">
                     A fatal error has occurred. Please try again later.
@@ -75,7 +75,7 @@
                 </div>
             </form>
     </div>
-    
+
 
 </div>
 

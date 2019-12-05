@@ -34,6 +34,8 @@ export class ProfileComponent implements OnInit {
   followStatus: boolean;
   sortOptions: SelectItem[];
   selectedOption = RANDOM_SORTING;
+  showFollowers: boolean;
+  showFollowing: boolean;
 
   // tslint:disable-next-line: max-line-length
   constructor(private inboxService: InboxService, private route: ActivatedRoute, private profileService: ProfileService, private gamesService: GamesService, private router: Router) {
@@ -44,6 +46,9 @@ export class ProfileComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = function() {
       return false;
     };
+
+    this.showFollowers = false;
+    this.showFollowing = false;
   }
 
   ngOnInit() {
@@ -101,10 +106,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-
-  public goToProfile(username) {
-    window.location.replace('/profile/' + username);
-  }
 
   public followUser(user) {
     const confirm = window.confirm('Are you sure you want to follow ' + user.username);

@@ -1,8 +1,8 @@
 <div id="full-container">
     <app-nav></app-nav>
-    <div id="content-container">
+    <div id="smaller">
         <div class="messaging" *ngIf="messages != null">
-            <h1 id="messages-title">Direct Messages</h1>
+            <h1 id="messages-title">Direct Messages <img (click)="switchDetails()" id="new-message" src="../../../assets/NewMessage.svg"></h1>
             <div class="messages-list">
                 <div class="flex-column" *ngFor="let msg of messages">
                     <p class="message-user-name" (click)="updateCurrentMessages(msg.receiver, msg.messages, msg.id)">{{msg.receiver}}</p>
@@ -27,24 +27,54 @@
     </div>
     <div *ngIf="receiver" id="content-container" style="background-color: white; margin-top: 0px;">
         <h1 id="messages-title">{{receiver}}</h1>
-        <div class="message" *ngFor="let m of currentMessages">
+        <div id="message-container" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+            <div class="message" *ngFor="let m of currentMessages">
                 <a (click)="goToProfile(m.sender)"><div class="profile-photo"></div></a>
-            <div class="message-information">
-                <div class="flex-row no-padding">
-                        <a (click)="goToProfile(m.sender)"><p class="comment-username no-padding">{{m.sender}}</p></a>
-                    <p class="no-padding comment-date">{{m.time_stamp | date:'yyyy-MM-dd'}}</p>
+                <div class="message-information">
+                    <div class="flex-row no-padding">
+                            <a (click)="goToProfile(m.sender)"><p class="comment-username no-padding">{{m.sender}}</p></a>
+                        <p class="no-padding comment-date">{{m.time_stamp | date:'yyyy-MM-dd'}}</p>
+                    </div>
+                    <div class="no-padding">
+                        {{m.message}}
+                    </div>
                 </div>
-                <div class="no-padding">
-                    {{m.message}}
-                </div>
-            </div>
 
+            </div>
         </div>
+
         <div><input #box placeholder="Send message" class="send-message-bar"
                 (keyup.enter)="sendMessage(box.value, messageID, receiver);box.value=''"> <a
                 class="iconSize" (click)="sendMessage(box.value, messageID, receiver);box.value=''"><i
                     class="fa fa-angle-double-right"></i></a>
         </div>
-      <button pButton type="button" label="Refresh" (click)="handleClick($event)" class="ui-button-raised ui-button-secondary"></button>
+        <button pButton style="margin-left: 48px" type="button" label="Refresh Messages" (click)="handleClick($event)" class="ui-button-raised ui-button-secondary"></button>
+
+    </div>
+    <div id="content-container" style="background-color: white; margin-top: 0px;" *ngIf="showDetails">
+        <h1 id="messages-title">New Message</h1>
+        <!-- Here's the input -->
+<!--        <input #box placeholder="Find user" class="send-message-bar"-->
+<!--                (keyup.enter)="null">-->
+        <!--
+            These are how the users are displayed. Replace the 'zzzzzz' with the profile name and
+            change the (click) to whatever you need to start a new message with the person.
+            Hopefully this makes your life easier!
+                -Zach
+        -->
+
+      <input (keyup)="updateUserList()" class="send-message-bar" [(ngModel)]="filterText"
+             placeholder="Find a user"/>
+
+      <div *ngFor="let user of users">
+        <div class="profile-link" (click)="newMessage(user.username)">
+          <div class="profile-photo"></div>
+          <a class="profile-name">{{user.username}}</a>
+        </div>
+    </div>
+<!--        <div class="profile-link" (click)="null">-->
+<!--            <div class="profile-photo"></div>-->
+<!--            <a class="profile-name">{{'aaaaaaaa'}}</a>-->
+<!--        </div>-->
     </div>
 </div>

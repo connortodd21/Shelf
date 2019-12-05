@@ -82,8 +82,7 @@ export class LoginComponent implements OnInit {
         (res) => {
           console.log(res);
           this.showRegistrationSuccess();
-          //this.loginUser(form);
-          window.location.replace('/login');
+          this.isRegistering = false;
         },
         error => {
           console.log(error);
@@ -159,6 +158,7 @@ export class LoginComponent implements OnInit {
     }).catch(err => {
 
     });
+
   }
 
   forgotPassword(form) {
@@ -178,7 +178,8 @@ export class LoginComponent implements OnInit {
             this.error = 'fatalModal';
           }
         });
-    window.location.replace('/login');
+
+   this.modalService.dismissAll()
   }
 
   verifyEmail(form) {
@@ -188,7 +189,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.loginService.verifyEmail(form.value.email, form.value.verificationNum).then(res => {
-      window.location.replace('/login');
+      this.modalService.dismissAll()
     }).catch(error => {
       console.log(this.error);
       this.error = error.error.message;
@@ -198,7 +199,7 @@ export class LoginComponent implements OnInit {
       else if (error.error.message === 'Verification code does not match') {
         this.error = 'wrongVerificationNum';
       }
-      else if (error.error.message === 'his error probably means that this email does not exist in the databse') {
+      else if (error.error.message === 'Email not found in database') {
         this.error = 'probablyWrongEmail';
       }
       else {

@@ -25,7 +25,7 @@
 
 <!--        </div>-->
         <!-- Personal Information -->
-        <div class="flex-row margin-48" style="align-items: flex-start">
+        <div class="flex-row" style="align-items: flex-start">
             <div id="orange-profile-dot"><img id="top-banner" *ngIf="allUsers && isTopUser()"
                                               src="../../../assets/TopBanner.svg"></div>
 
@@ -44,20 +44,23 @@
               <button *ngIf="!isOwner && !followStatus" class="messagesButton-follow" mdbBtn type="button" color="info"
               (click)="toggleFollow()">{{followButtonText}}</button>
             </div>
-            <div *ngIf="followers" class="profile-list-users">
-                <h3>{{followers.length}} Followers</h3>
-                <div *ngIf="user != null">
-
-                    <app-user-overview *ngFor="let f of followers" [username]="f"></app-user-overview>
+            <div>
+                <div *ngIf="followers" class="profile-list-users">
+                    <h3 (click)="showFollowers = true; showFollowing = false;" >{{followers.length}} Followers</h3>
+                    <!-- <div *ngIf="user != null">
+    
+                        <app-user-overview *ngFor="let f of followers" [username]="f"></app-user-overview>
+                    </div> -->
+                </div>
+    
+                <div *ngIf="following" class="profile-list-users">
+                    <h3 (click)="showFollowing = true; showFollowers = false;">{{following.length}} Following</h3>
+                    <!-- <div *ngIf="user != null">
+                        <app-user-overview *ngFor="let f of following" [username]="f"></app-user-overview>
+                    </div> -->
                 </div>
             </div>
-
-            <div *ngIf="following" class="profile-list-users">
-                <h3>{{following.length}} Following</h3>
-                <div *ngIf="user != null">
-                    <app-user-overview *ngFor="let f of following" [username]="f"></app-user-overview>
-                </div>
-            </div>
+            
         </div>
 
 <!--        <p *ngIf="user != null"> Games Played: {{user.gamesPlayed}} </p>-->
@@ -107,4 +110,20 @@
 <!--                    (click)="sendMessage(box.value);box.value=''"><i class="fa fa-angle-double-right"></i></a></div>-->
 <!--        </div>-->
     </div>
+    <div *ngIf="showFollowers || showFollowing" (click)="showFollowers=false; showFollowing=false" id="grey"></div>
+    <div class="follow-popup" *ngIf="showFollowers">
+        <div *ngIf="user != null">
+            <h1>Followers</h1>
+            <h1 (click)="showFollowers = false" style="right: 48px; position: fixed; top: 48px; cursor: pointer;">X</h1>
+            <app-user-overview *ngFor="let f of followers" [username]="f"></app-user-overview>
+        </div>
+    </div>
+    <div class="follow-popup" *ngIf="showFollowing">
+        <div *ngIf="user != null">
+            <h1>Following</h1>
+            <h1 (click)="showFollowing = false" style="right: 48px; position: fixed; top: 48px; cursor: pointer;">X</h1>
+            <app-user-overview *ngFor="let f of following" [username]="f"></app-user-overview>
+        </div>
+    </div>
+    
 </div>

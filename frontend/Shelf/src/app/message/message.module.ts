@@ -8,6 +8,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ToastModule } from 'primeng/toast';
 import { MessageComponent } from './message/message.component';
 import {NavModule} from '../nav/nav.module';
+import { UserOverviewModule } from '../user-overview/user-overview.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {NavModule} from '../nav/nav.module';
     FormsModule,
     ToastModule,
     ReactiveFormsModule,
-    NavModule
+    NavModule,
+    UserOverviewModule
   ]
 })
 export class MessageModule { }
