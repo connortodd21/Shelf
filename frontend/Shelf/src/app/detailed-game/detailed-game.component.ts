@@ -166,6 +166,7 @@ export class DetailedGameComponent implements OnInit {
   downvote(comment) {
     this.gamesService.downvote(comment.comment_id, this.id).then(res => {
       // window.location.reload();
+      comment.score -= 1
     });
   }
 

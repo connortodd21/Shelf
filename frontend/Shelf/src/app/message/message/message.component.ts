@@ -79,4 +79,11 @@ export class MessageComponent implements OnInit {
       console.log(this.messages)
     });
   }
+
+  newMessage(username: string) {
+    const me = localStorage.getItem('user');
+    this.messageService.newConversation(username, me).then(res => {
+      this.getMessages();
+    });
+  }
 }
