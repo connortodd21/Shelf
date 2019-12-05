@@ -87,13 +87,12 @@ router.get("/gamegenres", authenticate, async (req, res) => {
  * Get games from search query from the search page
  */
 router.post("/searchedgames/:username", authenticate, async (req, res) => {
-    console.log('HERE HERE HERE HERE HERE HERE');
     let body = `fields id,name,cover.image_id,platforms,genres; limit 50; 
     where version_parent = null ; search \"${req.body.search}\";`
     if (req.body.genreID !== 0) {
         body = `fields id,name,cover.image_id,platforms,genres,popularity; limit 50;
-        sort popularity desc;
-        where version_parent = null & genres = ${req.body.genreID} ;`;
+        sort popularity asc;
+        where version_parent = null & genres = ${req.body.genreID};`;
     }
 
     const url = 'https://api-v3.igdb.com/games';

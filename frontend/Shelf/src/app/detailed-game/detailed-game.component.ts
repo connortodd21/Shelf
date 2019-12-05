@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { GamesService } from '../games/games.service';
 import { COVER_BIG, SCREENSHOT_BIG } from '../constants/constants.images';
 import { Location } from '@angular/common';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { UserService } from '../user/user.service';
-import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-detailed-game',
@@ -26,7 +26,7 @@ export class DetailedGameComponent implements OnInit {
   gameName: string;
   isWishListed: boolean;
 
-  constructor(private route: ActivatedRoute, private gamesService: GamesService,
+  constructor(private router: Router, private route: ActivatedRoute, private gamesService: GamesService,
               private userService: UserService, private location: Location) {
     this.route.params.subscribe(params => this.id = params.id);
     this.comments = [];
@@ -104,7 +104,7 @@ export class DetailedGameComponent implements OnInit {
             }
           }
         );
-        
+
         this.gamesService.fetchUserRating(this.id).subscribe(
           response => {
             this.userRating = response.rating;
@@ -212,6 +212,13 @@ export class DetailedGameComponent implements OnInit {
     this.gamesService.removeFromWishList(this.id).then(x => {
       this.isWishListed = false;
     });
+  }
+
+  routeToSearch(genre) {
+    let routeStringTemp = genre;
+    routeStringTemp.replace('/', '_');
+    const routeString = '/search/:' + routeStringTemp;
+    this.router.navigate([routeString]);
   }
 
   goToProfile = (username: string) => {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ResolveEnd, Router } from '@angular/router';
+import { ActivatedRoute, ResolveEnd, Router } from '@angular/router';
 import { UserService } from '../../user/user.service';
 import { GamesService } from '../../games/games.service';
 import { SelectItem} from 'primeng/api';
@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit {
   selectedPlatformOption = 0;
   selectedGenreOption = 0;
 
-  constructor(private router: Router, private gamesService: GamesService) {
+  constructor(private route: ActivatedRoute, private router: Router, private gamesService: GamesService) {
 
   }
 
@@ -45,7 +45,7 @@ export class SearchComponent implements OnInit {
   public getSearchedGames() {
     let genreSearchID = 0;
     for (const item of this.genreOptions) {
-      if (this.queryString.toLowerCase().search(item.name.toLowerCase()) !== -1) {
+      if (item.name.toLowerCase().search(this.queryString.toLowerCase()) !== -1) {
         genreSearchID = item.id;
       }
     }
@@ -100,6 +100,7 @@ export class SearchComponent implements OnInit {
   private setGenreOptions() {
     this.gamesService.getGameGenres().subscribe(
       (response) => {
+        console.log(response);
         this.genreOptions = response;
       }
     );

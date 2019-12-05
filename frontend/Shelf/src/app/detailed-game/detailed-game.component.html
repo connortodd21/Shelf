@@ -22,7 +22,8 @@
                 <div id="game-info">
                     <span *ngIf="game.genres" class="detailed-game-badge-container">
                         <p class="detailed-game-heading">Genre</p>
-                        <span *ngFor="let genre of game.genres; let i = index" class="detailed-game-badge">
+                        <span *ngFor="let genre of game.genres; let i = index" 
+                            class="detailed-game-badge" (click)="routeToSearch(genre.name)">
                             {{genre.name}}
                         </span>
                     </span>
