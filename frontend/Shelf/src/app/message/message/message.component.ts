@@ -17,10 +17,17 @@ export class MessageComponent implements OnInit {
   currentMessages: Message;
   receiver: string;
   messageID: string;
+  showDetails: boolean;
 
   // tslint:disable-next-line: max-line-length
   constructor(private inboxService: InboxService, private router: Router, private messageService: MessageService) {
     this.messages = [];
+    this.showDetails = false;
+  }
+
+  switchDetails() {
+    this.showDetails = !this.showDetails;
+    this.receiver = null;
   }
 
   ngOnInit() {
@@ -54,6 +61,7 @@ export class MessageComponent implements OnInit {
     }
     this.receiver = receiver;
     this.messageID = id;
+    this.showDetails = false;
   }
   goToProfile = (username: string) => {
     window.location.replace(`/profile/${username}`);

@@ -1,8 +1,8 @@
 <div id="full-container">
     <app-nav></app-nav>
-    <div id="content-container">
+    <div id="smaller">
         <div class="messaging" *ngIf="messages != null">
-            <h1 id="messages-title">Direct Messages</h1>
+            <h1 id="messages-title">Direct Messages <img (click)="switchDetails()" id="new-message" src="../../../assets/NewMessage.svg"></h1>
             <div class="messages-list">
                 <div class="flex-column" *ngFor="let msg of messages">
                     <p class="message-user-name" (click)="updateCurrentMessages(msg.receiver, msg.messages, msg.id)">{{msg.receiver}}</p>
@@ -45,6 +45,26 @@
                 class="iconSize" (click)="sendMessage(box.value, messageID, receiver);box.value=''"><i
                     class="fa fa-angle-double-right"></i></a>
         </div>
-      <button pButton type="button" label="Refresh" (click)="handleClick($event)" class="ui-button-raised ui-button-secondary"></button>
+      
+    </div>
+    <div id="content-container" style="background-color: white; margin-top: 0px;" *ngIf="showDetails">
+        <h1 id="messages-title">New Message</h1>
+        <!-- Here's the input -->
+        <input #box placeholder="Find user" class="send-message-bar"
+                (keyup.enter)="null">
+        <!--
+            These are how the users are displayed. Replace the 'zzzzzz' with the profile name and
+            change the (click) to whatever you need to start a new message with the person.
+            Hopefully this makes your life easier!
+                -Zach
+        -->
+        <div class="profile-link" (click)="null">
+            <div class="profile-photo"></div>
+            <a class="profile-name">{{'zzzzzz'}}</a>
+        </div>
+        <div class="profile-link" (click)="null">
+            <div class="profile-photo"></div>
+            <a class="profile-name">{{'aaaaaaaa'}}</a>
+        </div>
     </div>
 </div>
