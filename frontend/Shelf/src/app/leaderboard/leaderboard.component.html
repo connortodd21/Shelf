@@ -3,10 +3,11 @@
     <div id="content-container">
         <div id="leaderboard-entries">
             <h1>Top 10 Shelf Users</h1>
-            <p>Here's a peak at our most active users! Scores are calcuated based on the number of games you rate, and the number of followers you have.</p>
-            <leaderboard-entry *ngFor="let user of userList" [username]="user.username" 
+            <p>Here's a peak at our most active users! Scores are calculated based on the number of games you rate
+              and the number of followers you have.</p>
+            <leaderboard-entry *ngFor="let user of userList" [username]="user.username"
                 [score]="user.followers.length * 2 + user.gamesRated.length"></leaderboard-entry>
         </div>
     </div>
-    
+
 </div>
