@@ -130,6 +130,13 @@ h1 {
     flex-direction: row;
     padding-bottom: 16px;
     align-items: center;
+    
+}
+
+#game-comment-container {
+    max-height: 400px;
+    overflow: scroll;
+    margin-top: 24px;
 }
 
 .comment-information{
@@ -192,7 +199,13 @@ h1 {
 }
 
 .detailed-game-art {
-    width: 300px;
+    width: auto;
+    height: 200px;
+    margin: 8px;
+}
+
+.detailed-game-art-user {
+    width: auto;
     height: 200px;
     margin: 8px;
 }
@@ -220,4 +233,9 @@ h1 {
 
 a {
     cursor: pointer;
+}
+
+p input {
+    margin-left: 12px;
+    background-color: transparent;
 }
