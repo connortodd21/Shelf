@@ -44,6 +44,19 @@ router.get("/all-users", authenticate, (req, res) => {
     })
 })
 
+
+router.get("/filter-user/:query", authenticate, (req, res) => {
+
+    User.find({ "username": { "$regex": req.params.query, "$options": "i" } }).then((users) => {
+            res.status(200).send(users);
+            return
+
+    }).catch((err) => {
+        res.status(500).send(err);
+        return
+    })
+})
+
 router.get("/all-messages", authenticate, (req, res) => {
 
     const getDetailedMessage = id => {
