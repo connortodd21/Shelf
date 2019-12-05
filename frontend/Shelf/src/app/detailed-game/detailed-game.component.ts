@@ -5,7 +5,6 @@ import { COVER_BIG, SCREENSHOT_BIG } from '../constants/constants.images';
 import { Location } from '@angular/common';
 import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { UserService } from '../user/user.service';
-import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-detailed-game',
