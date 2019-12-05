@@ -44,7 +44,7 @@
               <button *ngIf="!isOwner && !followStatus" class="messagesButton-follow" mdbBtn type="button" color="info"
               (click)="toggleFollow()">{{followButtonText}}</button>
             </div>
-            <div class="profile-list-users">
+            <div *ngIf="followers" class="profile-list-users">
                 <h3>{{followers.length}} Followers</h3>
                 <div *ngIf="user != null">
 
@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="profile-list-users">
+            <div *ngIf="following" class="profile-list-users">
                 <h3>{{following.length}} Following</h3>
                 <div *ngIf="user != null">
                     <app-user-overview *ngFor="let f of following" [username]="f"></app-user-overview>

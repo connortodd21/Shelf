@@ -2,6 +2,12 @@ var express = require('express');
 var router = express.Router();
 const axios = require('axios');
 let mongoose = require('mongoose');
+
+var multer = require("multer");
+var cloudinary = require("cloudinary");
+var cloudinaryStorage = require("multer-storage-cloudinary");
+var upload = require('../middleware/photoUpload')
+
 var authenticate = require('../middleware/authenticate');
 
 mongoose.connect(process.env.MONGODB_HOST, { useNewUrlParser: true, useUnifiedTopology: true});
@@ -124,6 +130,53 @@ router.post("/detailedgamedata", authenticate, async (req, res) => {
     }
 
 })
+
+router.post("/addimage", upload.single("image"), async (req, res) => {
+
+    if (!req.file.url || !req.file.public_id || !req.body.gameId) {
+        res.status(400).send({ message: "Bad request" });
+        return;
+    }
+
+    RatingInfo.findOne({ game_id: req.body.gameId }).then((game) => {
+        console.log(game)
+        if (!game) {
+            var newRatingInfo = new RatingInfo({
+                game_id: req.body.gameId,
+                total_rating_value: 0,
+                number_of_players: 0,
+                number_of_ratings: 0,
+                images: [{
+                    url: req.file.url,
+                    id: req.file.public_id
+                }]
+            });
+
+            // Add to database with auth
+            newRatingInfo.save().then(resp => {
+                res.status(200).send({ message: "Photo successfully AND NEW OBJECT CREATED",  url: req.file.url })
+                return
+            })
+        } else {
+            RatingInfo.findOneAndUpdate({ game_id: req.body.gameId }, {
+                $push: {
+                    images: {
+                        url: req.file.url,
+                        id: req.file.public_id
+                    }
+                }
+            }).then((dd) => {
+                // console.log(dd)
+                res.status(200).send({ message: "Photo successfully uploaded", url: req.file.url })
+                return
+            }).catch((err) => {
+                res.send(err);
+            })
+        }
+    }).catch((err) => {
+        res.send(err);
+    })
+});
 
 router.post("/multiplegameoverviews/:username", authenticate, async (req, res) => {
     if (!req.body.gameIds) {
