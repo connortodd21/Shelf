@@ -52,13 +52,77 @@ router.get("/criticallyacclaimedgames/:username", authenticate, async (req, res)
 })
 
 /*
+ * Get upcoming games
+ */
+router.get("/upcominggamedates/:username", authenticate, async (req, res) => {
+    const body = 'fields *; limit 20; where date > 1577932073 & region = 2; sort date asc;';
+
+    let result = await axiosPost('https://api-v3.igdb.com/release_dates', body);
+
+    if (result) {
+        res.status(200).send(result.data);
+    } else {
+        res.status(400).send({ message: "There was an error retrieving upcoming games" })
+    }
+})
+
+router.post("/upcominggames/:username", authenticate, async (req, res) => {
+    const body = `fields id,name,cover.image_id; where id = ${req.body.gameID};`;
+
+    let result = await axiosPost('https://api-v3.igdb.com/games', body);
+
+    if (result) {
+        res.status(200).send(result.data);
+    } else {
+        res.status(400).send({ message: "There was an error retrieving game platforms" })
+    }
+})
+
+/*
+ * Get all game platforms
+ */
+
+ router.get("/gameplatforms", authenticate, async (req, res) => {
+    const body = 'fields name; limit 200; sort name asc;';
+
+    let result = await axiosPost('https://api-v3.igdb.com/platforms', body);
+
+    if (result) {
+        res.status(200).send(result.data);
+    } else {
+        res.status(400).send({ message: "There was an error retrieving game platforms" })
+    }
+})
+
+/*
+ * Get all game genres
+ */
+
+router.get("/gamegenres", authenticate, async (req, res) => {
+    const body = 'fields name; limit 30; sort name asc;';
+
+    let result = await axiosPost('https://api-v3.igdb.com/genres', body);
+
+    if (result) {
+        res.status(200).send(result.data);
+    } else {
+        res.status(400).send({ message: "There was an error retrieving game genres" })
+    }
+})
+
+/*
  * Get games from search query from the search page
  */
 router.post("/searchedgames/:username", authenticate, async (req, res) => {
-    const body = `fields id,name,cover.image_id; limit 50; search \"${req.body.search}\";`;
+    let body = `fields id,name,cover.image_id,platforms,genres; limit 50; 
+    where version_parent = null ; search \"${req.body.search}\";`
+    if (req.body.genreID !== 0) {
+        body = `fields id,name,cover.image_id,platforms,genres,popularity; limit 50;
+        where version_parent = null & genres = ${req.body.genreID} & aggregated_rating > 80;`;
+    }
+
     const url = 'https://api-v3.igdb.com/games';
 
-    // TODO MORGAN: SORT THE GAMES BY THEIR SHELF STAR RATING
     let result = await axiosPost(url, body);
     result = await appendGlobalRatingsToGames(result.data);
     result = await appendUserRatingsToGames(result, req.params.username);

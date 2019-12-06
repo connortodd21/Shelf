@@ -10,14 +10,13 @@
                 <img src="../../../assets/Nav/Search.svg"/>
                 <input type="image" class="search-button" src="../../../assets/Arrow.svg" (click)="getSearchedGames()"/>
             </div>
+            <p-dropdown [options]="platformOptions" [(ngModel)]="selectedPlatformOption" (onChange)="sortPlatforms()"></p-dropdown>
             <p-dropdown [options]="sortingOptions" [(ngModel)]="selectedSortingOption"></p-dropdown>
         </div>
 
         <div *ngIf="searchedGames" class="header-link"><h1>Search Results for '{{queryString}}'</h1></div>
         <div id="search-results">
-
             <span *ngFor="let item of searchedGames | searchPipe : '' : selectedSortingOption">
-
                 <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating"
                                     [name]=item.name [id]=item.id
                                     [image_id]=item.cover.image_id></app-game-overview>

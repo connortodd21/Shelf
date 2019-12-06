@@ -214,6 +214,13 @@ export class DetailedGameComponent implements OnInit {
     });
   }
 
+  routeToSearch(genre) {
+    let routeStringTemp = genre;
+    routeStringTemp = routeStringTemp.replace('/', '_');
+    const routeString = '/search/:' + routeStringTemp;
+    this.router.navigate([routeString]);
+  }
+
   goToProfile = (username: string) => {
     this.router.navigateByUrl(`/profile/${username}`)
   }

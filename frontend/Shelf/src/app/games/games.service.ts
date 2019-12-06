@@ -17,10 +17,29 @@ export class GamesService {
     return this.http.get(`http://localhost:8080/games/criticallyacclaimedgames/${username}`);
   }
 
-  getSearchedGames(search, username: String): Observable<any> {
+  getUpcomingGameDates(username: string): Observable<any> {
+    return this.http.get(`http://localhost:8080/games/upcominggamedates/${username}`);
+  }
+
+  getUpcomingGames(gameID, username: string): Observable<any> {
+    return this.http.post<object>(`http://localhost:8080/games/upcominggames/${username}`, {
+      gameID,
+    });
+  }
+
+  getSearchedGames(search, genreID, username: String): Observable<any> {
     return this.http.post<object>(`http://localhost:8080/games/searchedgames/${username}`, {
       search,
+      genreID,
     });
+  }
+
+  getGamePlatforms(): Observable<any> {
+    return this.http.get<object>(`http://localhost:8080/games/gameplatforms`);
+  }
+
+  getGameGenres(): Observable<any> {
+    return this.http.get<object>(`http://localhost:8080/games/gamegenres`);
   }
 
   // BEN TODO: MAKE THESE URLS CONSTANTS
@@ -34,7 +53,7 @@ export class GamesService {
     // tslint:disable-next-line: curly
     if (games.length === 0) return null;
     const gameIds = games.map(a => a.game_id);
-    console.log(gameIds)
+    console.log(gameIds);
     return this.http.post<object>(`http://localhost:8080/games/multiplegameoverviews/${username}`, {
       gameIds
     });

@@ -50,6 +50,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: SEARCH_PAGE + '/:searchQuery',
+    component: SearchComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: INBOX_PAGE,
     component: InboxComponent,
     canActivate: [AuthGuard]

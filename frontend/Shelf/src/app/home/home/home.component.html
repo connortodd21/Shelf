@@ -25,14 +25,28 @@
     -->
 
     <!-- This div contains critically acclaimed games -->
-    <div class="header-link"><h1>Critically Acclaimed Games</h1><p-dropdown class="zach-dropdown" [options]="sortOptions" [(ngModel)]="selectedOption"></p-dropdown></div>
+    <div class="header-link">
+      <h1 *ngIf="!selectedViewOption">Critically Acclaimed Games</h1>
+      <h1 *ngIf="selectedViewOption">Upcoming Games</h1>
+      <p-dropdown class="zach-dropdown" [options]="sortOptions" [(ngModel)]="selectedOption"></p-dropdown>
+      <p-dropdown class="zach-dropdown" [options]="viewOptions" [(ngModel)]="selectedViewOption"></p-dropdown>
+    </div>
     <div id="home-critically-acclaimed">
-      
-      <span *ngFor="let item of dashboardGames | searchPipe : filterText : selectedOption">
-          <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating"
-                             [name]=item.name [id]=item.id
-                             [image_id]=item.cover.image_id></app-game-overview>
-          <app-game-overview *ngIf="!item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating" [name]=item.name [id]=item.id image_id=""></app-game-overview>
+      <span *ngIf="!selectedViewOption">
+        <span *ngFor="let item of dashboardGames | searchPipe : filterText : selectedOption">
+            <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating"
+                              [name]=item.name [id]=item.id
+                              [image_id]=item.cover.image_id></app-game-overview>
+            <app-game-overview *ngIf="!item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating" [name]=item.name [id]=item.id image_id=""></app-game-overview>
+        </span>
+      </span>
+      <span *ngIf="selectedViewOption">
+          <span *ngFor="let item of upcomingGames">
+              <app-game-overview *ngIf="item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating"
+                                [name]=item.name [id]=item.id
+                                [image_id]=item.cover.image_id></app-game-overview>
+              <app-game-overview *ngIf="!item.cover" [globalRating]="item.globalRating" [userRating]="item.userRating" [name]=item.name [id]=item.id image_id=""></app-game-overview>
+          </span>
         </span>
     </div>
   </div>
