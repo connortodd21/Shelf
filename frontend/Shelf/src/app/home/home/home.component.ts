@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   dashboardGames;
   upcomingGameDates;
   upcomingGames;
+  viewTitle;
   filterText: string;
   sortOptions: SelectItem[];
   viewOptions: SelectItem[];
@@ -106,8 +107,8 @@ export class HomeComponent implements OnInit {
 
   private setViewOptions() {
     this.viewOptions = [
-      { label: 'Top Rated', value: CRIT_SORT },
-      { label: 'Coming Soon', value: UPCOMING_SORT },
+      { label: 'Critically Acclaimed', value: CRIT_SORT },
+      { label: 'Upcoming', value: UPCOMING_SORT },
     ];
   }
 

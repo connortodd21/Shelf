@@ -26,7 +26,8 @@
 
     <!-- This div contains critically acclaimed games -->
     <div class="header-link">
-      <h1>Critically Acclaimed Games</h1>
+      <h1 *ngIf="!selectedViewOption">Critically Acclaimed Games</h1>
+      <h1 *ngIf="selectedViewOption">Upcoming Games</h1>
       <p-dropdown class="zach-dropdown" [options]="sortOptions" [(ngModel)]="selectedOption"></p-dropdown>
       <p-dropdown class="zach-dropdown" [options]="viewOptions" [(ngModel)]="selectedViewOption"></p-dropdown>
     </div>
