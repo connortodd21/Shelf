@@ -43,9 +43,7 @@ export class SearchComponent implements OnInit {
 
     if (this.urlSearch.includes('/:')) {
       this.urlSearch = this.urlSearch.substring(9);
-      this.urlSearch = decodeURIComponent(this.urlSearch);
-      console.log(this.urlSearch);
-      this.queryString = this.urlSearch;
+      this.queryString = decodeURIComponent(this.urlSearch);
       this.getSearchedGames();
     }
 
@@ -54,7 +52,8 @@ export class SearchComponent implements OnInit {
   public getSearchedGames() {
     let genreSearchID = 0;
     for (const item of this.genreOptions) {
-      if (item.name.toLowerCase().search(this.queryString.toLowerCase()) !== -1) {
+      if (item.name.toLowerCase().search(this.queryString.toLowerCase()) !== -1 ||
+          item.name.toLowerCase().includes(this.queryString.toLowerCase())) {
         genreSearchID = item.id;
       }
     }
