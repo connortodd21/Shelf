@@ -11,7 +11,7 @@ cloudinary.config({
 const storage = cloudinaryStorage({
     cloudinary: cloudinary,
     folder: "GameImages",
-    allowedFormats: ["jpg", "png"],
+    allowedFormats: ["jpg", "png", "gif"],
     transformation: [{ width: 500, height: 500, crop: "limit" }]
 });
 
